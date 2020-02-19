@@ -1,12 +1,12 @@
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
 
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
+🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be completed by.  Make sure to delete the numbers by the end of Labs.
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
 
 ## 1️⃣ Getting started
 
@@ -15,9 +15,9 @@ To get the server running locally:
 🚫 adjust these scripts to match your project
 
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- **npm install** to install all required dependencies
+- **npm server** to start the local server
+- **npm test** to start server using testing environment
 
 ### Backend framework goes here
 
@@ -42,12 +42,14 @@ To get the server running locally:
 # Body Required
 ```js
 {
-  username: STRING,
+  email: STRING,
   password: STRING
 }
 ```
 
 #### Protected Routes
+
+## Onboarding process
 
 | Method | Endpoint                | Access Control      | Description                                               |
 | ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
@@ -60,11 +62,13 @@ To get the server running locally:
 }
 ```
 
-# From Search List
+# Search Google Books, Search in our Books Table, and Post to our Books Table
 
 | Method | Endpoint                | Access Control      | Description                                               |
 | ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
-| POST   | `/api/books`            | all users           | Returns No Content.                                       |
+| GET    | `/api/books`            | all users           | Returns all books that meet query criteria (title, author)|
+| GET    | `/api/books/:bookId`    | all users           | Returns a single book object                              |
+| POST   | `/api/books`            | all users           | Returns No Content                                        |
 
 # Body Required
 ```js
@@ -88,50 +92,44 @@ To get the server running locally:
 }
 ```
 
-# User's Library
+# User Library
 
-| Method | Endpoint                        | Access Control      | Description                                               |
-| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
-| GET    | `/api/books`                    | all users           | Returns all books that meet query criteria (title, author)|
-| GET    | `/api/books/:bookId`            | all users           | Returns a single book                                     |
-| GET    | `/api/:userId/books`            | all users           | Returns all books of the user                             |
-| DELETE | `/api/:userId/books/:bookId`    | all users           | Return book id                                            |
-| POST   | `/api/:userId/books/:googleId`  | all users           | Return book object                                        |
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
+| GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
+| DELETE | `/api/:userId/library/:bookId`   | all users           | Return book id                                            |
+| POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
 
 # Body Required
 ```js
-{
-
+{  
+  googleId: STRING,
+  userId: INTEGER
 }
 ```
 
-#### TOMORROW, Feb 19 ######
+# User's shelves
+
 | Method | Endpoint                        | Access Control      | Description                                               |
 | ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
 | POST   | `/api/shelves`                  | all users           | Returns an empty shelf                                    |
 | GET    | `/api/:userId/shelves`          | all users           | Returns all user's shelves                                |
-| GET    | `/api/:userId/shelves/:shelfId` | all users           | Returns a user's selected shelf                           |
-| PUT    | `/api/:userId/shelves/:shelfId` | all users           | Return changed shelf                                      |
-| DELETE | `/api/:userId/shelves/:shelfId` | all users           | Return shelf id                                           |
+| GET    | `/api/shelves/:shelfId`         | all users           | Returns a user's selected shelf                           |
+| PUT    | `/api/shelves/:shelfId`         | all users           | Return changed shelf                                      |
+| DELETE | `/api/shelves/:shelfId`         | all users           | Return shelf id                                           |
+| DELETE | `/api/shelves/:shelfId/:bookId` | all users           | Return book id                                            |
+| POST   | `/api/shelves/:shelfId/:bookId` | all users           | Return shelf object with book object in shelf             |
+| PUT    | `/api/shelves/:shelfId/`        | all users           | Return books
 
+# Onboarding 
 
-
-
-#### Resource Body Requirements
-
-| Method | Endpoint                | Required      | Description                                               |
-| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
-| POST   | `/api/:userId/genres`   | 
-| POST   | `/api/books`            |
-| GET    | `/api/books/:bookId`    | 
-| GET    | `/api/books`            | all users           
-| PUT    | `/users/:userId`        | owners, supervisors 
-| DELETE | `/users/:userId`        | owners, supervisors 
+| Method | Endpoint                        | Access Control      | Description                                               |
+| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/:userId/genre`            | all users           | Returns No Content                                        |
+| DELETE | `/api/:userId/genre`            | all users           | Returns Genre id                                          |
 
 
 # Data Model
-
-🚫This is just an example. Replace this with your data model
 
 #### 2️⃣ USERS
 
@@ -140,16 +138,38 @@ To get the server running locally:
 ```
 {
   id: UUID
-  email: STRING (optional)
-  password: STRING (required)
-  username: STRING (required)
+  email: STRING 
+  password: STRING 
 }
 ```
 
+#### 2️⃣ GENRES
+
 ---
 
-#### BOOKS
+```
+{
+  id: UUID
+  genre: STRING
+}
+```
 
+#### 2️⃣ USERGENRE
+
+---
+
+```
+{
+  id: UUID
+  genreName: STRING
+  userId: UUID foreign key in USER table
+}
+```
+
+
+#### 2️⃣ GOOGLEBOOKS
+
+---
 ```
 {
   id: UUID
@@ -172,38 +192,42 @@ To get the server running locally:
 }
 ```
 
-#### UserBooks
+#### 2️⃣ USERBOOKS
+
+---
 
 ```
 {
   id: UUID
+  bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
-  bookId: UUID foreign key in BOOKS table
+  readingStatus: INTEGER
   tags: STRING
 }
 ```
 
-#### UserShelves
+
+#### 2️⃣ USERSHELVES
 
 ```
 {
   id: UUID
   userId: UUID foreign key in USERS table
-  name: STRING
-  private: BOOLEAN
+  shelfName: STRING
+  isPrivate: BOOLEAN
 }
 ```
 
-#### UserBookSelf
+#### 2️⃣ USERBOOKSONASHELF
 
 ```
 {
   id: UUID
-  userId: UUID foreign key in USERS table
   bookId: UUID foreign key in BOOKS table
   shelfId: UUID foreign key in USERSHELVES table
 }
 ```
+
 
 ## 2️⃣ Actions
 
