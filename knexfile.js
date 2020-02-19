@@ -1,11 +1,17 @@
 // Update with your config settings.
 
-module.exports = {
+// Enable .env
+require("dotenv").config();
 
+module.exports = {
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev.sqlite3'
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: './database/migrations',
+    },
+    seeds: {
+      directory: './database/seeds',
     }
   },
 
