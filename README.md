@@ -153,39 +153,55 @@ To get the server running locally:
 ```
 {
   id: UUID
+  googleId: STRING
   title: STRING
-  subtitle: STRING
-  author: STRING
-  category: STRING
+  authors: STRING
   publisher: STRING
-  published_date: STRING
+  publishDate: STRING
   description: STRING
-  url_image: STRING
-  status: STRING [ 'tbr', 'reading', 'read' ]
-  favorite: BOOLEAN
+  isbn10: STRING
+  isbn13: STRING
+  pageCount: INTEGER
+  categories: STRING
+  Thumbnail: STRING
+  smallThumbnail: STRING
+  language: STRING
+  webRenderLink: STRING
+  textSnipped: STRING
+  isEbook: BOOLEAN
+}
+```
+
+#### UserBooks
+
+```
+{
+  id: UUID
+  userId: UUID foreign key in USERS table
+  bookId: UUID foreign key in BOOKS table
+  tags: STRING
+}
+```
+
+#### UserShelves
+
+```
+{
+  id: UUID
+  userId: UUID foreign key in USERS table
+  name: STRING
   private: BOOLEAN
-  user_id: UUID foreign key in USERS table
 }
 ```
 
-#### SHELVES
+#### UserBookSelf
 
 ```
 {
   id: UUID
-  shelf: STRING
-  book_id: UUID foreign key in BOOKS table
-  user_id: UUID foreign key in USERS table
-}
-```
-
-#### LIBRARY
-
-```
-{
-  id: UUID
-  shelf_id: UUID foreign key in SHELVES table
-  user_id: UUID foreign key in USERS table
+  userId: UUID foreign key in USERS table
+  bookId: UUID foreign key in BOOKS table
+  shelfId: UUID foreign key in USERSHELVES table
 }
 ```
 
