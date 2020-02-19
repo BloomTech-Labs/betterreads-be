@@ -30,63 +30,162 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+🚫This is a placeholder, replace the endpoints, access controll, and description to match your project
 
-#### Organization Routes
+#### User Authentication Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| ------ | ----------------------- | -------------- | -------------------------------------------- | 
+| POST   | `/api/auth/signup`      | all users      | Returns token and user object.               |
+| POST   | `/api/auth/login`       | all users      | Returns token and user object.               |
 
-#### User Routes
+# Body Required
+```js
+{
+  username: STRING,
+  password: STRING
+}
+```
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+#### Protected Routes
+
+| Method | Endpoint                | Access Control      | Description                                               |
+| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/:userId/genres`   | all users           | Returns genre info for registered users.                  |
+
+# Body Required
+```js
+{
+  genre: [STRING]
+}
+```
+
+# From Search List
+
+| Method | Endpoint                | Access Control      | Description                                               |
+| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/books`            | all users           | Returns No Content.                                       |
+
+# Body Required
+```js
+{
+  googleId: STRING,
+  title: STRING,
+  authors: [STRING],
+  publisher: STRING,
+  publishDate: STRING,
+  description: STRING,
+  isbn10: STRING,
+  isbn13: STRING,
+  pageCount: INTEGER,
+  categories: [STRING],
+  thumbnail: STRING,
+  smallThumbnail: STRING,
+  language: STRING,
+  webRenderLink: STRING,
+  textSnippet: STRING,
+  isEbook: BOOLEAN
+}
+```
+
+# User's Library
+
+| Method | Endpoint                        | Access Control      | Description                                               |
+| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
+| GET    | `/api/books`                    | all users           | Returns all books that meet query criteria (title, author)|
+| GET    | `/api/books/:bookId`            | all users           | Returns a single book                                     |
+| GET    | `/api/:userId/books`            | all users           | Returns all books of the user                             |
+| DELETE | `/api/:userId/books/:bookId`    | all users           | Return book id                                            |
+| POST   | `/api/:userId/books/:googleId`  | all users           | Return book object                                        |
+
+# Body Required
+```js
+{
+
+}
+```
+
+#### TOMORROW, Feb 19 ######
+| Method | Endpoint                        | Access Control      | Description                                               |
+| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/shelves`                  | all users           | Returns an empty shelf                                    |
+| GET    | `/api/:userId/shelves`          | all users           | Returns all user's shelves                                |
+| GET    | `/api/:userId/shelves/:shelfId` | all users           | Returns a user's selected shelf                           |
+| PUT    | `/api/:userId/shelves/:shelfId` | all users           | Return changed shelf                                      |
+| DELETE | `/api/:userId/shelves/:shelfId` | all users           | Return shelf id                                           |
+
+
+
+
+#### Resource Body Requirements
+
+| Method | Endpoint                | Required      | Description                                               |
+| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/:userId/genres`   | 
+| POST   | `/api/books`            |
+| GET    | `/api/books/:bookId`    | 
+| GET    | `/api/books`            | all users           
+| PUT    | `/users/:userId`        | owners, supervisors 
+| DELETE | `/users/:userId`        | owners, supervisors 
+
 
 # Data Model
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### 2️⃣ USERS
 
 ---
 
 ```
 {
   id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  email: STRING (optional)
+  password: STRING (required)
+  username: STRING (required)
 }
 ```
 
-#### USERS
-
 ---
+
+#### BOOKS
 
 ```
 {
   id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  title: STRING
+  subtitle: STRING
+  author: STRING
+  category: STRING
+  publisher: STRING
+  published_date: STRING
+  description: STRING
+  url_image: STRING
+  status: STRING [ 'tbr', 'reading', 'read' ]
+  favorite: BOOLEAN
+  private: BOOLEAN
+  user_id: UUID foreign key in USERS table
+}
+```
+
+#### SHELVES
+
+```
+{
+  id: UUID
+  shelf: STRING
+  book_id: UUID foreign key in BOOKS table
+  user_id: UUID foreign key in USERS table
+}
+```
+
+#### LIBRARY
+
+```
+{
+  id: UUID
+  shelf_id: UUID foreign key in SHELVES table
+  user_id: UUID foreign key in USERS table
 }
 ```
 
