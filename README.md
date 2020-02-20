@@ -1,12 +1,13 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
 🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be completed by.  Make sure to delete the numbers by the end of Labs.
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
 # API Documentation
 
+[!(https://img.shields.io/node/v/express/latest)]
+[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)]
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7352fce08af9a80fcdcd/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-backend/test_coverage)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)]
 
 #### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
 
@@ -23,9 +24,12 @@ To get the server running locally:
 
 ### Backend framework goes here
 
+- Express
+- Postgres
+
 🚫 Why did you choose this framework?
 
--    Point One
+-    Express
 -    Point Two
 -    Point Three
 -    Point Four
@@ -233,43 +237,37 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+#### Users
 
-`getOrgs()` -> Returns all organizations
+`findById(id)` -> Returns a single user by id
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`add(user object)` -> Returns the created user
 
-`addOrg(org)` -> Returns the created org
+`findBy(filter)` -> Return all users matching filter
 
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
 
 ## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
     
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
+    * DB_ENV - set to "development" until ready for "production"
+    * HOST - set to host (i.e., localhost)
+    * USER - set to username on your postgres server
+    * PASSWORD - set to password for user on your postgres server
+    * DB - set to database name for your postgres server
+    * TEST_DB - set to test database name for your postgres testing server
+
+    <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
     *  NODE_ENV - set to "development" until ready for "production"
     *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
     *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  stripe_secret - this is generated in the Stripe dashboard -->
     
 ## Contributing
 
@@ -277,7 +275,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
 
-### Issue/Bug Request
+### 👾 Issue/Bug Request 👾
 
  **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
  - Check first to see if your issue has already been reported.
@@ -309,5 +307,5 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See 📱💻🖱[Frontend Documentation](https://github.com/Lambda-School-Labs/betterreads-frontend) for details on the frontend of our project.
+See 🔬⚗️🧪[Data Science Documentation](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
