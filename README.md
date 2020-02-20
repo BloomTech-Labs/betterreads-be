@@ -22,21 +22,16 @@ To get the server running locally:
 - **npm server** to start the local server
 - **npm test** to start server using testing environment
 
-### Backend framework goes here
+### Express
 
-- Express
-- Postgres
-
-🚫 Why did you choose this framework?
-
--    Express
--    Point Two
--    Point Three
--    Point Four
+-    Simple routing
+-    Event driven features
+-    Uses Javascript, an omnipresent language in web development
+-    Large Community Support
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and description to match your project
+🚫This is a placeholder, replace the endpoints, access control, and description to match your project
 
 #### User Authentication Routes
 
