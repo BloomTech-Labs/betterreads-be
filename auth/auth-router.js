@@ -1,57 +1,77 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const router = require('express').Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const router = require("express").Router();
+const { jwtsecret } = require("../config/secrets.js");
+const Users = require("../models/users.js");
 
-const { jwtSecret } = require('../config/secrets.js')
-
-const Users = require('../models/users.js');
-
-// for endpoints beginning with /api/auth
-router.post('/register', (req, res) => {
+// MARK: -- endpoints beginning with /api/auth
+router.post("/signup", (req, res) => {
   let user = req.body;
-  const hash = bcrypt.hashSync(user.password, 10); // 2 ^ n
-  user.password = hash;
-
-  Users.add(user)
-    .then(saved => {
-      res.status(201).json(saved);
-    })
-    .catch(error => {
-      res.status(500).json(error);
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) {
+        res.status(500).json({ message: "error with hash" });
+      } else {
+        user.password = hash;
+        Users.add(user)
+          .then(saved => {
+            res.status(201).json(saved);
+          })
+          .catch(err => {
+            console.log("error in saving", err);
+            res.status(400).json({ message: "Error in saving user to DB" });
+          });
+      }
     });
+  });
 });
 
-router.post('/login', (req, res) => {
+router.post("/login", (req, res) => {
   let { email, password } = req.body;
 
   Users.findBy({ email })
     .first()
     .then(user => {
-      if (user && bcrypt.compareSync(password, user.password)) {
-
-        const token = signToken(user); // <<<<<<<<<<<
-
-        res.status(200).json({ token }); // <<<<<<<<<<
+      if (user) {
+        bcrypt
+          .compare(password, user.password)
+          .then(match => {
+            if (match) {
+              const token = signToken(user);
+              res.status(200).json({
+                token: token,
+                id: user.id,
+                email: user.email
+              });
+            } else {
+              console.log("error in match");
+              res.status(401).json({ message: "Invalid Credentials" });
+            }
+          })
+          .catch(err => {
+            console.log("error compare");
+            res.status(500).json({ message: "Invalid Credentials" });
+          });
       } else {
-        res.status(401).json({ message: 'Invalid Credentials' });
+        res.status(400).json({ message: "No user found in DB" });
       }
     })
-    .catch(error => {
-      res.status(500).json(error);
+    .catch(err => {
+      console.log("error in find");
+      res.status(500).json({ message: "Invalid Credentials" });
     });
 });
 
-
 function signToken(user) {
   const payload = {
-    user: user
+    id: user.id
   };
 
   const options = {
-    expiresIn: '1d'
+    expiresIn: "1d"
   };
 
-  return jwt.sign(payload, jwtSecret, options);
+  return jwt.sign(payload, jwtsecret, options);
 }
 
 module.exports = router;
