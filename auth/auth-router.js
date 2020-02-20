@@ -32,7 +32,7 @@ router.post("/signup", (req, res) => {
 
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
-  console.log("login email", email);
+
 
   Users.findBy({ email })
     .first()
