@@ -15,10 +15,14 @@ router.post("/signup", (req, res) => {
         user.password = hash;
         Users.add(user)
           .then(saved => {
-            res.status(201).json(saved);
+            const token = signToken(saved);
+            res.status(201).json({ 
+              token: token, 
+              id: saved.id, 
+              email: saved.email 
+            });
           })
           .catch(err => {
-            console.log("error in saving", err);
             res.status(400).json({ message: "Error in saving user to DB" });
           });
       }
@@ -28,6 +32,7 @@ router.post("/signup", (req, res) => {
 
 router.post("/login", (req, res) => {
   let { email, password } = req.body;
+  console.log("login email", email);
 
   Users.findBy({ email })
     .first()
@@ -44,12 +49,12 @@ router.post("/login", (req, res) => {
                 email: user.email
               });
             } else {
-              console.log("error in match");
+              // Error in match
               res.status(401).json({ message: "Invalid Credentials" });
             }
           })
           .catch(err => {
-            console.log("error compare");
+            // Error in compare
             res.status(500).json({ message: "Invalid Credentials" });
           });
       } else {
