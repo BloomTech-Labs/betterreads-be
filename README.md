@@ -4,6 +4,8 @@
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7352fce08af9a80fcdcd/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-backend/test_coverage)
+
 # API Documentation
 
 #### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
