@@ -10,23 +10,27 @@ router.get("/:bookId", (req, res) => {
         ? res.status(404).json({ message: "No books here" })
         : res.status(200).json(book)
     )
-    .catch(err => res.status(500).json({ message: "book not found" }));
+    .catch(err => res.status(500).json({ message: "Book not found" }));
 });
 
 router.post("/", (req, res) => {
   const book = req.body;
   if (book) {
     const title = book.title
-    Books.findBy({ title }).first().then(book => {
-      res.status(200).json(book);
+    Books.findBy({ title }).first().then(bk => {
+      if(bk == undefined) {
+        Books.add(book)
+         .then(book => res.status(201).json({ message: "Added book to our api", book: book }) )
+         .catch(err => res.status(500).json({ message: "Book not added" }));
+      } else {
+        res.status(200).json(bk);
+      }
     })
     .catch(err => {
-      Books.add(book)
-         .then(book => res.status(201).json({ message: "Could not find book in our api but added it", book: book }) )
-         .catch(err => res.status(500).json({ message: "book not added" }));
+      res.status(500).json({ message: 'Error, something went wrong' });
     }) 
   } else {
-      res.status(400).json({ message: 'please provide a book' });
+      res.status(400).json({ message: 'Please provide a book' });
   }
 });
 
