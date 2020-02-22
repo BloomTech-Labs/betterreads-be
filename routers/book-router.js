@@ -1,6 +1,5 @@
 const router = require("express").Router();
-
-const Books = require("../models/books");
+const Books = require("../models/books.js");
 
 router.get("/:bookId", (req, res) => {
   const bookId = req.params.bookId;
