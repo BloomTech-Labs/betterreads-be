@@ -13,9 +13,9 @@ function findBy(filter) {
 	return db('userBooks').where(filter);
 }
 
-async function add(book) {
+async function add(userbook) {
 	const [id] = await db('userBooks')
-		.insert(book)
+		.insert(userbook)
 		.returning('id');
 	return findById(id);
 }
