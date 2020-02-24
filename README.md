@@ -22,6 +22,13 @@ To get the server running locally:
 - **npm server** to start the local server
 - **npm test** to start server using testing environment
 
+### Seeding for tests
+
+1.   knex migrate:up --env=testing
+2.   knex seed:run --env=testing --specific=001_users.js
+
+repeat...until all seed files are run
+
 ### Express
 
 -    Simple routing
@@ -98,7 +105,10 @@ To get the server running locally:
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| DELETE | `/api/:userId/library/:bookId`   | all users           | Return book id                                            |
+| GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
+| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+| DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
 
 # Body Required
@@ -258,9 +268,17 @@ To get the server running locally:
 
 #### UserBooks
 
-``
-``
-``
+`findBy(filter)` -> Returns a single book from user's library
+
+`add(book)` -> Returns a single book
+
+`findByUserId(userId)` -> Return all books in user's library
+
+`findDetailByUserId(userId, bookId)` -> Return a single book with full details
+
+`updateReadingStatus(userId, bookId)` -> Return a single book with full details
+
+`remove(userId, bookId)` -> Returns nothing 
 
 
 
