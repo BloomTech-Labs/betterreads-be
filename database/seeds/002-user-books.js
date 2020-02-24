@@ -1,13 +1,28 @@
+const user = (id) => {
+  let userbooks = [];
+  for(let i = 1; i < Math.floor(Math.random()*(20)); i++) {
+    const usrbk = { bookId: i, readingStatus: Math.floor(Math.random()*(3)+1), userId: id };
+    userbooks.push(usrbk);
+  }
+  return userbooks;
+}
+
+const makeFakeUserBooks = (user) => {
+    let fakeUserBooks = [];
+    const desiredCount = 20;
+    for (let i = 1; i < desiredCount; i++) {
+        fakeUserBooks.push(user(i))
+    }
+    return fakeUserBooks.flatMap(i => i);
+}
+
+
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('userBooks').truncate()
     .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
+      // Inserts seed entriee
+      return knex('userBooks').insert(makeFakeUserBooks(user));
     });
 };

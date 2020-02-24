@@ -3,8 +3,9 @@ const db = require('../database/db-config.js');
 module.exports = {
   findBy,
   add,
-  findById,
-  update,
+  findByUserId,
+  findDetailByUserId,
+  updateReadingStatus,
   remove
 };
 
@@ -17,15 +18,54 @@ async function add(book) {
   return findById(id);
 }
   
-function findById(id) {
-  return db('userBooks')
-    .where({ id })
-    .first();
+function findByUserId(userId) {
+  return db('userBooks as ub')
+    .where({ userId })
+    .join('books as b', 'ub.bookId', 'b.id')
+    .select(
+      'ub.id',
+      'b.title', 
+      'b.author', 
+      'ub.readingStatus',
+      'b.categories',
+      'b.thumbnail',
+      'b.pageCount'
+    );
 }
 
-async function update(book, readingStatus) {
-  const [id] = await db('userBooks').where({ book.id }).update({ readingStatus }).returning('id');
-  return findById(id);
+function findDetailByUserId(userId, bookId) {
+  return db('userBooks as ub')
+    .where({ userId })
+    .where('ub.id', bookId)
+    .join('books as b', 'ub.bookId', 'b.id')
+    .first()
+    .select(
+      'ub.id',
+      'b.isbn10',
+      'b.isbn13',
+      'ub.readingStatus',
+      'b.title', 
+      'b.author', 
+      'ub.readingStatus',
+      'b.categories',
+      'b.thumbnail',
+      'b.pageCount',
+      'b.publisher',
+      'b.publishDate',
+      'b.description',
+      'b.textSnippet',
+      'b.language',
+      'b.webRenderLink',
+      'b.isEbook'
+    );
+}
+
+async function updateReadingStatus(userId, bookId, readingStatus) {
+  const [id] = await db('userBooks as ub')
+    .where({ userId })
+    .where('ub.id', bookId)
+    .update({ readingStatus }).returning('id');
+  return findDetailByUserId(userId, id);
 }
 
 function remove(id) {

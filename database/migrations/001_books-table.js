@@ -8,7 +8,7 @@ exports.up = function(knex) {
 			tbl.string('author').notNullable();
 			tbl.string('publisher').notNullable();
 			tbl.string('publishDate').notNullable();
-			tbl.string('description').notNullable();
+			tbl.string('description', 1000).notNullable();
 			tbl.string('isbn10');
 			tbl.string('isbn13');
 			tbl.integer('pageCount').notNullable();
@@ -17,7 +17,7 @@ exports.up = function(knex) {
 			tbl.string('smallThumbnail').notNullable();
 			tbl.string('language').notNullable();
 			tbl.string('webRenderLink').notNullable();
-			tbl.string('textSnippet').notNullable();
+			tbl.string('textSnippet', 1000).notNullable();
 			tbl.boolean('isEbook').notNullable();
 })};
 
