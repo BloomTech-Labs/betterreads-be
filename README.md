@@ -4,18 +4,18 @@
 
 # API Documentation
 
-[!(https://img.shields.io/node/v/express/latest)]
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)]
-[![Test Coverage](https://api.codeclimate.com/v1/badges/7352fce08af9a80fcdcd/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-backend/test_coverage)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)]
+![Node](https://img.shields.io/node/v/express/latest)
+![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/test_coverage)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+
+betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
 
 #### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
-
-🚫 adjust these scripts to match your project
 
 - Clone this repo
 - **npm install** to install all required dependencies
@@ -243,6 +243,25 @@ To get the server running locally:
 <br>
 <br>
 <br>
+
+#### Books
+
+`findById(id)` -> Returns a single book
+
+`add(book object)` -> Returns a single book
+
+`findBy(filter)` -> returns an array of books associated to filter
+
+<br>
+<br>
+<br>
+
+#### UserBooks
+
+``
+``
+``
+
 
 
 ## 3️⃣ Environment Variables
