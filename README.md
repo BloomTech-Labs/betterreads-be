@@ -4,10 +4,13 @@
 
 # API Documentation
 
-[!(https://img.shields.io/node/v/express/latest)]
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)]
+![Node](https://img.shields.io/node/v/express/latest)
+![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/test_coverage)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)]
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+
+betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
+
 
 #### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
 
@@ -15,12 +18,17 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **npm install** to install all required dependencies
 - **npm server** to start the local server
 - **npm test** to start server using testing environment
+
+### Seeding for tests
+
+1.   knex migrate:up --env=testing
+2.   knex seed:run --env=testing --specific=001_users.js
+
+repeat...until all seed files are run
 
 ### Express
 
@@ -98,7 +106,10 @@ To get the server running locally:
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| DELETE | `/api/:userId/library/:bookId`   | all users           | Return book id                                            |
+| GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
+| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+| DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
 
 # Body Required
@@ -243,6 +254,33 @@ To get the server running locally:
 <br>
 <br>
 <br>
+
+#### Books
+
+`findById(id)` -> Returns a single book
+
+`add(book object)` -> Returns a single book
+
+`findBy(filter)` -> returns an array of books associated to filter
+
+<br>
+<br>
+<br>
+
+#### UserBooks
+
+`findBy(filter)` -> Returns a single book from user's library
+
+`add(book)` -> Returns a single book
+
+`findByUserId(userId)` -> Return all books in user's library
+
+`findDetailByUserId(userId, bookId)` -> Return a single book with full details
+
+`updateReadingStatus(userId, bookId)` -> Return a single book with full details
+
+`remove(userId, bookId)` -> Returns nothing 
+
 
 
 ## 3️⃣ Environment Variables
