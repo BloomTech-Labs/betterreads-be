@@ -1,29 +1,34 @@
+const faker = require('faker');
+
+const createFakeBooks = () => ({
+    googleId: `${faker.address.longitude()}`,
+    title: faker.commerce.product(),
+    author: faker.name.firstName(),
+    publisher: faker.company.companyName(),
+    publishDate: `${Math.floor(Math.random()*(2020 - 1900 + 1) + 1900)}`,
+    description: faker.lorem.sentences(),
+    isbn10: `${faker.internet.ip()}`,
+    isbn13: `${faker.internet.ip()}`,
+    pageCount: faker.random.number(),
+    categories: faker.name.jobType(),
+    thumbnail: `${faker.image.imageUrl()}`,
+    smallThumbnail: `${faker.image.imageUrl()}`,
+    language: "english",
+    webRenderLink: `${faker.internet.url()}`,
+    textSnippet: faker.lorem.text(),
+    isEbook: faker.random.boolean()
+});
 
 exports.seed = function(knex) {
     // Deletes ALL existing entries
     return knex('books').truncate()
         .then(function () {
         // Inserts seed entries
-        return knex('books').insert([
-            {
-                id: 1,
-                googleId: "smitwicshas123456",
-                title: "The Best Test",
-                author: "Sir Biglow",
-                publisher:"BetterReadsBackEnd",
-                publishDate:"2/21/2020",
-                description: "This is a book for testing",
-                isbn10: "1234567891",
-                isbn13:"1234567891234",
-                pageCount:500,
-                categories:"TestBook",
-                thumbnail:"testIMG",
-                smallThumbnail:"smallTestImg",
-                language: "english",
-                webRenderLink: "testLink",
-                textSnippet: "testSnippet",
-                isEbook: false
-            }
-        ]);
+        let fakeBooks = [];
+        const desiredCount = 50;
+        for (let i = 0; i < desiredCount; i++) {
+            fakeBooks.push(createFakeBooks(i));
+        }
+        return knex('books').insert(fakeBooks);
     });
 };
