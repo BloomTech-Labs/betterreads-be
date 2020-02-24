@@ -31,7 +31,7 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 server.use('/api/books', restricted, booksRouter);
-server.use('/api/dashboard', restricted, userBooksRouter);
+server.use('/api', restricted, userBooksRouter);
 
 server.get('/', (req, res) => res.status(200).json({ api: 'up!' }));
 
