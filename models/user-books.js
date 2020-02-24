@@ -61,14 +61,17 @@ function findDetailByUserId(userId, bookId) {
 }
 
 async function updateReadingStatus(userId, bookId, readingStatus) {
-  const [id] = await db('userBooks as ub')
+  const [id] = await db('userBooks')
     .where({ userId })
-    .where('ub.id', bookId)
+    .where('id', bookId)
     .update({ readingStatus }).returning('id');
   return findDetailByUserId(userId, id);
 }
 
-function remove(id) {
-  return db('userBooks').where({ id }).del();
+function remove(userId, bookId) {
+  return db('userBooks')
+    .where({ userId })
+    .where('id', bookId)
+    .del();
 }
 
