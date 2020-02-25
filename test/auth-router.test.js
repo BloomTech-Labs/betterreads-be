@@ -1,71 +1,71 @@
-const server = require('../api/server.js');
-const request = require('supertest');
-const db = require('../database/db-config.js');
+const server = require("../api/server.js");
+const request = require("supertest");
+const db = require("../database/db-config.js");
 
-describe('auth-router', function() {
+describe("auth-router", function() {
 	beforeEach(async function() {
-		await db('users').truncate();
+		await db("users").truncate();
 		return request(server)
-			.post('/api/auth/signup')
+			.post("/api/auth/signup")
 			.send({
-				email: 'seedemail',
-				password: 'seedpassword'
+				email: "seedemail",
+				password: "seedpassword"
 			});
 	});
 
-	describe('test environment', function() {
-		it('should be using test env', function() {
-			expect(process.env.DB_ENV).toBe('testing');
+	describe("test environment", function() {
+		it("should be using test env", function() {
+			expect(process.env.DB_ENV).toBe("testing");
 		});
 	});
 
-	describe('api/auth/signup', function() {
-		it('register', function() {
+	describe("api/auth/signup", function() {
+		it("register", function() {
 			return request(server)
-				.post('/api/auth/signup')
+				.post("/api/auth/signup")
 				.send({
-					email: 'testemail',
-					password: 'testpassword'
+					email: "testemail",
+					password: "testpassword"
 				})
 				.expect(201);
 		});
 
-		it('is a json object', function() {
+		it("is a json object", function() {
 			return request(server)
-				.post('/api/auth/signup')
-				.send({ email: 'testemail3', password: 'testpassword' })
+				.post("/api/auth/signup")
+				.send({ email: "testemail3", password: "testpassword" })
 				.then(res => {
-					expect(res.body.email).toBe('testemail3');
+					expect(res.body.email).toBe("testemail3");
 				});
 		});
 	});
 
-	describe('api/auth/login', function() {
-		it('login', function() {
+	describe("api/auth/login", function() {
+		it("login", function() {
 			return request(server)
-				.post('/api/auth/login')
+				.post("/api/auth/login")
 				.send({
-					email: 'seedemail',
-					password: 'seedpassword'
+					email: "seedemail",
+					password: "seedpassword"
 				})
 				.expect(200);
 		});
 
-		it('is a json object', function() {
+		it("is a json object", function() {
 			return request(server)
-				.post('/api/auth/login')
-				.send({ email: 'seedemail', password: 'seedpassword' })
+				.post("/api/auth/login")
+				.send({ email: "seedemail", password: "seedpassword" })
 				.then(res => {
-					expect(res.body.email).toBe('seedemail');
+					expect(res.body.email).toBe("seedemail");
 				});
 		});
 
-		it('expect user', function() {
+		it("expect user", function() {
 			return request(server)
-				.post('/api/auth/login')
-				.send({ email: 'failseedemail', password: 'failseedpassword' })
+				.post("/api/auth/login")
+				.send({ email: "failseedemail", password: "failseedpassword" })
 				.then(res => {
-					expect(res.body.message).toBe('No user found in DB');
+					expect(res.body.message).toBe("No user found in DB");
 				});
 		});
 	});

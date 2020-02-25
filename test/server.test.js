@@ -1,16 +1,16 @@
-const server = require('../api/server.js');
-const request = require('supertest');
+const server = require("../api/server.js");
+const request = require("supertest");
 
-describe('server', function() {
-	it('runs the tests', function() {
+describe("server", function() {
+	it("runs the tests", function() {
 		expect(true).toBe(true);
 	});
 
-	describe('GET /', function() {
-		it('should return 200 OK', function() {
+	describe("GET /", function() {
+		it("should return 200 OK", function() {
 			// make a GET request to /
 			return request(server)
-				.get('/')
+				.get("/")
 				.then(res => {
 					// check that the status code is 200
 					expect(res.status).toBe(200);
@@ -18,19 +18,19 @@ describe('server', function() {
 		});
 	});
 
-	describe('GET /', function() {
-		it('should return JSON', function() {
+	describe("GET /", function() {
+		it("should return JSON", function() {
 			return request(server)
-				.get('/')
+				.get("/")
 				.then(res => {
-					expect(res.body.api).toBe('up!');
+					expect(res.body.api).toBe("up!");
 				});
 		});
 	});
-	describe('GET /', function() {
-		it('toMatch JSON', function() {
+	describe("GET /", function() {
+		it("toMatch JSON", function() {
 			return request(server)
-				.get('/')
+				.get("/")
 				.then(res => {
 					expect(res.type).toMatch(/JSON/i);
 				});

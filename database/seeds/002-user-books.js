@@ -22,10 +22,10 @@ const makeFakeUserBooks = user => {
 
 exports.seed = function(knex) {
 	// Deletes ALL existing entries
-	return knex('userBooks')
+	return knex("userBooks")
 		.truncate()
 		.then(function() {
 			// Inserts seed entriee
-			return knex('userBooks').insert(makeFakeUserBooks(user));
+			return knex("userBooks").insert(makeFakeUserBooks(user));
 		});
 };

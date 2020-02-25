@@ -1,4 +1,4 @@
-const faker = require('faker');
+const faker = require("faker");
 
 const createFakeUser = () => ({
 	email: faker.internet.email(),
@@ -7,7 +7,7 @@ const createFakeUser = () => ({
 
 exports.seed = function(knex) {
 	// Deletes ALL existing entries
-	return knex('users')
+	return knex("users")
 		.truncate()
 		.then(function() {
 			// Inserts seed entries
@@ -16,6 +16,6 @@ exports.seed = function(knex) {
 			for (let i = 0; i < desiredCount; i++) {
 				fakeUsers.push(createFakeUser());
 			}
-			return knex('users').insert(fakeUsers);
+			return knex("users").insert(fakeUsers);
 		});
 };

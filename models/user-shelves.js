@@ -1,4 +1,4 @@
-const db = require('../database/db-config.js');
+const db = require("../database/db-config.js");
 
 module.exports = {
 	findBy,
@@ -9,29 +9,31 @@ module.exports = {
 };
 
 function findBy(filter) {
-	return db('userShelves').where(filter);
+	return db("userShelves").where(filter);
 }
 
 async function add(shelf) {
-	const [id] = await db('userShelves').insert(shelf).returning('id');
+	const [id] = await db("userShelves")
+		.insert(shelf)
+		.returning("id");
 	return findById(id);
 }
 
 function findById(id) {
-	return db('userShelves').where({ id })
+	return db("userShelves").where({ id });
 }
 
 function update(shelf, changes) {
-	const [id] =  db('userShelves')
-		.where('id', shelf.id)
+	const [id] = db("userShelves")
+		.where("id", shelf.id)
 		.update(changes)
-		.returning('id');
+		.returning("id");
 	return findById(id);
 }
 
 function remove(userId, shelfId) {
-	return db('userShelves')
+	return db("userShelves")
 		.where({ userId })
-		.where('id', shelfId)
+		.where("id", shelfId)
 		.del();
 }

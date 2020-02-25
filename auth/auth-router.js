@@ -1,10 +1,10 @@
-const router = require('express').Router();
-const passport = require('passport');
-const bcrypt = require('bcryptjs');
-const User = require('../models/users.js');
+const router = require("express").Router();
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
+const User = require("../models/users.js");
 
 // MARK: -- local
-router.post('/signup', (request, response) => {
+router.post("/signup", (request, response) => {
 	let user = request.body;
 	const hash = bcrypt.hashSync(user.password, 10);
 	user.password = hash;
@@ -14,17 +14,17 @@ router.post('/signup', (request, response) => {
 			request.session.user = res[0];
 
 			response.status(200).json({
-				message: 'successfully registered user',
+				message: "successfully registered user",
 				user: request.session.user
 			});
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).json({ message: 'error registering user' });
+			response.status(500).json({ message: "error registering user" });
 		});
 });
 
-router.post('/signin', (request, response) => {
+router.post("/signin", (request, response) => {
 	const { emailAddress, password } = request.body;
 
 	User.findBy({ emailAddress })
@@ -33,67 +33,67 @@ router.post('/signin', (request, response) => {
 				request.session.user = res;
 
 				response.status(200).json({
-					message: 'successfully logged in',
+					message: "successfully logged in",
 					user: request.session.user
 				});
 			} else {
-				response.status(500).json({ message: 'invalid credentials' });
+				response.status(500).json({ message: "invalid credentials" });
 			}
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).json({ message: 'error logging in user' });
+			response.status(500).json({ message: "error logging in user" });
 		});
 });
 
 // MARK: -- google
 router.get(
-	'/google',
-	passport.authenticate('google', {
-		scope: ['profile', 'email'],
-		prompt: 'select_account'
+	"/google",
+	passport.authenticate("google", {
+		scope: ["profile", "email"],
+		prompt: "select_account"
 	})
 );
 
 router.get(
-	'/google/redirect',
-	passport.authenticate('google', {
-		failureRedirect: 'http://localhost:3000/failure'
+	"/google/redirect",
+	passport.authenticate("google", {
+		failureRedirect: "http://localhost:3000/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect('http://localhost:3000/success');
+		response.redirect("http://localhost:3000/success");
 	}
 );
 
 // MARK: -- facebook
 router.get(
-	'/facebook',
-	passport.authenticate('facebook', {
-		scope: ['email']
+	"/facebook",
+	passport.authenticate("facebook", {
+		scope: ["email"]
 	})
 );
 
 router.get(
-	'/facebook/redirect',
-	passport.authenticate('facebook', {
-		failureRedirect: 'http://localhost:3000/failure'
+	"/facebook/redirect",
+	passport.authenticate("facebook", {
+		failureRedirect: "http://localhost:3000/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect('http://localhost:3000/success');
+		response.redirect("http://localhost:3000/success");
 	}
 );
 
 // MARK: -- common
-router.get('/success', (request, response) => {
+router.get("/success", (request, response) => {
 	response.status(200).json({
-		message: 'successfully fetched user object',
+		message: "successfully fetched user object",
 		user: request.session.user
 	});
 });
 
-router.get('/signout', (request, response) => {
+router.get("/signout", (request, response) => {
 	request.logout();
 
 	if (request.session) {
@@ -101,16 +101,16 @@ router.get('/signout', (request, response) => {
 			if (err) {
 				response
 					.status(500)
-					.json({ message: 'error destroying session' });
+					.json({ message: "error destroying session" });
 			} else {
 				response
 					.status(200)
-					.clearCookie('bibble')
-					.json({ message: 'successfully signed out' });
+					.clearCookie("bibble")
+					.json({ message: "successfully signed out" });
 			}
 		});
 	} else {
-		response.status(204).json({ message: 'session does not exist' });
+		response.status(204).json({ message: "session does not exist" });
 	}
 });
 
