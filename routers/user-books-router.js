@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const UserBooks = require('../models/user-books.js');
+const Books = require('../models/books.js');
 
 router.get('/:userId/library', (req, res) => {
 	const userId = req.params.userId;
@@ -15,6 +16,28 @@ router.get('/:userId/library', (req, res) => {
 			res.status(500).json({ message: 'error in returning data' })
 		);
 });
+
+// router.post('/:userId/library/', (req, res) => {
+// 	const userId = req.params.userId;
+// 	const book = req.body;
+//  Books.findBy({ title }).then(book => {
+//		if(book == undefined) {
+
+//		}
+//	}).catch()
+// 	const userbookObject = { bookId: bookId, readingStatus: , userId: userId}
+// 	UserBooks.add(book).then(added => {
+// 		console.log(added)
+// 		if(added == undefined) {
+// 			res.status(400).json({ message: 'userbooks: please provide book' });
+// 		} else {
+// 			res.status(201).json(added)
+// 		}
+// 	})
+// 	.catch(err => {
+// 		res.status(500).json({ message: 'error in posting userbook' });
+// 	})
+// })
 
 router.get('/:userId/library/:id', (req, res) => {
 	const userId = req.params.userId;
