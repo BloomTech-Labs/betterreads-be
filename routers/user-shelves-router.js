@@ -1,0 +1,91 @@
+const router = require("express").Router();
+const Shelves = require ('../models/user-shelves.js')
+
+
+router.get("/byUser/:id", (req, res) => {
+	const userId = req.params.id;
+    Shelves.findByUserId(userId)
+        .then(userShelf => {
+            console.log(userShelf)
+			if (userShelf == undefined) {
+				res.status(400).json({ message: "userShelf: does not exist" });
+			} else {
+				res.status(200).json(userShelf);
+			}
+		})
+		.catch(err =>{
+            res.status(500).json({ message: "error in returning data" })
+            console.log(err) 
+        }
+            
+		);
+});
+
+router.get("/:id", (req, res) => {
+	const shelfId = req.params.id;
+    Shelves.findById(shelfId)
+        .then(userShelf => {
+			if (userShelf == undefined) {
+				res.status(400).json({ message: "userShelf: does not exist" });
+			} else {
+				res.status(200).json(userShelf);
+			}
+		})
+		.catch(err =>
+			res.status(500).json({ message: "error in returning data" })
+		);
+});
+
+
+
+
+
+router.post("/:userId", (req, res) => {
+    const userId = req.params.userId;
+    const shelfName = req.body.shelfName;
+    const isPrivate = req.body.isPrivate;
+ 
+    const userShelfObj = {
+        userId: userId,
+        shelfName: shelfName,
+        isPrivate: isPrivate
+
+    }
+	Shelves.add(userShelfObj)
+		.then(userShelf => {
+			if (userShelf == undefined) {
+				res.status(400).json({ message: "userShelf: does not exist" });
+			} else {
+				res.status(200).json(userShelf);
+			}
+		})
+		.catch(err =>
+			res.status(500).json({ message: "error in returning data" })
+		);
+});
+
+router.put("/:userId", (req, res) => {
+    const userId = req.params.userId;
+    const shelfName = req.body.shelfName;
+    const isPrivate = req.body.isPrivate;
+ 
+    const updatedShelfobj = {
+        userId: userId,
+        shelfName: shelfName,
+        isPrivate: isPrivate
+
+    }
+
+    Shelves.findById(userId)
+    .then(shelf => {
+        console.log("shelf",shelf)
+        if(shelf) {
+            const shelfId = shelf.id;
+            Shelves.update(shelfId ,updatedShelfobj)
+        } else {
+            res.status(404).json({message: "userShelf: does not exist"})
+        }
+    })
+});
+
+module.exports = router;
