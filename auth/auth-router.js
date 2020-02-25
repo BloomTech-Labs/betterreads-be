@@ -12,10 +12,19 @@ router.post("/signup", (request, response) => {
 	User.add(user)
 		.then(res => {
 			request.session.user = res[0];
-
+			const user = request.session.user;
 			response.status(200).json({
 				message: "successfully registered user",
-				user: request.session.user
+				user: {
+					id: user.id,
+					fullName: user.fullName,
+					emailAddress: user.emailAddress,
+					username: user.username,
+					image: user.image,
+					googleID: user.googleID,
+					facebookID: user.facebookID
+				}
+
 			});
 		})
 		.catch(err => {
@@ -31,10 +40,18 @@ router.post("/signin", (request, response) => {
 		.then(res => {
 			if (res && bcrypt.compareSync(password, res.password)) {
 				request.session.user = res;
-
+				const user = request.session.user;
 				response.status(200).json({
 					message: "successfully logged in",
-					user: request.session.user
+					user: {
+						id: user.id,
+						fullName: user.fullName,
+						emailAddress: user.emailAddress,
+						username: user.username,
+						image: user.image,
+						googleID: user.googleID,
+						facebookID: user.facebookID
+					}
 				});
 			} else {
 				response.status(500).json({ message: "invalid credentials" });

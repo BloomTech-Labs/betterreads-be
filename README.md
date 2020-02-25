@@ -22,7 +22,7 @@ To get the server running locally:
 ### Seeding for tests
 
 1.   knex migrate:up --env=testing
-2.   knex seed:run --env=testing --specific=001_users.js
+2.   knex seed:run --env=testing --specific=001-users.js
 
 repeat...until all seed files are run
 
@@ -39,10 +39,23 @@ repeat...until all seed files are run
 
 #### User Authentication Routes
 
-| Method | Endpoint           | Access Control | Description                    |
-| ------ | ------------------ | -------------- | ------------------------------ |
-| POST   | `/api/auth/signup` | all users      | Returns token and user object. |
-| POST   | `/api/auth/login`  | all users      | Returns token and user object. |
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signup` | all users      | Returns message and user object. |
+
+# Body Required
+```js
+{ 
+  fullName: STRING, 
+  emailAddress: STRING, 
+  username: testytest,  
+  password: dangerdanger 
+}
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signin` | all users      | Returns message and user object. |
 
 # Body Required
 
@@ -267,7 +280,7 @@ repeat...until all seed files are run
 
 #### UserBooks
 
-`findBy(filter)` -> Returns a single book from user's library
+`findBy(filter)` -> Returns an array book from user's library
 
 `add(book)` -> Returns a single book
 
@@ -279,6 +292,21 @@ repeat...until all seed files are run
 
 `remove(userId, bookId)` -> Returns nothing 
 
+<br>
+<br>
+<br>
+
+#### UserShelves
+
+`findBy(filter)` -> Returns an array of bookshelves
+
+`add` -> Returns a single bookshelf
+
+`findById` -> Returns a single bookshelf
+
+`update` -> Returns a single bookshelf
+
+`remove` -> Returns nothing
 
 
 ## 3️⃣ Environment Variables
@@ -289,10 +317,17 @@ create a .env file that includes the following:
     
     * DB_ENV - set to "development" until ready for "production"
     * HOST - set to host (i.e., localhost)
-    * USER - set to username on your postgres server
+    * DB_USER - set to username on your postgres server
     * PASSWORD - set to password for user on your postgres server
     * DB - set to database name for your postgres server
     * TEST_DB - set to test database name for your postgres testing server
+
+    * SESSION_NAME - ...
+    * SESSION_SECRET - ...
+    * GOOGLE_CLIENT_ID - this is generated in your google account
+    * GOOGLE_CLIENT_SECRET - this is generated in your google account
+    * FACEBOOK_CLIENT_ID - this is generated in your facebook account
+    * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
 
     <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
     *  NODE_ENV - set to "development" until ready for "production"
