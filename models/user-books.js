@@ -3,6 +3,7 @@ const db = require('../database/db-config.js');
 module.exports = {
 	findBy,
 	add,
+	findById,
 	findByUserId,
 	findDetailByUserId,
 	updateReadingStatus,
@@ -18,6 +19,10 @@ async function add(userbook) {
 		.insert(userbook)
 		.returning('id');
 	return findById(id);
+}
+
+function findById(id) {
+	return db('userBooks').where({ id })
 }
 
 function findByUserId(userId) {
