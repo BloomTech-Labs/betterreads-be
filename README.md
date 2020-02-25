@@ -1,7 +1,3 @@
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be completed by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
 ![Node](https://img.shields.io/node/v/express/latest)
@@ -43,12 +39,13 @@ repeat...until all seed files are run
 
 #### User Authentication Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- | 
-| POST   | `/api/auth/signup`      | all users      | Returns token and user object.               |
-| POST   | `/api/auth/login`       | all users      | Returns token and user object.               |
+| Method | Endpoint           | Access Control | Description                    |
+| ------ | ------------------ | -------------- | ------------------------------ |
+| POST   | `/api/auth/signup` | all users      | Returns token and user object. |
+| POST   | `/api/auth/login`  | all users      | Returns token and user object. |
 
 # Body Required
+
 ```js
 {
   email: STRING,
@@ -60,26 +57,28 @@ repeat...until all seed files are run
 
 ## Onboarding process
 
-| Method | Endpoint                | Access Control      | Description                                               |
-| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
-| POST   | `/api/:userId/genres`   | all users           | Returns genre info for registered users.                  |
+| Method | Endpoint              | Access Control | Description                              |
+| ------ | --------------------- | -------------- | ---------------------------------------- |
+| POST   | `/api/:userId/genres` | all users      | Returns genre info for registered users. |
 
 # Body Required
+
 ```js
 {
-  genre: [STRING]
+	genre: [STRING];
 }
 ```
 
 # Search Google Books, Search in our Books Table, and Post to our Books Table
 
-| Method | Endpoint                | Access Control      | Description                                               |
-| ------ | ----------------------- | ------------------- | --------------------------------------------------------- |
-| GET    | `/api/books`            | all users           | Returns all books that meet query criteria (title, author)|
-| GET    | `/api/books/:bookId`    | all users           | Returns a single book object                              |
-| POST   | `/api/books`            | all users           | Returns No Content                                        |
+| Method | Endpoint             | Access Control | Description                                                |
+| ------ | -------------------- | -------------- | ---------------------------------------------------------- |
+| GET    | `/api/books`         | all users      | Returns all books that meet query criteria (title, author) |
+| GET    | `/api/books/:bookId` | all users      | Returns a single book object                               |
+| POST   | `/api/books`         | all users      | Returns No Content                                         |
 
 # Body Required
+
 ```js
 {
   googleId: STRING,
@@ -112,9 +111,11 @@ repeat...until all seed files are run
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
 
+
 # Body Required
+
 ```js
-{  
+{
   googleId: STRING,
   userId: INTEGER
 }
@@ -122,24 +123,23 @@ repeat...until all seed files are run
 
 # User's shelves
 
-| Method | Endpoint                        | Access Control      | Description                                               |
-| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
-| POST   | `/api/shelves`                  | all users           | Returns an empty shelf                                    |
-| GET    | `/api/:userId/shelves`          | all users           | Returns all user's shelves                                |
-| GET    | `/api/shelves/:shelfId`         | all users           | Returns a user's selected shelf                           |
-| PUT    | `/api/shelves/:shelfId`         | all users           | Return changed shelf                                      |
-| DELETE | `/api/shelves/:shelfId`         | all users           | Return shelf id                                           |
-| DELETE | `/api/shelves/:shelfId/:bookId` | all users           | Return book id                                            |
-| POST   | `/api/shelves/:shelfId/:bookId` | all users           | Return shelf object with book object in shelf             |
-| PUT    | `/api/shelves/:shelfId/`        | all users           | Return books
+| Method | Endpoint                        | Access Control | Description                                   |
+| ------ | ------------------------------- | -------------- | --------------------------------------------- |
+| POST   | `/api/shelves`                  | all users      | Returns an empty shelf                        |
+| GET    | `/api/:userId/shelves`          | all users      | Returns all user's shelves                    |
+| GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
+| PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
+| DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
+| DELETE | `/api/shelves/:shelfId/:bookId` | all users      | Return book id                                |
+| POST   | `/api/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
+| PUT    | `/api/shelves/:shelfId/`        | all users      | Return books                                  |
 
-# Onboarding 
+# Onboarding
 
-| Method | Endpoint                        | Access Control      | Description                                               |
-| ------ | ------------------------------- | ------------------- | --------------------------------------------------------- |
-| POST   | `/api/:userId/genre`            | all users           | Returns No Content                                        |
-| DELETE | `/api/:userId/genre`            | all users           | Returns Genre id                                          |
-
+| Method | Endpoint             | Access Control | Description        |
+| ------ | -------------------- | -------------- | ------------------ |
+| POST   | `/api/:userId/genre` | all users      | Returns No Content |
+| DELETE | `/api/:userId/genre` | all users      | Returns Genre id   |
 
 # Data Model
 
@@ -150,8 +150,8 @@ repeat...until all seed files are run
 ```
 {
   id: UUID
-  email: STRING 
-  password: STRING 
+  email: STRING
+  password: STRING
 }
 ```
 
@@ -178,10 +178,10 @@ repeat...until all seed files are run
 }
 ```
 
-
 #### 2️⃣ GOOGLEBOOKS
 
 ---
+
 ```
 {
   id: UUID
@@ -218,7 +218,6 @@ repeat...until all seed files are run
 }
 ```
 
-
 #### 2️⃣ USERSHELVES
 
 ```
@@ -239,7 +238,6 @@ repeat...until all seed files are run
   shelfId: UUID foreign key in USERSHELVES table
 }
 ```
-
 
 ## 2️⃣ Actions
 
@@ -310,11 +308,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### 👾 Issue/Bug Request 👾
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+-   Check first to see if your issue has already been reported.
+-   Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+-   Create a live example of the problem.
+-   Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
@@ -328,11 +327,11 @@ Remember that this project is licensed under the MIT license, and by submitting 
 
 #### Pull Request Guidelines
 
-- Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-- Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
-- Ensure that your code conforms to our existing code conventions and test coverage.
-- Include the relevant issue number, if applicable.
-- You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
+-   Ensure any install or build dependencies are removed before the end of the layer when doing a build.
+-   Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
+-   Ensure that your code conforms to our existing code conventions and test coverage.
+-   Include the relevant issue number, if applicable.
+-   You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
 
 ### Attribution
 
