@@ -1,87 +1,117 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const { jwtsecret } = require('../config/secrets.js');
-const Users = require('../models/users.js');
+const passport = require('passport');
+const bcrypt = require('bcryptjs');
+const User = require('../models/users.js');
 
-// MARK: -- endpoints beginning with /api/auth
-router.post('/signup', (req, res) => {
-	let user = req.body;
-	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			if (err) {
-				res.status(500).json({ message: 'error with hash' });
-			} else {
-				user.password = hash;
-				Users.add(user)
-					.then(saved => {
-						const token = signToken(saved);
-						res.status(201).json({
-							token: token,
-							id: saved.id,
-							email: saved.email
-						});
-					})
-					.catch(err => {
-						res.status(400).json({
-							message: 'Error in saving user to DB'
-						});
-					});
-			}
+// MARK: -- local
+router.post('/signup', (request, response) => {
+	let user = request.body;
+	const hash = bcrypt.hashSync(user.password, 10);
+	user.password = hash;
+
+	User.add(user)
+		.then(res => {
+			request.session.user = res[0];
+
+			response.status(200).json({
+				message: 'successfully registered user',
+				user: request.session.user
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			response.status(500).json({ message: 'error registering user' });
 		});
-	});
 });
 
-router.post('/login', (req, res) => {
-	let { email, password } = req.body;
+router.post('/signin', (request, response) => {
+	const { emailAddress, password } = request.body;
 
-	Users.findBy({ email })
-		.first()
-		.then(user => {
-			if (user) {
-				bcrypt
-					.compare(password, user.password)
-					.then(match => {
-						if (match) {
-							const token = signToken(user);
-							res.status(200).json({
-								token: token,
-								id: user.id,
-								email: user.email
-							});
-						} else {
-							// Error in match
-							res.status(401).json({
-								message: 'Invalid Credentials'
-							});
-						}
-					})
-					.catch(err => {
-						// Error in compare
-						res.status(500).json({
-							message: 'Invalid Credentials'
-						});
-					});
+	User.findBy({ emailAddress })
+		.then(res => {
+			if (res && bcrypt.compareSync(password, res.password)) {
+				request.session.user = res;
+
+				response.status(200).json({
+					message: 'successfully logged in',
+					user: request.session.user
+				});
 			} else {
-				res.status(400).json({ message: 'No user found in DB' });
+				response.status(500).json({ message: 'invalid credentials' });
 			}
 		})
 		.catch(err => {
-			console.log('error in find');
-			res.status(500).json({ message: 'Invalid Credentials' });
+			console.log(err);
+			response.status(500).json({ message: 'error logging in user' });
 		});
 });
 
-function signToken(user) {
-	const payload = {
-		id: user.id
-	};
+// MARK: -- google
+router.get(
+	'/google',
+	passport.authenticate('google', {
+		scope: ['profile', 'email'],
+		prompt: 'select_account'
+	})
+);
 
-	const options = {
-		expiresIn: '1d'
-	};
+router.get(
+	'/google/redirect',
+	passport.authenticate('google', {
+		failureRedirect: 'http://localhost:3000/failure'
+	}),
+	(request, response) => {
+		request.session.user = request.user;
+		response.redirect('http://localhost:3000/success');
+	}
+);
 
-	return jwt.sign(payload, jwtsecret, options);
-}
+// MARK: -- facebook
+router.get(
+	'/facebook',
+	passport.authenticate('facebook', {
+		scope: ['email']
+	})
+);
+
+router.get(
+	'/facebook/redirect',
+	passport.authenticate('facebook', {
+		failureRedirect: 'http://localhost:3000/failure'
+	}),
+	(request, response) => {
+		request.session.user = request.user;
+		response.redirect('http://localhost:3000/success');
+	}
+);
+
+// MARK: -- common
+router.get('/success', (request, response) => {
+	response.status(200).json({
+		message: 'successfully fetched user object',
+		user: request.session.user
+	});
+});
+
+router.get('/signout', (request, response) => {
+	request.logout();
+
+	if (request.session) {
+		request.session.destroy(err => {
+			if (err) {
+				response
+					.status(500)
+					.json({ message: 'error destroying session' });
+			} else {
+				response
+					.status(200)
+					.clearCookie('bibble')
+					.json({ message: 'successfully signed out' });
+			}
+		});
+	} else {
+		response.status(204).json({ message: 'session does not exist' });
+	}
+});
 
 module.exports = router;
