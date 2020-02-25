@@ -27,7 +27,7 @@ router.post('/signup', (request, response) => {
 router.post('/signin', (request, response) => {
 	const { emailAddress, password } = request.body;
 
-	User.findById({ emailAddress })
+	User.findBy({ emailAddress })
 		.then(res => {
 			if (res && bcrypt.compareSync(password, res.password)) {
 				request.session.user = res;

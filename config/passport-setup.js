@@ -8,7 +8,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-	User.findById({ id: id }).then(user => {
+	User.findBy({ id: id }).then(user => {
 		done(null, user);
 	});
 });
@@ -29,7 +29,7 @@ passport.use(
 				googleID: profile.id
 			};
 
-			User.findById({ emailAddress: userProfile.emailAddress }).then(
+			User.findBy({ emailAddress: userProfile.emailAddress }).then(
 				existingUser => {
 					if (existingUser) {
 						done(null, existingUser);
@@ -61,7 +61,7 @@ passport.use(
 				facebookID: profile.id
 			};
 
-			User.findById({ emailAddress: userProfile.emailAddress }).then(
+			User.findBy({ emailAddress: userProfile.emailAddress }).then(
 				existingUser => {
 					if (existingUser) {
 						done(null, existingUser);
