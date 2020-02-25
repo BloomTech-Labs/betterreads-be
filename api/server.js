@@ -48,8 +48,8 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 server.use("/api/auth", authRouter);
-server.use("/api/books", booksRouter);
-server.use("/api", userBooksRouter);
+server.use("/api/books", restricted, booksRouter);
+server.use("/api", restricted, userBooksRouter);
 
 server.get("/", (request, response) =>
 	response.status(200).json({ message: "server is working" })

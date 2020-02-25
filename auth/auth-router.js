@@ -85,7 +85,7 @@ router.get(
 	}
 );
 
-// MARK: -- common
+// MARK: -- social media only
 router.get("/success", (request, response) => {
 	response.status(200).json({
 		message: "successfully fetched user object",
@@ -93,6 +93,7 @@ router.get("/success", (request, response) => {
 	});
 });
 
+// MARK: -- common
 router.get("/signout", (request, response) => {
 	request.logout();
 
