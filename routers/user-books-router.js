@@ -141,7 +141,7 @@ router.delete("/:userId/library/:id", (req, res) => {
 				});
 			} else {
 				if (deleted == 0) {
-					res.status(500).json({ message: "" });
+					res.status(500).json({ message: "userbook: not deleted" });
 				} else {
 					res.status(204).json(deleted);
 				}
