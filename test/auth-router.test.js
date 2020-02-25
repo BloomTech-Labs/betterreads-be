@@ -8,7 +8,9 @@ describe("auth-router", function() {
 		return request(server)
 			.post("/api/auth/signup")
 			.send({
+				fullName: "Seeder Apple",
 				email: "seedemail",
+				username: "seedusername",
 				password: "seedpassword"
 			});
 	});
@@ -24,7 +26,9 @@ describe("auth-router", function() {
 			return request(server)
 				.post("/api/auth/signup")
 				.send({
+					fullName: "Judith Lastname"
 					email: "testemail",
+					username: "judithpriestfriends",
 					password: "testpassword"
 				})
 				.expect(201);
