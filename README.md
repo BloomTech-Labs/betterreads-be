@@ -1,11 +1,16 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
 🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be completed by.  Make sure to delete the numbers by the end of Labs.
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
-
 # API Documentation
+
+![Node](https://img.shields.io/node/v/express/latest)
+![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/test_coverage)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+
+betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
+
 
 #### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
 
@@ -13,25 +18,28 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **npm install** to install all required dependencies
 - **npm server** to start the local server
 - **npm test** to start server using testing environment
 
-### Backend framework goes here
+### Seeding for tests
 
-🚫 Why did you choose this framework?
+1.   knex migrate:up --env=testing
+2.   knex seed:run --env=testing --specific=001_users.js
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+repeat...until all seed files are run
+
+### Express
+
+-    Simple routing
+-    Event driven features
+-    Uses Javascript, an omnipresent language in web development
+-    Large Community Support
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and description to match your project
+🚫This is a placeholder, replace the endpoints, access control, and description to match your project
 
 #### User Authentication Routes
 
@@ -98,7 +106,10 @@ To get the server running locally:
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| DELETE | `/api/:userId/library/:bookId`   | all users           | Return book id                                            |
+| GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
+| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+| DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
 
 # Body Required
@@ -232,43 +243,64 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+#### Users
 
-`getOrgs()` -> Returns all organizations
+`findById(id)` -> Returns a single user by id
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`add(user object)` -> Returns the created user
 
-`addOrg(org)` -> Returns the created org
+`findBy(filter)` -> Return all users matching filter
 
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+#### Books
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`findById(id)` -> Returns a single book
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`add(book object)` -> Returns a single book
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`findBy(filter)` -> returns an array of books associated to filter
+
+<br>
+<br>
+<br>
+
+#### UserBooks
+
+`findBy(filter)` -> Returns a single book from user's library
+
+`add(book)` -> Returns a single book
+
+`findByUserId(userId)` -> Return all books in user's library
+
+`findDetailByUserId(userId, bookId)` -> Return a single book with full details
+
+`updateReadingStatus(userId, bookId)` -> Return a single book with full details
+
+`remove(userId, bookId)` -> Returns nothing 
+
+
 
 ## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
     
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
+    * DB_ENV - set to "development" until ready for "production"
+    * HOST - set to host (i.e., localhost)
+    * USER - set to username on your postgres server
+    * PASSWORD - set to password for user on your postgres server
+    * DB - set to database name for your postgres server
+    * TEST_DB - set to test database name for your postgres testing server
+
+    <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
     *  NODE_ENV - set to "development" until ready for "production"
     *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
     *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  stripe_secret - this is generated in the Stripe dashboard -->
     
 ## Contributing
 
@@ -276,7 +308,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
 
-### Issue/Bug Request
+### 👾 Issue/Bug Request 👾
 
  **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
  - Check first to see if your issue has already been reported.
@@ -308,5 +340,5 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See 📱💻🖱[Frontend Documentation](https://github.com/Lambda-School-Labs/betterreads-frontend) for details on the frontend of our project.
+See 🔬⚗️🧪[Data Science Documentation](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
