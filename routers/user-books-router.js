@@ -1,28 +1,28 @@
-const router = require('express').Router();
-const UserBooks = require('../models/user-books.js');
-const Books = require('../models/books.js');
+const router = require("express").Router();
+const UserBooks = require("../models/user-books.js");
+const Books = require("../models/books.js");
 
-router.get('/:userId/library', (req, res) => {
+router.get("/:userId/library", (req, res) => {
 	const userId = req.params.userId;
 	UserBooks.findByUserId(userId)
 		.then(userbooks => {
 			if (userbooks == undefined) {
-				res.status(400).json({ message: 'userbooks: does not exist' });
+				res.status(400).json({ message: "userbooks: does not exist" });
 			} else {
 				res.status(200).json(userbooks);
 			}
 		})
 		.catch(err =>
-			res.status(500).json({ message: 'error in returning data' })
+			res.status(500).json({ message: "error in returning data" })
 		);
 });
 
 // MARK: -- REFACTOR
-router.post('/:userId/library/', (req, res) => {
+router.post("/:userId/library/", (req, res) => {
 	const userId = req.params.userId;
 	const book = req.body.book;
 	const status = req.body.readingStatus;
- 	if (book) {
+	if (book) {
 		const title = book.title;
 		Books.findBy({ title })
 			.first()
@@ -30,22 +30,31 @@ router.post('/:userId/library/', (req, res) => {
 				if (bk == undefined) {
 					Books.add(book)
 						.then(book => {
-							console.log(book)
-							const userbookObj = { bookId: book.id, readingStatus: status, userId: userId }
+							console.log(book);
+							const userbookObj = {
+								bookId: book.id,
+								readingStatus: status,
+								userId: userId
+							};
 							UserBooks.add(userbookObj)
 								.then(added => {
-									if(added == undefined) {
-										res.status(400).json({ message: 'userbooks: please provide book' });
+									if (added == undefined) {
+										res.status(400).json({
+											message:
+												"userbooks: please provide book"
+										});
 									} else {
-										res.status(201).json(added)
+										res.status(201).json(added);
 									}
 								})
 								.catch(err => {
-									res.status(500).json({ message: 'error in posting userbook' });
-								})
+									res.status(500).json({
+										message: "error in posting userbook"
+									});
+								});
 						})
 						.catch(err =>
-							res.status(500).json({ message: 'Book not added' })
+							res.status(500).json({ message: "Book not added" })
 						);
 				} else {
 					res.status(200).json(bk);
@@ -53,31 +62,31 @@ router.post('/:userId/library/', (req, res) => {
 			})
 			.catch(err => {
 				res.status(500).json({
-					message: 'Error, something went wrong'
+					message: "Error, something went wrong"
 				});
 			});
 	} else {
-		res.status(400).json({ message: 'Please provide a book' });
+		res.status(400).json({ message: "Please provide a book" });
 	}
-})
+});
 
-router.get('/:userId/library/:id', (req, res) => {
+router.get("/:userId/library/:id", (req, res) => {
 	const userId = req.params.userId;
 	const bookId = req.params.id;
 	UserBooks.findDetailByUserId(userId, bookId)
 		.then(userbook => {
 			if (userbook == undefined) {
-				res.status(400).json({ message: 'userbook: does not exist' });
+				res.status(400).json({ message: "userbook: does not exist" });
 			} else {
 				res.status(200).json(userbook);
 			}
 		})
 		.catch(err =>
-			res.status(500).json({ message: 'error in returning data' })
+			res.status(500).json({ message: "error in returning data" })
 		);
 });
 
-router.put('/:userId/library/:id', (req, res) => {
+router.put("/:userId/library/:id", (req, res) => {
 	const userId = req.params.userId;
 	const bookId = req.params.id;
 	const rs = req.body.readingStatus;
@@ -85,31 +94,31 @@ router.put('/:userId/library/:id', (req, res) => {
 		.then(userbook => {
 			if (userbook == undefined) {
 				res.status(400).json({
-					message: 'userbook: does not exist. no change.'
+					message: "userbook: does not exist. no change."
 				});
 			} else {
 				res.status(201).json(userbook);
 			}
 		})
 		.catch(err =>
-			res.status(500).json({ message: 'error in changing data' })
+			res.status(500).json({ message: "error in changing data" })
 		);
 });
 
 // MARK: -- Delete userbook from library grab id through body
-router.delete('/:userId/library/', (req, res) => {
+router.delete("/:userId/library/", (req, res) => {
 	const userId = req.params.userId;
 	const bookId = req.body.id;
 	UserBooks.remove(userId, bookId)
 		.then(deleted => {
 			if (deleted == undefined) {
 				res.status(400).json({
-					message: 'userbook: does not exist. nothing removed.'
+					message: "userbook: does not exist. nothing removed."
 				});
 			} else {
 				if (deleted == 0) {
 					res.status(500).json({
-						message: 'deleted == 0, nothing was deleted'
+						message: "deleted == 0, nothing was deleted"
 					});
 				} else {
 					res.status(204).json(deleted);
@@ -117,29 +126,29 @@ router.delete('/:userId/library/', (req, res) => {
 			}
 		})
 		.catch(err =>
-			res.status(500).json({ message: 'error in removing data' })
+			res.status(500).json({ message: "error in removing data" })
 		);
 });
 
-router.delete('/:userId/library/:id', (req, res) => {
+router.delete("/:userId/library/:id", (req, res) => {
 	const userId = req.params.userId;
 	const bookId = req.params.id;
 	UserBooks.remove(userId, bookId)
 		.then(deleted => {
 			if (deleted == undefined) {
 				res.status(400).json({
-					message: 'userbook: does not exist. nothing removed.'
+					message: "userbook: does not exist. nothing removed."
 				});
 			} else {
 				if (deleted == 0) {
-					res.status(500).json({ message: '' });
+					res.status(500).json({ message: "" });
 				} else {
 					res.status(204).json(deleted);
 				}
 			}
 		})
 		.catch(err =>
-			res.status(500).json({ message: 'error in removing data' })
+			res.status(500).json({ message: "error in removing data" })
 		);
 });
 
