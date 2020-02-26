@@ -4,6 +4,7 @@ module.exports = {
 	findBy,
 	add,
 	findById,
+	isBookInUserBooks,
 	findByUserId,
 	findDetailByUserId,
 	updateReadingStatus,
@@ -25,12 +26,27 @@ function findById(id) {
 	return db("userBooks").where({ id });
 }
 
+function isBookInUserBooks(userId, googleId) {
+	return db("userBooks as ub")
+		.where({ userId })
+		.join("books as b", "ub.bookId", "b.id")
+		.where("b.googleId", googleId)
+		.select(
+			"ub.id",
+			"b.googleId",
+			"b.title",
+			"b.author"
+		);
+
+}
+
 function findByUserId(userId) {
 	return db("userBooks as ub")
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.select(
 			"ub.id",
+			"b.googleId",
 			"b.title",
 			"b.author",
 			"ub.readingStatus",
@@ -48,6 +64,7 @@ function findDetailByUserId(userId, bookId) {
 		.first()
 		.select(
 			"ub.id",
+			"b.googleId",
 			"b.isbn10",
 			"b.isbn13",
 			"ub.readingStatus",
