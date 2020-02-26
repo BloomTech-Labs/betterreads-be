@@ -3,7 +3,6 @@ exports.up = function(knex) {
 		tbl.increments();
 		tbl.integer("bookId")
 			.unsigned()
-			.notNullable()
 			.references("id")
 			.inTable("books")
 			.onDelete("CASCADE")
@@ -15,7 +14,6 @@ exports.up = function(knex) {
 
 		tbl.integer("userId")
 			.unsigned()
-			.notNullable()
 			.references("id")
 			.inTable("users")
 			.onDelete("CASCADE")

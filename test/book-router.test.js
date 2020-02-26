@@ -27,39 +27,57 @@ describe("book-router", function() {
 		content: "Im not a book"
 	};
 
-	let cookie;
-	let user;
-	beforeEach(async function() {
-		await db("users").truncate();
-		return request(server)
+	const signupDets = {
+		fullName: "Seeder Apple",
+		emailAddress: "seedemail",
+		username: "seedusername",
+		password: "seedpassword"
+	}
+
+	function promisedCookie() {
+		return new Promise((resolve, reject) => {
+			request(server)
 			.post("/api/auth/signup")
-			.send({
-				fullName: "Seeder Apple",
-				emailAddress: "seedemail",
-				username: "seedusername",
-				password: "seedpassword"
-			}).then(res => {
-				cookie = res.headers['set-cookie'][0];
-				user = res.body.user;
+			.send(signupDets)
+			.end(function(err, res) {
+				if (err) { throw err; }
+				let signupCookie = res.headers["set-cookie"];
+				resolve(signupCookie);
+			});
+		});
+	}
+
+	beforeEach(async function() {
+		db("userBooks").truncate().then(() => {
+			db("users").truncate().then(() => {
+				db("books").truncate();
 			})
+		})
 	});
 
 	describe("GET api/books/1", function() {
 		// MARK: -- FIX NOT WORKING
 		it("GET book success status", function() {
-			return request(server)
-				.get("/api/books/1")
-				.set("set-cookie", cookie)
-				.expect(200);
+			return promisedCookie().then(cookie => {
+				const req = request(server)
+					.get("/api/books/1")
+					.set("cookie", cookie)
+					.expect(200)
+				return req;
+			})
 		});
 
+
 		it("GET JSON book object", function() {
-			return request(server)
-				.get("/api/books/1")
-				.set("set-cookie", cookie)
-				.then(res => {
-					expect(res.type).toMatch(/json/i);
-				});
+			return promisedCookie().then(cookie => {
+				const req = request(server)
+					.get("/api/books/1")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.type).toMatch(/json/i);
+					});
+				return req;
+			});
 		});
 
 		it("Expect 401 with no authentication set in header", function() {
@@ -71,28 +89,35 @@ describe("book-router", function() {
 		});
 
 		it("Expect error message for book not in database", function() {
-			return request(server)
-				.get("/api/books/2000000000")
-				.then(res => {
-					expect(res.body.message).toBe("No books here");
-				});
+			return promisedCookie().then(cookie => {
+				const req = request(server)
+					.get("/api/books/2000000000")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("No books here");
+					});
+					return req;
+			});
 		});
 	});
 
 	describe("POST a book", function() {
 		// MARK: -- wrote a conditional because not truncating book table before each test
 		it("Expect a 201", function() {
-			return request(server)
-				.post("/api/books")
-				.send(bookObject)
-				.set("session", [cookie, user])
-				.then(res => {
-					if (res.status == 200) {
-						expect(res.type).toMatch(/json/i);
-					} else {
-						expect(res.status).toBe(201);
-					}
-				});
+			return promisedCookie().then(cookie => {
+				const req = request(server)
+					.post("/api/books")
+					.send(badBookObject)
+					.set("cookie", cookie)
+					.then(res => {
+						if(res.status == 200) {
+							expect(res.type).toMatch(/json/i);
+						} else {
+							expect(res.status).toBe(201);
+						}
+					});
+				return req;
+			});
 		});
 
 		it("Expect a 400", function() {
