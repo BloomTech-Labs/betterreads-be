@@ -27,18 +27,19 @@ describe("book-router", function() {
 		content: "Im not a book"
 	};
 
-	let token;
+	let cookie;
 	beforeEach(async function() {
 		await db("users").truncate();
 		return request(server)
 			.post("/api/auth/signup")
 			.send({
-				email: "seedemail",
+				fullName: "Seeder Apple",
+				emailAddress: "seedemail",
+				username: "seedusername",
 				password: "seedpassword"
+			}).then(res => {
+				cookie = res.headers['set-cookie'][0];
 			})
-			.then(res => {
-				token = res.body.token;
-			});
 	});
 
 	describe("GET api/books/1", function() {
@@ -46,14 +47,12 @@ describe("book-router", function() {
 		it("GET book success status", function() {
 			return request(server)
 				.get("/api/books/1")
-				.set("authorization", token)
 				.expect(200);
 		});
 
 		it("GET JSON book object", function() {
 			return request(server)
 				.get("/api/books/1")
-				.set("authorization", token)
 				.then(res => {
 					expect(res.type).toMatch(/json/i);
 				});
@@ -70,7 +69,6 @@ describe("book-router", function() {
 		it("Expect error message for book not in database", function() {
 			return request(server)
 				.get("/api/books/2000000000")
-				.set("authorization", token)
 				.then(res => {
 					expect(res.body.message).toBe("No books here");
 				});
@@ -82,7 +80,6 @@ describe("book-router", function() {
 		it("Expect a 201", function() {
 			return request(server)
 				.post("/api/books")
-				.set("authorization", token)
 				.send(bookObject)
 				.then(res => {
 					if (res.status == 200) {
@@ -96,11 +93,10 @@ describe("book-router", function() {
 		it("Expect a 400", function() {
 			return request(server)
 				.post("/api/books")
-				.set("authorization", token)
 				.send(badBookObject)
 				.then(res => {
 					expect(res.body.message).toBe(
-						"Error, something went wrong"
+						"unauthorized"
 					);
 				});
 		});
