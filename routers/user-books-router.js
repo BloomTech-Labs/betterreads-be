@@ -23,82 +23,88 @@ router.post("/:userId/library/", (req, res) => {
 	const book = req.body.book;
 	const status = req.body.readingStatus;
 	if (book) {
-
 		const googleId = book.googleId;
-
-		UserBooks.isBookInUserBooks(userId, googleId).then(here => {
-			console.log('here', here.length)
-			// MARK: -- length == 0, does not exist
-			if (here.length == 0) {
-				// MARK: -- look in books
-				Books.findBy({ googleId }).first().then(bk => {
-					if (bk == undefined) {
-
-						Books.add(book).then(book => {
-
-							console.log('adding book to books db', book);
-
-							const userbookObject = {
-								bookId: book.id,
-								readingStatus: status,
-								userId: userId
-							};
-
-							UserBooks.add(userbookObject).then(added => {
-
-									console.log("added to userbooks after adding it to books db", added);
-									res.status(201).json(added);
-
-							}).catch(err => {
-
-								res.status(500).json({ message: "Error in posting userbook" });
-
-							});
-
-						}).catch(err => {
-
-							res.status(500).json({ message: "Book not added to book db" });
-
-						})
-
-					} else {
-
-						console.log("we already have the book and now adding to userbooks db");
-						const userbookObject = {
-							bookId: bk.id,
-							readingStatus: status,
-							userId: userId
-						};
-
-						UserBooks.add(userbookObject).then(added => {
-
-							console.log("added book to userbooks after searching for book in db and found it");
-							res.status(201).json(added)
-
-						}).catch(err => {
-
-							res.status(500).json({ message: "Error in posting userbook" });
-
-						})
-
-					}
-				})
-			} else {
-
-				res.status(200).json({ message: "Book already exist in your library" });
-
-			}
-		})
-		.catch(nothere => {
-
-			res.status(500).json({ message: "Error in userbook posting" });
-
-		})
-
+		// MARK: -- is the book in the user's library already?
+		UserBooks.isBookInUserBooks(userId, googleId)
+			.then(here => {
+				console.log("here", here.length);
+				// MARK: -- length == 0, user does not have book in their library
+				if (here.length == 0) {
+					// MARK: -- check to see if the book in our books database
+					Books.findBy({ googleId })
+						.first()
+						.then(bk => {
+							if (bk == undefined) {
+								// MARK: -- adding the book to our books db since it is not there
+								Books.add(book)
+									.then(book => {
+										console.log(
+											"adding book to books db",
+											book
+										);
+										const userbookObject = {
+											bookId: book.id,
+											readingStatus: status,
+											userId: userId
+										};
+										// MARK: -- adding book to our user's library
+										UserBooks.add(userbookObject)
+											.then(added => {
+												console.log(
+													"added to userbooks after adding it to books db",
+													added
+												);
+												res.status(201).json(added);
+											})
+											.catch(err => {
+												res.status(500).json({
+													message:
+														"Error in posting userbook"
+												});
+											});
+									})
+									.catch(err => {
+										res.status(500).json({
+											message: "Book not added to book db"
+										});
+									});
+							} else {
+								console.log(
+									"we already have the book and now adding to userbooks db"
+								);
+								const userbookObject = {
+									bookId: bk.id,
+									readingStatus: status,
+									userId: userId
+								};
+								// MARK: -- book exist in our books db, add the book to our user's library
+								UserBooks.add(userbookObject)
+									.then(added => {
+										console.log(
+											"added book to userbooks after searching for book in db and found it"
+										);
+										res.status(201).json(added);
+									})
+									.catch(err => {
+										res.status(500).json({
+											message: "Error in posting userbook"
+										});
+									});
+							}
+						});
+				} else {
+					// MARK: -- user already has the book in their user library
+					res.status(200).json({
+						message: "Book already exist in your library"
+					});
+				}
+			})
+			.catch(nothere => {
+				res.status(500).json({ message: "Error in userbook posting" });
+			});
 	} else {
-
+		// MARK: -- book did not have information provided
 		res.status(400).json({ message: "Please provide a book" });
-
 	}
 });
 
