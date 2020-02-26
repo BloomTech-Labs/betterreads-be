@@ -56,7 +56,7 @@ server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
 <<<<<<< HEAD
-server.user("/api/shelves", restricted, userBooksRouter)
+server.use("/api/shelves", restricted, userBooksRouter)
 =======
 server.use("/api/shelves", restricted, userShelvesRouter);
 >>>>>>> 58c4bec441ce76d803bd3aa981ba83e0e097e133
