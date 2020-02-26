@@ -44,7 +44,7 @@ router.post("/:userId/library/", (req, res) => {
 												"userbooks: please provide book"
 										});
 									} else {
-										res.status(201).json(added);
+										res.status(201).json(added[0]);
 									}
 								})
 								.catch(err => {
