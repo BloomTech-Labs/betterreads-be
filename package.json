@@ -19,7 +19,6 @@
 	},
 	"homepage": "https://github.com/Lambda-School-Labs/betterreads-backend#readme",
 	"devDependencies": {
-		"cookie-parser": "^1.4.4",
 		"cross-env": "^7.0.0",
 		"faker": "^4.1.0",
 		"jest": "^25.1.0",
