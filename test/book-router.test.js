@@ -2,6 +2,14 @@ const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
 
+const knexCleaner = require('knex-cleaner');
+
+var options = {
+	mode: 'truncate',
+	restartIdentity: true,
+	ignoreTables: ['userBooks']
+};
+
 describe("book-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
@@ -61,8 +69,7 @@ describe("book-router", function() {
 	}
 
 	beforeEach(async function() {
-		await db('users').truncate();
-		await db('books').truncate();
+		await knexCleaner.clean(db, options)
 		return request(server)
 			.post("/api/auth/signup")
 			.send({

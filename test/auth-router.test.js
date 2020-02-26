@@ -2,9 +2,18 @@ const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
 
+const knexCleaner = require('knex-cleaner');
+
+var options = {
+	mode: 'truncate',
+	restartIdentity: true,
+	ignoreTables: ['userBooks']
+}
+
+
 describe("auth-router", function() {
 	beforeEach(async function() {
-		await db('users').truncate();
+		await knexCleaner.clean(db, options)
 		return request(server)
 			.post("/api/auth/signup")
 			.send({

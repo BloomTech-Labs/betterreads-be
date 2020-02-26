@@ -2,6 +2,15 @@ const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
 
+const knexCleaner = require('knex-cleaner');
+
+var options = {
+	mode: 'truncate',
+	restartIdentity: true,
+	ignoreTables: ['userBooks']
+}
+
+
 describe("user-books-router", function() {
 
 	const bookObject = {
@@ -38,11 +47,14 @@ describe("user-books-router", function() {
 	}
 
 
-	beforeAll(async function() {
+	beforeEach(async function() {
+		await knexCleaner.clean(db, options)
 		return request(server)
-			.post("/api/auth/signin")
+			.post("/api/auth/signup")
 			.send({
+				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
+				username: "seedusername",
 				password: "seedpassword"
 			}).then(res => {
 				const cookie = res.headers["set-cookie"]
@@ -50,17 +62,23 @@ describe("user-books-router", function() {
 					.post("/api/books")
 					.send(bookObject)
 					.set("cookie", cookie)
+					.then(res => {
+						return request(server)
+							.post('/api/1/library')
+							.send({ book: bookObject, readingStatus: 2 })
+							.set("cookie", cookie)
+					})
 			})
 	});
 
 	describe("GET library", function() {
-		it("GET failure", function() {
+		it("Get books in your library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/1/library")
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.body.message).toBe("error in returning data");
+						expect(res.status).toBe(200);
 					})
 				return req;
 			});
