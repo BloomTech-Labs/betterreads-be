@@ -70,18 +70,21 @@ router.put("/:userId", (req, res) => {
     const isPrivate = req.body.isPrivate;
  
     const updatedShelfobj = {
-        userId: userId,
+        userId: Number(userId),
         shelfName: shelfName,
         isPrivate: isPrivate
-
     }
 
     Shelves.findById(userId)
     .then(shelf => {
         console.log("shelf",shelf)
-        if(shelf) {
-            const shelfId = shelf.id;
-            Shelves.update(shelfId ,updatedShelfobj)
+        if(shelf.length>0) {
+            const shelfId = shelf[0].id;
+            Shelves.update(updatedShelfobj, shelfId)
+            .then(updatedShelf => {
+                res.status(200).json(updatedShelf)
+            })
+            console.log("updatedShelfobj", updatedShelfobj)
         } else {
             res.status(404).json({message: "userShelf: does not exist"})
         }
