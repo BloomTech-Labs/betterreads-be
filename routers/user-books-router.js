@@ -17,56 +17,88 @@ router.get("/:userId/library", (req, res) => {
 		);
 });
 
-// MARK: -- REFACTOR
+// MARK: -- REFACTOR, I WILL BREAK THIS DOWN
 router.post("/:userId/library/", (req, res) => {
 	const userId = req.params.userId;
 	const book = req.body.book;
 	const status = req.body.readingStatus;
 	if (book) {
+
 		const googleId = book.googleId;
-		Books.findBy({ googleId })
-			.first()
-			.then(bk => {
-				if (bk == undefined) {
-					Books.add(book)
-						.then(book => {
-							console.log(book);
-							const userbookObj = {
+
+		UserBooks.isBookInUserBooks(userId, googleId).then(here => {
+			console.log('here', here.length)
+			// MARK: -- length == 0, does not exist
+			if (here.length == 0) {
+				// MARK: -- look in books
+				Books.findBy({ googleId }).first().then(bk => {
+					if (bk == undefined) {
+
+						Books.add(book).then(book => {
+
+							console.log('adding book to books db', book);
+
+							const userbookObject = {
 								bookId: book.id,
 								readingStatus: status,
 								userId: userId
 							};
-							UserBooks.add(userbookObj)
-								.then(added => {
-									if (added == undefined) {
-										res.status(400).json({
-											message:
-												"userbooks: please provide book"
-										});
-									} else {
-										res.status(201).json(added[0]);
-									}
-								})
-								.catch(err => {
-									res.status(500).json({
-										message: "error in posting userbook"
-									});
-								});
+
+							UserBooks.add(userbookObject).then(added => {
+
+									console.log("added to userbooks after adding it to books db", added);
+									res.status(201).json(added);
+
+							}).catch(err => {
+
+								res.status(500).json({ message: "Error in posting userbook" });
+
+							});
+
+						}).catch(err => {
+
+							res.status(500).json({ message: "Book not added to book db" });
+
 						})
-						.catch(err =>
-							res.status(500).json({ message: "Book not added" })
-						);
-				} else {
-					res.status(200).json(bk);
-				}
-			})
-			.catch(err => {
-				res.status(500).json({
-					message: "Error, something went wrong"
-				});
-			});
+
+					} else {
+
+						console.log("we already have the book and now adding to userbooks db");
+						const userbookObject = {
+							bookId: bk.id,
+							readingStatus: status,
+							userId: userId
+						};
+
+						UserBooks.add(userbookObject).then(added => {
+
+							console.log("added book to userbooks after searching for book in db and found it");
+							res.status(201).json(added)
+
+						}).catch(err => {
+
+							res.status(500).json({ message: "Error in posting userbook" });
+
+						})
+
+					}
+				})
+			} else {
+
+				res.status(200).json({ message: "Book already exist in your library" });
+
+			}
+		})
+		.catch(nothere => {
+
+			res.status(500).json({ message: "Error in userbook posting" });
+
+		})
+
 	} else {
+
 		res.status(400).json({ message: "Please provide a book" });
+
 	}
 });
 
