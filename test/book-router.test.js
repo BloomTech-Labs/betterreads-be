@@ -1,6 +1,7 @@
 const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
+const cookieParser = require('cookie-parser');
 
 describe("book-router", function() {
 	const bookObject = {
@@ -28,6 +29,7 @@ describe("book-router", function() {
 	};
 
 	let cookie;
+	let user;
 	beforeEach(async function() {
 		await db("users").truncate();
 		return request(server)
@@ -38,7 +40,8 @@ describe("book-router", function() {
 				username: "seedusername",
 				password: "seedpassword"
 			}).then(res => {
-				cookie = res.headers['set-cookie'][0];
+				cookie = res.headers['set-cookie'];
+				user = res.body.user;
 			})
 	});
 
@@ -47,12 +50,14 @@ describe("book-router", function() {
 		it("GET book success status", function() {
 			return request(server)
 				.get("/api/books/1")
+				.set("Cookie", cookie)
 				.expect(200);
 		});
 
 		it("GET JSON book object", function() {
 			return request(server)
 				.get("/api/books/1")
+				.set("Cookie", [cookie, user])
 				.then(res => {
 					expect(res.type).toMatch(/json/i);
 				});
@@ -81,6 +86,7 @@ describe("book-router", function() {
 			return request(server)
 				.post("/api/books")
 				.send(bookObject)
+				.set("session", [cookie, user])
 				.then(res => {
 					if (res.status == 200) {
 						expect(res.type).toMatch(/json/i);
