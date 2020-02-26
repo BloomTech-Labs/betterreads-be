@@ -2,6 +2,7 @@ const db = require("../database/db-config.js");
 
 module.exports = {
 	findBy,
+	findByUserId,
 	add,
 	findById,
 	update,
@@ -10,6 +11,11 @@ module.exports = {
 
 function findBy(filter) {
 	return db("userShelves").where(filter);
+}
+
+function findByUserId(userId) {
+	return db("userShelves")
+	.where( "userShelves.userId", userId );
 }
 
 async function add(shelf) {
@@ -23,12 +29,10 @@ function findById(id) {
 	return db("userShelves").where({ id });
 }
 
-function update(shelf, changes) {
-	const [id] = db("userShelves")
-		.where("id", shelf.id)
-		.update(changes)
-		.returning("id");
-	return findById(id);
+  function update(updatedShelf, shelfId) {
+	return db("userShelves")
+	.update(updatedShelf)
+	.where("id", shelfId)
 }
 
 function remove(userId, shelfId) {
