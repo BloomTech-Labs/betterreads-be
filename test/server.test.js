@@ -23,7 +23,7 @@ describe("server", function() {
 			return request(server)
 				.get("/")
 				.then(res => {
-					expect(res.body.api).toBe("up!");
+					expect(res.body.message).toBe("server is working");
 				});
 		});
 	});

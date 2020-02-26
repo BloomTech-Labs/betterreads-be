@@ -13,7 +13,7 @@ router.post("/signup", (request, response) => {
 		.then(res => {
 			request.session.user = res[0];
 			const user = request.session.user;
-			response.status(200).json({
+			response.status(201).json({
 				message: "successfully registered user",
 				user: {
 					id: user.id,
