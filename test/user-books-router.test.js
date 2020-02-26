@@ -32,6 +32,35 @@ describe("user-books-router", function() {
 		isEbook: true
 	};
 
+	const anotherBookObject = {
+		googleId: "1203sodmfo",
+		title: "blahr fadwer",
+		author: "Glower Pleoq",
+		publisher: "Donkey",
+		publishDate: "12/21/1992",
+		description: "This is the start",
+		isbn10: "729287373489282",
+		isbn13: "92283843739200200",
+		pageCount: 400,
+		categories: "werrt",
+		thumbnail: "image.png",
+		smallThumbnail: "small-img.png",
+		language: "russian",
+		webRenderLink: "testLink",
+		textSnippet: "testSnippet",
+		isEbook: false
+	};
+
+	const book1 = {
+		book: bookObject,
+		readingStatus: 1
+	};
+
+	const book2 = {
+		book: anotherBookObject,
+		readingStatus: 3
+	};
+
 	// MARK: -- helper function to grab cookie
 	function promisedCookie(user) {
 		return new Promise((resolve, reject) => {
@@ -71,17 +100,59 @@ describe("user-books-router", function() {
 			})
 	});
 
-	describe("GET library", function() {
+	describe("GET user library", function() {
 		it("Get books in your library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/1/library")
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.status).toBe(200);
-					})
+						expect(res.body[0].author).toBe("McWorld");
+					});
 				return req;
 			});
 		});
 	});
+
+	describe("POST user library", function() {
+		it("Book already in library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/1/library")
+					.send(book1)
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("Book already exist in your library")
+					});
+				return req;
+			});
+		});
+
+		it("Book object empty", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/1/library")
+					.send({})
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("Please provide a book")
+					});
+				return req;
+			})
+		})
+
+		it("new book in user library and book library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/1/library")
+					.send(book2)
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body[0].bookId).toBe(2)
+					});
+				return req;
+			})
+		})
+	});
+
 });
