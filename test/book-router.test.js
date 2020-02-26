@@ -22,43 +22,66 @@ describe("book-router", function() {
 		isEbook: true
 	};
 
+	const otherBook = {
+		googleId: "qwertyomsname",
+		title: "Lander McPherson",
+		author: "Civil Mary",
+		publisher: "Top hat",
+		publishDate: "4/2/1931",
+		description: "The begining of the book",
+		isbn10: "0293129582812931832914",
+		isbn13: "90w8q9weqw9eq0w9e0w9eq9",
+		pageCount: 100,
+		categories: "mapry",
+		thumbnail: "image.png",
+		smallThumbnail: "small-img.png",
+		language: "english",
+		webRenderLink: "testLink",
+		textSnippet: "testSnippet",
+		isEbook: false
+	};
+
 	const badBookObject = {
 		type: "Movie",
 		content: "Im not a book"
 	};
 
-	const signupDets = {
-		fullName: "Seeder Apple",
-		emailAddress: "seedemail",
-		username: "seedusername",
-		password: "seedpassword"
-	}
-
-	function promisedCookie() {
+	// MARK: -- helper function to grab cookie
+	function promisedCookie(user) {
 		return new Promise((resolve, reject) => {
 			request(server)
-			.post("/api/auth/signup")
-			.send(signupDets)
+			.post("/api/auth/signin")
+			.send(user)
 			.end(function(err, res) {
 				if (err) { throw err; }
-				let signupCookie = res.headers["set-cookie"];
-				resolve(signupCookie);
+				let signinCookie = res.headers["set-cookie"];
+				resolve(signinCookie);
 			});
 		});
 	}
 
 	beforeEach(async function() {
-		db("userBooks").truncate().then(() => {
-			db("users").truncate().then(() => {
-				db("books").truncate();
+		await db('users').truncate();
+		await db('books').truncate();
+		return request(server)
+			.post("/api/auth/signup")
+			.send({
+				fullName: "Seeder Apple",
+				emailAddress: "seedemail",
+				username: "seedusername",
+				password: "seedpassword"
+			}).then(res => {
+				const cookie = res.headers["set-cookie"]
+				return request(server)
+					.post("/api/books")
+					.send(bookObject)
+					.set("cookie", cookie)
 			})
-		})
 	});
 
 	describe("GET api/books/1", function() {
-		// MARK: -- FIX NOT WORKING
 		it("GET book success status", function() {
-			return promisedCookie().then(cookie => {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/books/1")
 					.set("cookie", cookie)
@@ -69,7 +92,7 @@ describe("book-router", function() {
 
 
 		it("GET JSON book object", function() {
-			return promisedCookie().then(cookie => {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/books/1")
 					.set("cookie", cookie)
@@ -89,7 +112,7 @@ describe("book-router", function() {
 		});
 
 		it("Expect error message for book not in database", function() {
-			return promisedCookie().then(cookie => {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/books/2000000000")
 					.set("cookie", cookie)
@@ -104,10 +127,10 @@ describe("book-router", function() {
 	describe("POST a book", function() {
 		// MARK: -- wrote a conditional because not truncating book table before each test
 		it("Expect a 201", function() {
-			return promisedCookie().then(cookie => {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.post("/api/books")
-					.send(badBookObject)
+					.send(otherBook)
 					.set("cookie", cookie)
 					.then(res => {
 						if(res.status == 200) {
