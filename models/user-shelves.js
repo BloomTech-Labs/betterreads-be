@@ -29,7 +29,7 @@ function findById(id) {
 	return db("userShelves").where({ id });
 }
 
-  function update(shelfId, updatedShelf) {
+  function update(updatedShelf, shelfId) {
 	return db("userShelves")
 	.update(updatedShelf)
 	.where("id", shelfId)
