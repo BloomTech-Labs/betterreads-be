@@ -23,8 +23,8 @@ router.post("/:userId/library/", (req, res) => {
 	const book = req.body.book;
 	const status = req.body.readingStatus;
 	if (book) {
-		const title = book.title;
-		Books.findBy({ title })
+		const googleId = book.googleId;
+		Books.findBy({ googleId })
 			.first()
 			.then(bk => {
 				if (bk == undefined) {

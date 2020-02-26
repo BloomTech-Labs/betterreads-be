@@ -16,3 +16,7 @@ async function add(book) {
 		.returning("id");
 	return findById(id);
 }
+
+function remove() {
+	return db("userBooksOnAShelf");
+}

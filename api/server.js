@@ -15,11 +15,8 @@ const restricted = require("../auth/restricted-middleware.js");
 const authRouter = require("../auth/auth-router.js");
 const booksRouter = require("../routers/book-router.js");
 const userBooksRouter = require("../routers/user-books-router.js");
-<<<<<<< HEAD
-const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
-=======
 const userShelvesRouter = require("../routers/user-shelves-router")
->>>>>>> 58c4bec441ce76d803bd3aa981ba83e0e097e133
+const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
 
 // MARK: -- server
 const server = express();
@@ -55,11 +52,7 @@ server.use(passport.session());
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
-<<<<<<< HEAD
-server.use("/api/shelves", restricted, userBooksRouter)
-=======
 server.use("/api/shelves", restricted, userShelvesRouter);
->>>>>>> 58c4bec441ce76d803bd3aa981ba83e0e097e133
 
 server.get("/", (request, response) =>
 	response.status(200).json({ message: "server is working" })
