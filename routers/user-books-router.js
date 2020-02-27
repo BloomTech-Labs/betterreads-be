@@ -39,8 +39,7 @@ router.post("/:userId/library/", (req, res) => {
 								Books.add(book)
 									.then(book => {
 										console.log(
-											"adding book to books db",
-											book
+											"adding book to books db"
 										);
 										const userbookObject = {
 											bookId: book.id,

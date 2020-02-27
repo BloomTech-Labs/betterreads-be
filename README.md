@@ -50,8 +50,8 @@ repeat...until all seed files are run
 { 
   fullName: STRING, 
   emailAddress: STRING, 
-  username: testytest,  
-  password: dangerdanger 
+  username: STRING,  
+  password: STRING 
 }
 ```
 
@@ -63,7 +63,7 @@ repeat...until all seed files are run
 
 ```js
 {
-  email: STRING,
+  emailAddress: STRING,
   password: STRING
 }
 ```
