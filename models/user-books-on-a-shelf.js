@@ -30,10 +30,15 @@ async function addBooks(book) {
 	return findById(id);
 }
 
+<<<<<<< HEAD
 
 
 async function remove(bookId) {
 	return db("userBooksOnAShelf")
 		.where("bookId", bookId)
 		.del();
+=======
+function remove() {
+	return db("userBooksOnAShelf");
+>>>>>>> ec317367ef4adb6fedfa86eaa2dc3a2234ab39b8
 }
