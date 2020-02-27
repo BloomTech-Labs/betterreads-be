@@ -101,7 +101,7 @@ describe("user-books-router", function() {
 	});
 
 	describe("GET user library", function() {
-		it("Get books in your library", function() {
+		it("GET books in user library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.get("/api/1/library")
@@ -112,10 +112,33 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("Unauthorized GET books in user library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/library")
+					.then(res => {
+						expect(res.status).toBe(401);
+					});
+				return req;
+			});
+		});
+
+		it("GET single book from user libary", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/library/1")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.title).toBe("Chantra Swandie");
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("POST user library", function() {
-		it("Book already in library", function() {
+		it("POST book already in library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.post("/api/1/library")
@@ -128,7 +151,7 @@ describe("user-books-router", function() {
 			});
 		});
 
-		it("Book object empty", function() {
+		it("POST book object empty", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.post("/api/1/library")
@@ -141,7 +164,7 @@ describe("user-books-router", function() {
 			})
 		})
 
-		it("new book in user library and book library", function() {
+		it("POST new book in user library and book library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.post("/api/1/library")
@@ -151,8 +174,88 @@ describe("user-books-router", function() {
 						expect(res.body[0].bookId).toBe(2)
 					});
 				return req;
-			})
-		})
+			});
+		});
+	});
+
+	describe("PUT user library", function() {
+		it("PUT status on books", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library/1")
+					.send({ readingStatus: 1 })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(201)
+					});
+				return req;
+			});
+		});
+
+		it("PUT status on userbooks", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library/1")
+					.send({ readingStatus: 1 })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(201)
+					});
+				return req;
+			});
+		});
+
+		it("PUT status on non-existent userbooks", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library/323492")
+					.send({ readingStatus: 1 })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(500)
+					});
+				return req;
+			});
+		});
+	});
+
+	describe("DELETE userbook", function() {
+		it("DELETE userbook from user's library detail page", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.delete("/api/1/library/1")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(204)
+					});
+				return req;
+			});
+		});
+
+		it("DELETE userbook from user's library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.delete("/api/1/library/")
+					.send({id: 1})
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(204)
+					});
+				return req;
+			});
+		});
+
+		it("DELETE non-existent userbook from user's library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.delete("/api/1/library/120394")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(500)
+					});
+				return req;
+			});
+		});
 	});
 
 });
