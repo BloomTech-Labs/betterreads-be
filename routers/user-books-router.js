@@ -109,7 +109,6 @@ router.post("/:userId/library", (req, res) => {
 		// MARK: -- is the book in the user's library already?
 		UserBooks.isBookInUserBooks(userId, googleId)
 			.then(here => {
-				console.log("here", here.length);
 				// MARK: -- length == 0, user does not have book in their library
 				if (here.length == 0) {
 					// MARK: -- check to see if the book in our books database
@@ -120,9 +119,6 @@ router.post("/:userId/library", (req, res) => {
 								// MARK: -- adding the book to our books db since it is not there
 								Books.add(book)
 									.then(book => {
-										console.log(
-											"adding book to books db"
-										);
 										const userbookObject = {
 											bookId: book.id,
 											readingStatus: status,
@@ -131,10 +127,6 @@ router.post("/:userId/library", (req, res) => {
 										// MARK: -- adding book to our user's library
 										UserBooks.add(userbookObject)
 											.then(added => {
-												console.log(
-													"added to userbooks after adding it to books db",
-													added
-												);
 												res.status(201).json(added);
 											})
 											.catch(err => {
@@ -150,9 +142,6 @@ router.post("/:userId/library", (req, res) => {
 										});
 									});
 							} else {
-								console.log(
-									"we already have the book and now adding to userbooks db"
-								);
 								const userbookObject = {
 									bookId: bk.id,
 									readingStatus: status,
@@ -161,9 +150,6 @@ router.post("/:userId/library", (req, res) => {
 								// MARK: -- book exist in our books db, add the book to our user's library
 								UserBooks.add(userbookObject)
 									.then(added => {
-										console.log(
-											"added book to userbooks after searching for book in db and found it"
-										);
 										res.status(201).json(added);
 									})
 									.catch(err => {
