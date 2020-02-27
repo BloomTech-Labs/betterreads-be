@@ -35,9 +35,8 @@ function findById(id) {
 	.where("id", shelfId)
 }
 
-function remove(userId, shelfId) {
+function remove(shelfId) {
 	return db("userShelves")
-		.where({ userId })
 		.where("id", shelfId)
 		.del();
 }
