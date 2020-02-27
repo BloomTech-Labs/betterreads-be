@@ -18,7 +18,7 @@ router.get("/:userId/library", (req, res) => {
 });
 
 // MARK: -- REFACTOR, I WILL BREAK THIS DOWN
-router.post("/:userId/library/", (req, res) => {
+router.post("/:userId/library", (req, res) => {
 	const userId = req.params.userId;
 	const book = req.body.book;
 	const status = req.body.readingStatus;
