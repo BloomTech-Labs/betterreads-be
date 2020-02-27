@@ -11,7 +11,7 @@ function findBooksOnShelf(shelfId) {
 		.join('books as b', 'bs.bookId', 'b.id')
 		.join('userShelves as s', 's.id', 'bs.shelfId')
 		.where('shelfId', shelfId)
-		.select('b.id', 'b.title','s.shelfName', 's.userId' )
+		.select('bs.bookId', 'b.title','s.shelfName', 's.userId' )
 }
 // function findBy(filter) {
 // 	return db("userBooksOnAShelf").where(filter);
@@ -30,15 +30,10 @@ async function addBooks(book) {
 	return findById(id);
 }
 
-<<<<<<< HEAD
 
 
 async function remove(bookId) {
 	return db("userBooksOnAShelf")
 		.where("bookId", bookId)
 		.del();
-=======
-function remove() {
-	return db("userBooksOnAShelf");
->>>>>>> ec317367ef4adb6fedfa86eaa2dc3a2234ab39b8
 }
