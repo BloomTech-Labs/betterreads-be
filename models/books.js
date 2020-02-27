@@ -2,12 +2,17 @@ const db = require("../database/db-config.js");
 
 module.exports = {
 	findBy,
+	getAll,
 	add,
 	findById
 };
 
 function findBy(filter) {
 	return db("books").where(filter);
+}
+
+function getAll() {
+	return db("books");
 }
 
 async function add(book) {
