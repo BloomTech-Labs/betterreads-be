@@ -124,7 +124,7 @@ repeat...until all seed files are run
 | PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
-| POST   | `/api/:userId/library`          | all users           | Return book object                                        |
+| POST   | `/api/:userId/library`           | all users           | Return book object                                        |
 
 
 # Body Required
