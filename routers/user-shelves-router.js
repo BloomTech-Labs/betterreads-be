@@ -2,8 +2,8 @@ const router = require("express").Router();
 const Shelves = require ('../models/user-shelves.js')
 
 
-router.get("/byUser/:id", (req, res) => {
-	const userId = req.params.id;
+router.get("/user/:userId", (req, res) => {
+	const userId = req.params.userId;
     Shelves.findByUserId(userId)
         .then(userShelf => {
             console.log(userShelf)
