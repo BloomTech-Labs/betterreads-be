@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const BooksOnShelf = require("../models/user-books-on-a-shelf.js");
 
-router.post("/:userId/library/:shelfId", (req, res) => {
+router.post("/:userId/shelves/:shelfId", (req, res) => {
     const userId = req.params.userId;
     const shelfId = req.params.shelfId;
     const bookId = req.body.bookId
@@ -9,11 +9,12 @@ router.post("/:userId/library/:shelfId", (req, res) => {
         BooksOnShelf.add(bookId)
             .then(book => {
                 console.log(book);
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            message: "error in adding book to shelf"
-                        });
-                    });
-                };
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: "error in adding book to shelf"
+                });
             });
+    };
+});
+module.exports = router;

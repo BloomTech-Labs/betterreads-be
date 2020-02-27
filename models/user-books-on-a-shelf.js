@@ -2,8 +2,7 @@ const db = require("../database/db-config.js");
 
 module.exports = {
 findBy,
-add,
-remove
+add
 };
 
 function findBy(filter) {
