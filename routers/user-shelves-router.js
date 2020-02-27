@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Shelves = require("../models/user-shelves.js");
 
-router.get("/byUser/:id", (req, res) => {
-    const userId = req.params.id;
+router.get("/user/:userId", (req, res) => {
+    const userId = req.params.userId;
     Shelves.findByUserId(userId)
         .then(userShelf => {
             if (userShelf == undefined) {
@@ -54,18 +54,18 @@ router.post("/:userId", (req, res) => {
         });
 });
 
-router.put("/:userId", (req, res) => {
-    const userId = req.params.userId;
+router.put("/:shelfId", (req, res) => {
+    const shelfId = req.params.shelfId;
     const shelfName = req.body.shelfName;
     const isPrivate = req.body.isPrivate;
 
     const updatedShelfobj = {
-        userId: Number(userId),
+        id: Number(shelfId),
         shelfName: shelfName,
         isPrivate: isPrivate
     };
 
-    Shelves.findById(userId).then(shelf => {
+    Shelves.findById(shelfId).then(shelf => {
         if (shelf.length > 0) {
             const shelfId = shelf[0].id;
             Shelves.update(updatedShelfobj, shelfId)
@@ -81,11 +81,12 @@ router.put("/:userId", (req, res) => {
     });
 });
 
-router.delete("/:userId", (req, res) => {
-    const userId = req.params.userId;
-    Shelves.findById(userId).then(shelf => {
+router.delete("/:shelfId", (req, res) => {
+    const shelfId = req.params.shelfId;
+    Shelves.findById(shelfId).then(shelf => {
         if (shelf.length > 0) {
             const shelfId = shelf[0].id;
+
             Shelves.remove(shelfId)
                 .then(deletedShelf => {
                     res.status(200).json(deletedShelf);

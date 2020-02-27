@@ -141,7 +141,7 @@ repeat...until all seed files are run
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
 | POST   | `/api/shelves`                  | all users      | Returns an empty shelf                        |
-| GET    | `/api/:userId/shelves`          | all users      | Returns all user's shelves                    |
+| GET    | `/api/shelves/user/:userId`          | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
