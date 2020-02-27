@@ -2,21 +2,21 @@ exports.up = function(knex) {
 	return knex.schema.createTable("books", tbl => {
 		tbl.increments();
 		tbl.string("googleId").notNullable();
-		tbl.string("title").notNullable();
-		tbl.string("author").notNullable();
-		tbl.string("publisher").notNullable();
-		tbl.string("publishDate").notNullable();
-		tbl.string("description", 1000).notNullable();
+		tbl.string("title");
+		tbl.string("author");
+		tbl.string("publisher");
+		tbl.string("publishDate");
+		tbl.string("description", 10000);
 		tbl.string("isbn10");
 		tbl.string("isbn13");
-		tbl.integer("pageCount").notNullable();
-		tbl.string("categories").notNullable();
-		tbl.string("thumbnail").notNullable();
-		tbl.string("smallThumbnail").notNullable();
-		tbl.string("language").notNullable();
-		tbl.string("webRenderLink").notNullable();
-		tbl.string("textSnippet", 1000).notNullable();
-		tbl.boolean("isEbook").notNullable();
+		tbl.integer("pageCount");
+		tbl.string("categories");
+		tbl.string("thumbnail");
+		tbl.string("smallThumbnail");
+		tbl.string("language");
+		tbl.string("webRenderLink");
+		tbl.string("textSnippet", 10000);
+		tbl.boolean("isEbook");
 	});
 };
 

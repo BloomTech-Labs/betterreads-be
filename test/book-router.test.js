@@ -2,6 +2,14 @@ const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
 
+const knexCleaner = require('knex-cleaner');
+
+var options = {
+	mode: 'truncate',
+	restartIdentity: true,
+	ignoreTables: ['userBooks']
+};
+
 describe("book-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
@@ -22,41 +30,84 @@ describe("book-router", function() {
 		isEbook: true
 	};
 
+	const otherBook = {
+		googleId: "qwertyomsname",
+		title: "Lander McPherson",
+		author: "Civil Mary",
+		publisher: "Top hat",
+		publishDate: "4/2/1931",
+		description: "The begining of the book",
+		isbn10: "0293129582812931832914",
+		isbn13: "90w8q9weqw9eq0w9e0w9eq9",
+		pageCount: 100,
+		categories: "mapry",
+		thumbnail: "image.png",
+		smallThumbnail: "small-img.png",
+		language: "english",
+		webRenderLink: "testLink",
+		textSnippet: "testSnippet",
+		isEbook: false
+	};
+
 	const badBookObject = {
 		type: "Movie",
 		content: "Im not a book"
 	};
 
-	let token;
+	// MARK: -- helper function to grab cookie
+	function promisedCookie(user) {
+		return new Promise((resolve, reject) => {
+			request(server)
+			.post("/api/auth/signin")
+			.send(user)
+			.end(function(err, res) {
+				if (err) { throw err; }
+				let signinCookie = res.headers["set-cookie"];
+				resolve(signinCookie);
+			});
+		});
+	}
+
 	beforeEach(async function() {
-		await db("users").truncate();
+		await knexCleaner.clean(db, options)
 		return request(server)
 			.post("/api/auth/signup")
 			.send({
-				email: "seedemail",
+				fullName: "Seeder Apple",
+				emailAddress: "seedemail",
+				username: "seedusername",
 				password: "seedpassword"
+			}).then(res => {
+				const cookie = res.headers["set-cookie"]
+				return request(server)
+					.post("/api/books")
+					.send(bookObject)
+					.set("cookie", cookie)
 			})
-			.then(res => {
-				token = res.body.token;
-			});
 	});
 
 	describe("GET api/books/1", function() {
-		// MARK: -- FIX NOT WORKING
 		it("GET book success status", function() {
-			return request(server)
-				.get("/api/books/1")
-				.set("authorization", token)
-				.expect(200);
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/books/1")
+					.set("cookie", cookie)
+					.expect(200)
+				return req;
+			})
 		});
 
+
 		it("GET JSON book object", function() {
-			return request(server)
-				.get("/api/books/1")
-				.set("authorization", token)
-				.then(res => {
-					expect(res.type).toMatch(/json/i);
-				});
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/books/1")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.type).toMatch(/json/i);
+					});
+				return req;
+			});
 		});
 
 		it("Expect 401 with no authentication set in header", function() {
@@ -68,39 +119,44 @@ describe("book-router", function() {
 		});
 
 		it("Expect error message for book not in database", function() {
-			return request(server)
-				.get("/api/books/2000000000")
-				.set("authorization", token)
-				.then(res => {
-					expect(res.body.message).toBe("No books here");
-				});
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/books/2000000000")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("No books here");
+					});
+					return req;
+			});
 		});
 	});
 
 	describe("POST a book", function() {
 		// MARK: -- wrote a conditional because not truncating book table before each test
 		it("Expect a 201", function() {
-			return request(server)
-				.post("/api/books")
-				.set("authorization", token)
-				.send(bookObject)
-				.then(res => {
-					if (res.status == 200) {
-						expect(res.type).toMatch(/json/i);
-					} else {
-						expect(res.status).toBe(201);
-					}
-				});
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/books")
+					.send(otherBook)
+					.set("cookie", cookie)
+					.then(res => {
+						if(res.status == 200) {
+							expect(res.type).toMatch(/json/i);
+						} else {
+							expect(res.status).toBe(201);
+						}
+					});
+				return req;
+			});
 		});
 
 		it("Expect a 400", function() {
 			return request(server)
 				.post("/api/books")
-				.set("authorization", token)
 				.send(badBookObject)
 				.then(res => {
 					expect(res.body.message).toBe(
-						"Error, something went wrong"
+						"unauthorized"
 					);
 				});
 		});
