@@ -140,7 +140,7 @@ repeat...until all seed files are run
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves`                  | all users      | Returns an empty shelf                        |
+| POST   | `/api/shelves/:userId`                  | all users      | Returns an empty shelf                        |
 | GET    | `/api/shelves/user/:userId`          | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
@@ -153,8 +153,10 @@ repeat...until all seed files are run
 
 | Method | Endpoint             | Access Control | Description        |
 | ------ | -------------------- | -------------- | ------------------ |
-| POST   | `/api/:userId/genre` | all users      | Returns No Content |
-| DELETE | `/api/:userId/genre` | all users      | Returns Genre id   |
+| GET   | `/api/genre/:userId` | all users      | Returns No Content |
+| POST | `/api/genre` | all users      | Returns Genre id   |
+| PUT   | `/api/genre` | all users      | Returns No Content |
+| DELETE | `/api/genre/:userId` | all users      | Returns Genre id   |
 
 # Data Model
 
@@ -229,7 +231,7 @@ repeat...until all seed files are run
   bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
   readingStatus: INTEGER
-  tags: STRING
+  tags: STRING(/currently not included/)
 }
 ```
 
@@ -272,6 +274,8 @@ repeat...until all seed files are run
 
 `findById(id)` -> Returns a single book
 
+`getAll()` -> Returns all books
+
 `add(book object)` -> Returns a single book
 
 `findBy(filter)` -> returns an array of books associated to filter
@@ -285,6 +289,10 @@ repeat...until all seed files are run
 `findBy(filter)` -> Returns an array book from user's library
 
 `add(book)` -> Returns a single book
+
+`findById(book)` -> finds book by bookId
+
+`isBookInUserBooks(userId, googleId)` -> checks if book is already in user's library
 
 `findByUserId(userId)` -> Return all books in user's library
 
@@ -301,6 +309,8 @@ repeat...until all seed files are run
 #### UserShelves
 
 `findBy(filter)` -> Returns an array of bookshelves
+
+`findByUserId(userId)` -> Returns all of 1 User's shelves
 
 `add` -> Returns a single bookshelf
 

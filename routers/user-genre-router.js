@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Genre = require("../models/user-genre");
 
-router.get("/:id", (req, res) => {
-    const userId = req.params.id;
+router.get("/:userId", (req, res) => {
+    const userId = req.params.userId;
     Genre.findByUserId(userId)
         .then(userGenre => {
             if (!userGenre[0]) {
