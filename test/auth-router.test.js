@@ -2,14 +2,23 @@ const server = require("../api/server.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
 
+const knexCleaner = require('knex-cleaner');
+
+var options = {
+	mode: 'truncate',
+	restartIdentity: true,
+	ignoreTables: ['userBooks']
+}
+
+
 describe("auth-router", function() {
 	beforeEach(async function() {
-		await db("users").truncate();
+		await knexCleaner.clean(db, options)
 		return request(server)
 			.post("/api/auth/signup")
 			.send({
 				fullName: "Seeder Apple",
-				email: "seedemail",
+				emailAddress: "seedemail",
 				username: "seedusername",
 				password: "seedpassword"
 			});
@@ -26,8 +35,8 @@ describe("auth-router", function() {
 			return request(server)
 				.post("/api/auth/signup")
 				.send({
-					fullName: "Judith Lastname"
-					email: "testemail",
+					fullName: "Judith Lastname",
+					emailAddress: "testemail",
 					username: "judithpriestfriends",
 					password: "testpassword"
 				})
@@ -37,9 +46,14 @@ describe("auth-router", function() {
 		it("is a json object", function() {
 			return request(server)
 				.post("/api/auth/signup")
-				.send({ email: "testemail3", password: "testpassword" })
+				.send({ 
+					fullName: "Person Lastname",
+					emailAddress: "testemail3",
+					username: "helloworld", 
+					password: "testpassword" 
+				})
 				.then(res => {
-					expect(res.body.email).toBe("testemail3");
+					expect(res.body.user.emailAddress).toBe("testemail3");
 				});
 		});
 	});
@@ -47,9 +61,9 @@ describe("auth-router", function() {
 	describe("api/auth/login", function() {
 		it("login", function() {
 			return request(server)
-				.post("/api/auth/login")
+				.post("/api/auth/signin")
 				.send({
-					email: "seedemail",
+					emailAddress: "seedemail",
 					password: "seedpassword"
 				})
 				.expect(200);
@@ -57,19 +71,22 @@ describe("auth-router", function() {
 
 		it("is a json object", function() {
 			return request(server)
-				.post("/api/auth/login")
-				.send({ email: "seedemail", password: "seedpassword" })
+				.post("/api/auth/signin")
+				.send({ 
+					emailAddress: "seedemail", 
+					password: "seedpassword" 
+				})
 				.then(res => {
-					expect(res.body.email).toBe("seedemail");
+					expect(res.body.message).toBe("successfully logged in");
 				});
 		});
 
 		it("expect user", function() {
 			return request(server)
-				.post("/api/auth/login")
-				.send({ email: "failseedemail", password: "failseedpassword" })
+				.post("/api/auth/signin")
+				.send({ emailAddress: "failseedemail", password: "failseedpassword" })
 				.then(res => {
-					expect(res.body.message).toBe("No user found in DB");
+					expect(res.body.message).toBe("invalid credentials");
 				});
 		});
 	});

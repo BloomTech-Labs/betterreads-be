@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # API Documentation
 
 ![Node](https://img.shields.io/node/v/express/latest)
@@ -24,7 +23,7 @@ To get the server running locally:
 ### Seeding for tests
 
 1.   knex migrate:up --env=testing
-2.   knex seed:run --env=testing --specific=001_users.js
+2.   knex seed:run --env=testing --specific=001-users.js
 
 repeat...until all seed files are run
 
@@ -41,16 +40,30 @@ repeat...until all seed files are run
 
 #### User Authentication Routes
 
-| Method | Endpoint           | Access Control | Description                    |
-| ------ | ------------------ | -------------- | ------------------------------ |
-| POST   | `/api/auth/signup` | all users      | Returns token and user object. |
-| POST   | `/api/auth/login`  | all users      | Returns token and user object. |
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signup` | all users      | Returns message and user object. |
+
+# Body Required
+
+```js
+{ 
+  fullName: STRING, 
+  emailAddress: STRING, 
+  username: STRING,  
+  password: STRING 
+}
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signin` | all users      | Returns message and user object. |
 
 # Body Required
 
 ```js
 {
-  email: STRING,
+  emailAddress: STRING,
   password: STRING
 }
 ```
@@ -67,7 +80,7 @@ repeat...until all seed files are run
 
 ```js
 {
-	genre: [STRING];
+	genre: STRING;
 }
 ```
 
@@ -85,14 +98,14 @@ repeat...until all seed files are run
 {
   googleId: STRING,
   title: STRING,
-  authors: [STRING],
+  authors: STRING,
   publisher: STRING,
   publishDate: STRING,
   description: STRING,
   isbn10: STRING,
   isbn13: STRING,
   pageCount: INTEGER,
-  categories: [STRING],
+  categories: STRING,
   thumbnail: STRING,
   smallThumbnail: STRING,
   language: STRING,
@@ -111,7 +124,7 @@ repeat...until all seed files are run
 | PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
-| POST   | `/api/:userId/library/:googleId` | all users           | Return book object                                        |
+| POST   | `/api/:userId/library`          | all users           | Return book object                                        |
 
 
 # Body Required
@@ -269,7 +282,7 @@ repeat...until all seed files are run
 
 #### UserBooks
 
-`findBy(filter)` -> Returns a single book from user's library
+`findBy(filter)` -> Returns an array book from user's library
 
 `add(book)` -> Returns a single book
 
@@ -281,6 +294,21 @@ repeat...until all seed files are run
 
 `remove(userId, bookId)` -> Returns nothing 
 
+<br>
+<br>
+<br>
+
+#### UserShelves
+
+`findBy(filter)` -> Returns an array of bookshelves
+
+`add` -> Returns a single bookshelf
+
+`findById` -> Returns a single bookshelf
+
+`update` -> Returns a single bookshelf
+
+`remove` -> Returns nothing
 
 
 ## 3️⃣ Environment Variables
@@ -288,14 +316,20 @@ repeat...until all seed files are run
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-<<<<<<< HEAD
     
     * DB_ENV - set to "development" until ready for "production"
     * HOST - set to host (i.e., localhost)
-    * USER - set to username on your postgres server
+    * DB_USER - set to username on your postgres server
     * PASSWORD - set to password for user on your postgres server
     * DB - set to database name for your postgres server
     * TEST_DB - set to test database name for your postgres testing server
+
+    * SESSION_NAME - ...
+    * SESSION_SECRET - ...
+    * GOOGLE_CLIENT_ID - this is generated in your google account
+    * GOOGLE_CLIENT_SECRET - this is generated in your google account
+    * FACEBOOK_CLIENT_ID - this is generated in your facebook account
+    * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
 
     <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
     *  NODE_ENV - set to "development" until ready for "production"
@@ -303,17 +337,6 @@ create a .env file that includes the following:
     *  SENDGRID_API_KEY - this is generated in your Sendgrid account
     *  stripe_secret - this is generated in the Stripe dashboard -->
     
-=======
-
-🚫 These are just examples, replace them with the specifics for your app
-
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
--   JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-    _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
->>>>>>> f699f876e1d0e9c6abcab2350c4068443cb11864
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
