@@ -17,59 +17,6 @@ router.get("/:userId/library", (req, res) => {
 		);
 });
 
-// MARK: -- REFACTOR
-router.post("/:userId/library/", (req, res) => {
-	const userId = req.params.userId;
-	const book = req.body.book;
-	const status = req.body.readingStatus;
-	if (book) {
-		const title = book.title;
-		Books.findBy({ title })
-			.first()
-			.then(bk => {
-				if (bk == undefined) {
-					Books.add(book)
-						.then(book => {
-							console.log(book);
-							const userbookObj = {
-								bookId: book.id,
-								readingStatus: status,
-								userId: userId
-							};
-							UserBooks.add(userbookObj)
-								.then(added => {
-									if (added == undefined) {
-										res.status(400).json({
-											message:
-												"userbooks: please provide book"
-										});
-									} else {
-										res.status(201).json(added);
-									}
-								})
-								.catch(err => {
-									res.status(500).json({
-										message: "error in posting userbook"
-									});
-								});
-						})
-						.catch(err =>
-							res.status(500).json({ message: "Book not added" })
-						);
-				} else {
-					res.status(200).json(bk);
-				}
-			})
-			.catch(err => {
-				res.status(500).json({
-					message: "Error, something went wrong"
-				});
-			});
-	} else {
-		res.status(400).json({ message: "Please provide a book" });
-	}
-});
-
 router.get("/:userId/library/:id", (req, res) => {
 	const userId = req.params.userId;
 	const bookId = req.params.id;
@@ -141,7 +88,7 @@ router.delete("/:userId/library/:id", (req, res) => {
 				});
 			} else {
 				if (deleted == 0) {
-					res.status(500).json({ message: "" });
+					res.status(500).json({ message: "userbook: not deleted" });
 				} else {
 					res.status(204).json(deleted);
 				}
@@ -152,4 +99,79 @@ router.delete("/:userId/library/:id", (req, res) => {
 		);
 });
 
+// MARK: -- REFACTOR, I WILL BREAK THIS DOWN
+router.post("/:userId/library", (req, res) => {
+	const userId = req.params.userId;
+	const book = req.body.book;
+	const status = req.body.readingStatus;
+	if (book) {
+		const googleId = book.googleId;
+		// MARK: -- is the book in the user's library already?
+		UserBooks.isBookInUserBooks(userId, googleId)
+			.then(here => {
+				// MARK: -- length == 0, user does not have book in their library
+				if (here.length == 0) {
+					// MARK: -- check to see if the book in our books database
+					Books.findBy({ googleId })
+						.first()
+						.then(bk => {
+							if (bk == undefined) {
+								// MARK: -- adding the book to our books db since it is not there
+								Books.add(book)
+									.then(book => {
+										const userbookObject = {
+											bookId: book.id,
+											readingStatus: status,
+											userId: userId
+										};
+										// MARK: -- adding book to our user's library
+										UserBooks.add(userbookObject)
+											.then(added => {
+												res.status(201).json(added);
+											})
+											.catch(err => {
+												res.status(500).json({
+													message:
+														"Error in posting userbook"
+												});
+											});
+									})
+									.catch(err => {
+										res.status(500).json({
+											message: "Book not added to book db"
+										});
+									});
+							} else {
+								const userbookObject = {
+									bookId: bk.id,
+									readingStatus: status,
+									userId: userId
+								};
+								// MARK: -- book exist in our books db, add the book to our user's library
+								UserBooks.add(userbookObject)
+									.then(added => {
+										res.status(201).json(added);
+									})
+									.catch(err => {
+										res.status(500).json({
+											message: "Error in posting userbook"
+										});
+									});
+							}
+						});
+				} else {
+					// MARK: -- user already has the book in their user library
+					res.status(200).json({
+						message: "Book already exist in your library"
+					});
+				}
+			})
+			.catch(nothere => {
+				res.status(500).json({ message: "Error in userbook posting" });
+			});
+	} else {
+		// MARK: -- book did not have information provided
+		res.status(400).json({ message: "Please provide a book" });
+	}
+});
 module.exports = router;

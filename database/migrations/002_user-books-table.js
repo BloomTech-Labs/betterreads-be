@@ -10,7 +10,7 @@ exports.up = function(knex) {
 			.onUpdate("CASCADE");
 
 		tbl.integer("readingStatus")
-			.notNullable()
+			.nullable()
 			.defaultTo(1);
 
 		tbl.integer("userId")
