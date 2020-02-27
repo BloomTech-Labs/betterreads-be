@@ -60,18 +60,18 @@ router.post("/:userId", (req, res) => {
 		);
 });
 
-router.put("/:userId", (req, res) => {
-    const userId = req.params.userId;
+router.put("/:shelfId", (req, res) => {
+    const shelfId = req.params.shelfId;
     const shelfName = req.body.shelfName;
     const isPrivate = req.body.isPrivate;
  
     const updatedShelfobj = {
-        userId: Number(userId),
+        id: Number(shelfId),
         shelfName: shelfName,
         isPrivate: isPrivate
     }
 
-    Shelves.findById(userId)
+    Shelves.findById(shelfId)
     .then(shelf => {
         console.log("shelf",shelf)
         if(shelf.length>0) {
@@ -87,9 +87,9 @@ router.put("/:userId", (req, res) => {
     })
 });
 
-router.delete("/:userId", (req, res) => {
-    const userId = req.params.userId;
-    Shelves.findById(userId)
+router.delete("/:shelfId", (req, res) => {
+    const shelfId = req.params.shelfId;
+    Shelves.findById(shelfId)
     .then(shelf => {
         
         if(shelf.length>0) {
