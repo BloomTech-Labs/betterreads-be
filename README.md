@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # API Documentation
 
 ![Node](https://img.shields.io/node/v/express/latest)
@@ -46,6 +45,7 @@ repeat...until all seed files are run
 | POST   | `/api/auth/signup` | all users      | Returns message and user object. |
 
 # Body Required
+
 ```js
 { 
   fullName: STRING, 
@@ -80,7 +80,7 @@ repeat...until all seed files are run
 
 ```js
 {
-	genre: [STRING];
+	genre: STRING;
 }
 ```
 
@@ -98,14 +98,14 @@ repeat...until all seed files are run
 {
   googleId: STRING,
   title: STRING,
-  authors: [STRING],
+  authors: STRING,
   publisher: STRING,
   publishDate: STRING,
   description: STRING,
   isbn10: STRING,
   isbn13: STRING,
   pageCount: INTEGER,
-  categories: [STRING],
+  categories: STRING,
   thumbnail: STRING,
   smallThumbnail: STRING,
   language: STRING,
@@ -316,7 +316,6 @@ repeat...until all seed files are run
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-<<<<<<< HEAD
     
     * DB_ENV - set to "development" until ready for "production"
     * HOST - set to host (i.e., localhost)
@@ -338,17 +337,6 @@ create a .env file that includes the following:
     *  SENDGRID_API_KEY - this is generated in your Sendgrid account
     *  stripe_secret - this is generated in the Stripe dashboard -->
     
-=======
-
-🚫 These are just examples, replace them with the specifics for your app
-
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
--   JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-    _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
->>>>>>> f699f876e1d0e9c6abcab2350c4068443cb11864
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
