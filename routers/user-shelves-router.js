@@ -36,10 +36,6 @@ router.get("/:id", (req, res) => {
 		);
 });
 
-
-
-
-
 router.post("/:userId", (req, res) => {
     const userId = req.params.userId;
     const shelfName = req.body.shelfName;
@@ -85,6 +81,24 @@ router.put("/:userId", (req, res) => {
                 res.status(200).json(updatedShelf)
             })
             console.log("updatedShelfobj", updatedShelfobj)
+        } else {
+            res.status(404).json({message: "userShelf: does not exist"})
+        }
+    })
+});
+
+router.delete("/:userId", (req, res) => {
+    const userId = req.params.userId;
+    Shelves.findById(userId)
+    .then(shelf => {
+        
+        if(shelf.length>0) {
+            const shelfId = shelf[0].id; 
+            
+            Shelves.remove(shelfId)
+            .then(deletedShelf => {
+                res.status(200).json(deletedShelf)
+            })
         } else {
             res.status(404).json({message: "userShelf: does not exist"})
         }
