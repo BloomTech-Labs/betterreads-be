@@ -13,9 +13,6 @@ function findBooksOnShelf(shelfId) {
 		.where('shelfId', shelfId)
 		.select('bs.bookId', 'b.title','s.shelfName', 's.userId' )
 }
-// function findBy(filter) {
-// 	return db("userBooksOnAShelf").where(filter);
-// }
 
 function findById(id) {
 	return db('userBooksOnAShelf')
