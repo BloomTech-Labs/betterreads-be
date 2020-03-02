@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Shelves = require("../models/user-shelves.js");
 
-router.post("/:userId", (req, res) => {
+router.post("/user/:userId", (req, res) => {
     const userId = req.params.userId;
     const shelfName = req.body.shelfName;
     const isPrivate = req.body.isPrivate;

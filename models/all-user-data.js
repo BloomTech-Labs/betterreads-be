@@ -73,10 +73,10 @@ function findBy(userId) {
                     .join("userShelves as us", "ubs.shelfId", "us.id")
                     .join("books as b", "b.id", "ubs.bookId")
                     .where("us.userId", userId)
-                    .select("us.id as shelfId", "us.shelfName", "b.title", "b.author", "b.thumbnail", "b.smallThumbnail")
+                    .distinct("us.id as shelfId", "b.title", "b.author", "b.thumbnail", "b.smallThumbnail").orderBy("shelfId")
                     .then(bookWithShelf => {
                         return {
-                            ...user, userShelves, booksOnShelves: bookWithShelf, library: allBooks
+                            ...user, userShelves, bookWithShelf: bookWithShelf, library: allBooks
                         }
                 })
             })
