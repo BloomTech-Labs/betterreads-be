@@ -1,18 +1,22 @@
+const faker = require("faker");
+
 const user = id => {
 	let userbooks = [];
 	for (let i = 1; i < Math.floor(Math.random() * 20); i++) {
 		const usrbk = {
 			bookId: i,
+			userId: id,
 			readingStatus: Math.floor(Math.random() * 3 + 1),
-			userId: id
+			favorite: faker.random.boolean(),
 		};
 		userbooks.push(usrbk);
 	}
 	return userbooks;
 };
 
+const fakeUserBooks = [];
+
 const makeFakeUserBooks = user => {
-	let fakeUserBooks = [];
 	const desiredCount = 20;
 	for (let i = 1; i < desiredCount; i++) {
 		fakeUserBooks.push(user(i));
@@ -22,10 +26,10 @@ const makeFakeUserBooks = user => {
 
 exports.seed = function(knex) {
 	// Deletes ALL existing entries
-	return knex('userBooks')
+	return knex("userBooks")
 		.truncate()
 		.then(function() {
 			// Inserts seed entriee
-			return knex('userBooks').insert(makeFakeUserBooks(user));
+			return knex("userBooks").insert(makeFakeUserBooks(user));
 		});
 };
