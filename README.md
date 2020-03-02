@@ -50,7 +50,6 @@ repeat...until all seed files are run
 { 
   fullName: STRING, 
   emailAddress: STRING, 
-  username: STRING,  
   password: STRING 
 }
 ```
@@ -140,8 +139,8 @@ repeat...until all seed files are run
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves/:userId`                  | all users      | Returns an empty shelf                        |
-| GET    | `/api/shelves/user/:userId`          | all users      | Returns all user's shelves                    |
+| POST   | `/api/shelves/:userId`          | all users      | Returns an empty shelf                        |
+| GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
@@ -153,9 +152,9 @@ repeat...until all seed files are run
 
 | Method | Endpoint             | Access Control | Description        |
 | ------ | -------------------- | -------------- | ------------------ |
-| GET   | `/api/genre/:userId` | all users      | Returns No Content |
-| POST | `/api/genre` | all users      | Returns Genre id   |
-| PUT   | `/api/genre` | all users      | Returns No Content |
+| GET    | `/api/genre/:userId` | all users      | Returns No Content |
+| POST   | `/api/genre`         | all users      | Returns Genre id   |
+| PUT    | `/api/genre`         | all users      | Returns No Content |
 | DELETE | `/api/genre/:userId` | all users      | Returns Genre id   |
 
 # Data Model
@@ -167,7 +166,7 @@ repeat...until all seed files are run
 ```
 {
   id: UUID
-  email: STRING
+  emailAddress: STRING
   password: STRING
 }
 ```
@@ -231,6 +230,9 @@ repeat...until all seed files are run
   bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
   readingStatus: INTEGER
+  dateStarted: Date
+  dateEnded: Date
+  dateAdded: Date
   tags: STRING(/currently not included/)
 }
 ```
