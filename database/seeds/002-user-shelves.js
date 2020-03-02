@@ -10,7 +10,7 @@ const random = () => {
   return Math.floor(Math.random() * 20 + 1)
 }
 
-export const fakeShelves = [];
+const fakeShelves = [];
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries

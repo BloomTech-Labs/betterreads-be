@@ -6,10 +6,6 @@ exports.up = knex => {
 			.string("emailAddress")
 			.notNullable()
 			.unique();
-		table
-			.string("username")
-			.notNullable()
-			.unique();
 		table.string("password");
 		table.string("image");
 		table.string("googleID").unique();

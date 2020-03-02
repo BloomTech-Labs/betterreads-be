@@ -4,7 +4,6 @@ const faker = require("faker");
 const createFakeUser = () => ({
 	fullName: `${faker.name.firstName()} ${faker.name.lastName()}`,
 	emailAddress: faker.internet.email(),
-	username: `${faker.internet.userName()}-${Date.now()}`,
 	password: faker.internet.password()
 });
 
