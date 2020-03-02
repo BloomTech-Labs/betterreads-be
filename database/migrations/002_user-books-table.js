@@ -9,10 +9,6 @@ exports.up = function(knex) {
 			.onDelete("CASCADE")
 			.onUpdate("CASCADE");
 
-		tbl.integer("readingStatus")
-			.nullable()
-			.defaultTo(1);
-
 		tbl.integer("userId")
 			.unsigned()
 			.notNullable()
@@ -20,6 +16,13 @@ exports.up = function(knex) {
 			.inTable("users")
 			.onDelete("CASCADE")
 			.onUpdate("CASCADE");
+
+		tbl.integer("readingStatus").defaultTo(1);
+
+		tbl.datetime("date_started");
+		tbl.datetime("date_ended");
+		tbl.timestamp("added_at", 20).defaultTo(knex.fn.now());
+		tbl.boolean("favorite").defaultTo(false);
 	});
 };
 

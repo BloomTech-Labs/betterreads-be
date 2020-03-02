@@ -1,17 +1,20 @@
+const faker = require("faker");
+
 const user = id => {
 	let userbooks = [];
 	for (let i = 1; i < Math.floor(Math.random() * 20); i++) {
 		const usrbk = {
 			bookId: i,
+			userId: id,
 			readingStatus: Math.floor(Math.random() * 3 + 1),
-			userId: id
+			favorite: faker.random.boolean(),
 		};
 		userbooks.push(usrbk);
 	}
 	return userbooks;
 };
 
-export const fakeUserBooks = [];
+const fakeUserBooks = [];
 
 const makeFakeUserBooks = user => {
 	const desiredCount = 20;

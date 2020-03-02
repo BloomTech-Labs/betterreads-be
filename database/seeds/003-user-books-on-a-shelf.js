@@ -1,11 +1,3 @@
-import { fakeShelves } from "./002-user-shelves.js";
-import { fakeUserBooks } from "./002-user-books.js";
-
-const fakeUserBooksOnAShelf = (randomBook, randomShelf) => ({
-   bookId: randomBook,
-   shelfId: randomShelf,
-})
-
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex('userBooksOnAShelf').truncate()
