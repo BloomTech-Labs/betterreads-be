@@ -24,6 +24,29 @@ router.post("/user/:userId", (req, res) => {
         });
 });
 
+router.post("/userFav/:userId", (req, res) => {
+    const userId = req.params.userId;
+    const shelfName = "Favorites"
+    const isPrivate = false
+
+    const userShelfObj = {
+        userId: userId,
+        shelfName: shelfName,
+        isPrivate: isPrivate
+    };
+    Shelves.add(userShelfObj)
+        .then(userShelf => {
+            if (userShelf == undefined) {
+                res.status(400).json({ message: "userShelf: does not exist" });
+            } else {
+                res.status(200).json(userShelf);
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "error in returning data" });
+        });
+});
+
 router.get("/user/:userId", (req, res) => {
     const userId = req.params.userId;
     Shelves.findByUserId(userId)
