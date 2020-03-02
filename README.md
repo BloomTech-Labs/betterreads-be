@@ -1,41 +1,69 @@
-# [betterReads API](https://aws.amazon.com/)
+# API Documentation
+
+![Node](https://img.shields.io/node/v/express/latest)
+![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/test_coverage)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+
+betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
+
+
+#### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
+
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
+- Clone this repo
+- **npm install** to install all required dependencies
+- **npm server** to start the local server
+- **npm test** to start server using testing environment
 
--   Clone this repo
--   **npm install** to install all required dependencies
--   **npm server** to start the local server
--   **npm test** to start server using testing environment
+### Seeding for tests
 
-### Backend framework goes here
+1.   knex migrate:up --env=testing
+2.   knex seed:run --env=testing --specific=001-users.js
 
-🚫 Why did you choose this framework?
+repeat...until all seed files are run
 
--   Point One
--   Point Two
--   Point Three
--   Point Four
+### Express
+
+-    Simple routing
+-    Event driven features
+-    Uses Javascript, an omnipresent language in web development
+-    Large Community Support
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and description to match your project
+🚫This is a placeholder, replace the endpoints, access control, and description to match your project
 
 #### User Authentication Routes
 
-| Method | Endpoint           | Access Control | Description                    |
-| ------ | ------------------ | -------------- | ------------------------------ |
-| POST   | `/api/auth/signup` | all users      | Returns token and user object. |
-| POST   | `/api/auth/login`  | all users      | Returns token and user object. |
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signup` | all users      | Returns message and user object. |
+
+# Body Required
+
+```js
+{ 
+  fullName: STRING, 
+  emailAddress: STRING, 
+  username: STRING,  
+  password: STRING 
+}
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST   | `/api/auth/signin` | all users      | Returns message and user object. |
 
 # Body Required
 
 ```js
 {
-  email: STRING,
+  emailAddress: STRING,
   password: STRING
 }
 ```
@@ -52,7 +80,7 @@ To get the server running locally:
 
 ```js
 {
-	genre: [STRING];
+	genre: STRING;
 }
 ```
 
@@ -70,14 +98,14 @@ To get the server running locally:
 {
   googleId: STRING,
   title: STRING,
-  authors: [STRING],
+  authors: STRING,
   publisher: STRING,
   publishDate: STRING,
   description: STRING,
   isbn10: STRING,
   isbn13: STRING,
   pageCount: INTEGER,
-  categories: [STRING],
+  categories: STRING,
   thumbnail: STRING,
   smallThumbnail: STRING,
   language: STRING,
@@ -89,11 +117,15 @@ To get the server running locally:
 
 # User Library
 
-| Method | Endpoint                         | Access Control | Description                   |
-| ------ | -------------------------------- | -------------- | ----------------------------- |
-| GET    | `/api/:userId/library`           | all users      | Returns all books of the user |
-| DELETE | `/api/:userId/library/:bookId`   | all users      | Return book id                |
-| POST   | `/api/:userId/library/:googleId` | all users      | Return book object            |
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
+| GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
+| GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
+| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+| DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
+| POST   | `/api/:userId/library`           | all users           | Return book object                                        |
+
 
 # Body Required
 
@@ -108,8 +140,8 @@ To get the server running locally:
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves`                  | all users      | Returns an empty shelf                        |
-| GET    | `/api/:userId/shelves`          | all users      | Returns all user's shelves                    |
+| POST   | `/api/shelves/:userId`                  | all users      | Returns an empty shelf                        |
+| GET    | `/api/shelves/user/:userId`          | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
@@ -121,8 +153,10 @@ To get the server running locally:
 
 | Method | Endpoint             | Access Control | Description        |
 | ------ | -------------------- | -------------- | ------------------ |
-| POST   | `/api/:userId/genre` | all users      | Returns No Content |
-| DELETE | `/api/:userId/genre` | all users      | Returns Genre id   |
+| GET   | `/api/genre/:userId` | all users      | Returns No Content |
+| POST | `/api/genre` | all users      | Returns Genre id   |
+| PUT   | `/api/genre` | all users      | Returns No Content |
+| DELETE | `/api/genre/:userId` | all users      | Returns Genre id   |
 
 # Data Model
 
@@ -197,7 +231,7 @@ To get the server running locally:
   bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
   readingStatus: INTEGER
-  tags: STRING
+  tags: STRING(/currently not included/)
 }
 ```
 
@@ -224,51 +258,102 @@ To get the server running locally:
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+#### Users
 
-`getOrgs()` -> Returns all organizations
+`findById(id)` -> Returns a single user by id
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`add(user object)` -> Returns the created user
 
-`addOrg(org)` -> Returns the created org
+`findBy(filter)` -> Return all users matching filter
 
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+#### Books
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`findById(id)` -> Returns a single book
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`getAll()` -> Returns all books
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`add(book object)` -> Returns a single book
+
+`findBy(filter)` -> returns an array of books associated to filter
+
+<br>
+<br>
+<br>
+
+#### UserBooks
+
+`findBy(filter)` -> Returns an array book from user's library
+
+`add(book)` -> Returns a single book
+
+`findById(book)` -> finds book by bookId
+
+`isBookInUserBooks(userId, googleId)` -> checks if book is already in user's library
+
+`findByUserId(userId)` -> Return all books in user's library
+
+`findDetailByUserId(userId, bookId)` -> Return a single book with full details
+
+`updateReadingStatus(userId, bookId)` -> Return a single book with full details
+
+`remove(userId, bookId)` -> Returns nothing 
+
+<br>
+<br>
+<br>
+
+#### UserShelves
+
+`findBy(filter)` -> Returns an array of bookshelves
+
+`findByUserId(userId)` -> Returns all of 1 User's shelves
+
+`add` -> Returns a single bookshelf
+
+`findById` -> Returns a single bookshelf
+
+`update` -> Returns a single bookshelf
+
+`remove` -> Returns nothing
+
 
 ## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
+    
+    * DB_ENV - set to "development" until ready for "production"
+    * HOST - set to host (i.e., localhost)
+    * DB_USER - set to username on your postgres server
+    * PASSWORD - set to password for user on your postgres server
+    * DB - set to database name for your postgres server
+    * TEST_DB - set to test database name for your postgres testing server
 
-🚫 These are just examples, replace them with the specifics for your app
+    * SESSION_NAME - ...
+    * SESSION_SECRET - ...
+    * GOOGLE_CLIENT_ID - this is generated in your google account
+    * GOOGLE_CLIENT_SECRET - this is generated in your google account
+    * FACEBOOK_CLIENT_ID - this is generated in your facebook account
+    * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
 
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
--   JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-    _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
+    <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
+    *  NODE_ENV - set to "development" until ready for "production"
+    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
+    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
+    *  stripe_secret - this is generated in the Stripe dashboard -->
+    
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
 Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
 
-### Issue/Bug Request
+### 👾 Issue/Bug Request 👾
 
 **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
 
@@ -301,5 +386,5 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See 📱💻🖱[Frontend Documentation](https://github.com/Lambda-School-Labs/betterreads-frontend) for details on the frontend of our project.
+See 🔬⚗️🧪[Data Science Documentation](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
