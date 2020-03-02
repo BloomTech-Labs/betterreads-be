@@ -10,12 +10,13 @@ const random = () => {
   return Math.floor(Math.random() * 20 + 1)
 }
 
+export const fakeShelves = [];
+
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex("userShelves").truncate()
     .then(function () {
       // Inserts seed entries
-      const fakeShelves = [];
       const desiredCount = 20;
       for(let i = 0; i < 20; i++) {
         fakeShelves.push(fakeUserShelves(random()))

@@ -25,7 +25,7 @@ exports.seed = function(knex) {
 		.truncate()
 		.then(function() {
 			// Inserts seed entries
-			let fakeBooks = [];
+			const fakeBooks = [];
 			const desiredCount = 50;
 			for (let i = 0; i < desiredCount; i++) {
 				fakeBooks.push(createFakeBooks(i));
