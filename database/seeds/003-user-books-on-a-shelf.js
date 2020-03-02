@@ -1,13 +1,23 @@
+import { fakeShelves } from "./002-user-shelves.js";
+import { fakeUserBooks } from "./002-user-books.js";
+
+const fakeUserBooksOnAShelf = (randomBook, randomShelf) => ({
+   bookId: randomBook,
+   shelfId: randomShelf,
+})
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('userBooksOnAShelf').truncate()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
+
+      const fakeData = [];
+      const desiredCount = 20
+
+      for (let i = 0; i < desiredCount; i++) {
+        fakeData.push()
+      }
+      return knex('userBooksOnAShelf').insert();
     });
 };

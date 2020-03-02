@@ -11,8 +11,9 @@ const user = id => {
 	return userbooks;
 };
 
+export const fakeUserBooks = [];
+
 const makeFakeUserBooks = user => {
-	let fakeUserBooks = [];
 	const desiredCount = 20;
 	for (let i = 1; i < desiredCount; i++) {
 		fakeUserBooks.push(user(i));

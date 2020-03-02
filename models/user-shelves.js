@@ -15,7 +15,7 @@ function findBy(filter) {
 
 function findByUserId(userId) {
 	return db("userShelves")
-	.where( "userShelves.userId", userId );
+	.where("userId", userId);
 }
 
 async function add(shelf) {
