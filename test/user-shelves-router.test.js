@@ -53,7 +53,7 @@ describe("user-shelves-router", function() {
 			}).then(res => {
 				const cookie = res.headers["set-cookie"]
 				return request(server)
-					.post("/api/shelves/1")
+					.post("/api/shelves/user/1")
 					.send(Test1)
 					.set("cookie", cookie)
 			})
@@ -63,7 +63,7 @@ describe("user-shelves-router", function() {
 		it("POST res is user.Id", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
-					.post("/api/shelves/1")
+					.post("/api/shelves/user/1")
 					.send(Test1)
 					.set("cookie", cookie)
 					.then(res => {
@@ -79,7 +79,7 @@ describe("user-shelves-router", function() {
 		it("POST res shelfName toBe Test Shelf 1", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
-					.post("/api/shelves/1")
+					.post("/api/shelves/user/1")
 					.send(Test1)
 					.set("cookie", cookie)
 					.then(res => {
