@@ -40,7 +40,7 @@ module.exports = {
 		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
-			max: 10
+			max: 20
 		},
 		migrations: {
 			directory: "./database/migrations"
