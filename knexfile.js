@@ -36,7 +36,7 @@ module.exports = {
 
 	production: {
 		client: 'postgres',
-		connection: process.env.RDS_HOSTNAME
+		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
 			max: 10
