@@ -26,13 +26,14 @@ function findById(id) {
 	return db("userBooks").where({ id });
 }
 
+
 function isBookInUserBooks(userId, googleId) {
 	return db("userBooks as ub")
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.where("b.googleId", googleId)
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.title",
 			"b.author"
@@ -45,7 +46,8 @@ function findByUserId(userId) {
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
+			"b.id as bookId",
 			"b.googleId",
 			"b.title",
 			"b.author",
@@ -63,7 +65,7 @@ function findDetailByUserId(userId, bookId) {
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.isbn10",
 			"b.isbn13",
