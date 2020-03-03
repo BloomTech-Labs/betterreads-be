@@ -1,4 +1,6 @@
 require("dotenv").config();
+const pg = require("pg");
+pg.defaults.ssl = true
 
 module.exports = {
 	development: {
@@ -35,7 +37,7 @@ module.exports = {
 	},
 
 	production: {
-		client: 'postgres',
+		client: "pg",
 		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,

@@ -27,7 +27,8 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-server.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+// { credentials: true, origin: "http://localhost:3000" }
+server.use(cors());
 
 // MARK: -- session and cookie configuration
 server.use(
