@@ -30,8 +30,9 @@ async function addBooks(book) {
 
 
 
-async function remove(bookId) {
+async function remove(bookId, shelfId) {
 	return db("userBooksOnAShelf")
 		.where("bookId", bookId)
+		.where("shelfId", shelfId)
 		.del();
 }
