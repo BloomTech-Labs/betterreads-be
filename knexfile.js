@@ -4,12 +4,7 @@ const pg = require("pg");
 module.exports = {
 	development: {
 		client: "pg",
-		connection: {
-			host: process.env.HOST,
-			user: process.env.DB_USER,
-			password: process.env.PASSWORD,
-			database: process.env.DB
-		},
+		connection: process.env.RDS_HOSTNAME,
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./database/migrations"
@@ -49,12 +44,7 @@ module.exports = {
 
 	testing: {
 		client: "pg",
-		connection: {
-			host: process.env.HOST,
-			user: process.env.DB_USER,
-			password: process.env.PASSWORD,
-			database: process.env.TEST_DB
-		},
+		connection: process.env.RDS_HOSTNAME,
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./database/migrations"
