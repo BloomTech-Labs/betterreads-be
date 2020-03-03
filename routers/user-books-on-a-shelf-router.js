@@ -21,42 +21,43 @@ router.post(
         shelfId: shelfId
       };
 
-      BooksOnShelf.findBooksOnShelf(shelfId, bookId)
-      .then(booksOnS => {
-          if(booksOnS.length>0){
-              res.status(500).json({message:"book is already in user shelf"})
-          } else{
-            if ((bookId, shelfId)) {
-                BooksOnShelf.addBooks(bookObj)
-                  .then(book => {
-                   
-                    res.status(200).json(book);
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "error in adding book to shelf"
-                    });
-                  });
-              }
+      BooksOnShelf.findBooksOnShelf(shelfId, bookId).then(booksOnS => {
+        if (booksOnS.length > 0) {
+          res.status(500).json({ message: "book is already in user shelf" });
+        } else {
+          if ((bookId, shelfId)) {
+            BooksOnShelf.addBooks(bookObj)
+              .then(book => {
+                res.status(200).json(book);
+              })
+              .catch(err => {
+                res.status(500).json({
+                  message: "error in adding book to shelf"
+                });
+              });
           }
-          
-      })
-
+        }
+      });
     });
   }
 );
 
-router.delete("/shelves/:shelfId/:bookId", (req, res) => {
+router.delete("/shelves/:shelfId", (req, res) => {
   const userId = req.params.userId;
   const shelfId = req.params.shelfId;
-  const bookId = req.params.bookId;
-  if ((userId, shelfId)) {
-    BooksOnShelf.remove(bookId)
+  const bookId = req.body.bookId;
+  if ((bookId, shelfId)) {
+    BooksOnShelf.remove(bookId, shelfId)
       .then(book => {
         console.log(book);
-        res.status(200).json({
-          message: "book deleted"
-        });
+        if(book === 1){
+         res.status(200).json({ message: "book removed from shelf"
+          
+        }); 
+        } else {
+          res.status(400).json({message: "there was an error while removing book from shelf"})
+        }
+        
       })
       .catch(err => {
         res.status(500).json({
@@ -101,6 +102,8 @@ function isBookInBookDb(req, res, next) {
               message: "Book not added to book db"
             });
           });
+      } else {
+        console.log({ message: "book is already in books DB" });
       }
       next();
     });
@@ -128,14 +131,14 @@ function isBookInUserBooksDb(req, res, next) {
             UserBooks.add(userbookObject)
 
               .then(added => {
-               console.log(({ AddedBook: added }))
+                console.log({ AddedBook: added });
               })
               .catch(err => {
-                console.log({message: "Error in posting userbook"})
+                console.log({ message: "Error in posting userbook" });
               });
           })
           .catch(error => {
-            console.log(error)
+            console.log(error);
           });
       } else {
         console.log({ message: "book is already in user's library" });
