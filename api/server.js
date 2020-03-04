@@ -3,7 +3,7 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
-require("dotenv").config();
+
 const passportSetup = require("../config/passport-setup.js");
 const session = require("express-session");
 const knexSessionStore = require("connect-session-knex")(session);
