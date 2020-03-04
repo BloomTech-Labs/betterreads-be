@@ -73,11 +73,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: "http://localhost:3000/failure"
+		failureRedirect: "https://master.d38ik4lz0erzf8.amplifyapp.com/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect("http://localhost:3000/success");
+		response.redirect("https://master.d38ik4lz0erzf8.amplifyapp.com/success");
 	}
 );
 
@@ -92,11 +92,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: "http://localhost:3000/failure"
+		failureRedirect: "https://master.d38ik4lz0erzf8.amplifyapp.com/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect("http://localhost:3000/success");
+		response.redirect("https://master.d38ik4lz0erzf8.amplifyapp.com/success");
 	}
 );
 

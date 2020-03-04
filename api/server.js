@@ -3,13 +3,15 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
-const passportSetup = require("../config/passport-setup");
+require("dotenv").config();
+const passportSetup = require("../config/passport-setup.js");
 const session = require("express-session");
 const knexSessionStore = require("connect-session-knex")(session);
-const config = require("../database/db-config");
+const config = require("../database/db-config.js");
 
 // MARK: -- restricted middleware
 const restricted = require("../auth/restricted-middleware.js");
+const keys = require("../config/secrets.js");
 
 // MARK: -- routers
 const authRouter = require("../auth/auth-router.js");
@@ -33,8 +35,8 @@ server.use(cors());
 // MARK: -- session and cookie configuration
 server.use(
 	session({
-		name: process.env.SESSION_NAME,
-		secret: process.env.SESSION_SECRET,
+		name: keys.session.sessionName,
+		secret: keys.session.sessionSecret,
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
