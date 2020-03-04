@@ -11,7 +11,6 @@ const config = require("../database/db-config.js");
 
 // MARK: -- restricted middleware
 const restricted = require("../auth/restricted-middleware.js");
-const keys = require("../config/secrets.js");
 
 // MARK: -- routers
 const authRouter = require("../auth/auth-router.js");
@@ -35,8 +34,8 @@ server.use(cors());
 // MARK: -- session and cookie configuration
 server.use(
 	session({
-		name: keys.session.sessionName,
-		secret: keys.session.sessionSecret,
+		name: process.env.SESSION_NAME,
+		secret: process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
