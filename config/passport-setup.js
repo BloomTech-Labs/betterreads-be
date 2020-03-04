@@ -2,7 +2,6 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../models/users");
-const keys = require("./secrets.js");
 
 passport.serializeUser((user, done) => {
 	done(null, user.id);
@@ -17,8 +16,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: keys.google.clientID,
-			clientSecret: keys.google.clientSecret,
+			clientID: process.env.GOOGLE_CLIENT_ID,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL: "/api/auth/google/redirect"
 		},
 		(accessToken, refreshToken, profile, done) => {
@@ -47,8 +46,8 @@ passport.use(
 passport.use(
 	new FacebookStrategy(
 		{
-			clientID: keys.facebook.clientID,
-			clientSecret: keys.facebook.clientSecret,
+			clientID: process.env.FACEBOOK_CLIENT_ID,
+			clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 			callbackURL: "/api/auth/facebook/redirect",
 			profileFields: ["id", "displayName", "photos", "email"]
 		},
