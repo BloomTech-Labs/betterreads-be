@@ -7,7 +7,7 @@ module.exports = {
 	isBookInUserBooks,
 	findByUserId,
 	findDetailByUserId,
-	updateReadingStatus,
+	update,
 	remove
 };
 
@@ -52,6 +52,7 @@ function findByUserId(userId) {
 			"b.title",
 			"b.author",
 			"ub.readingStatus",
+			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount"
@@ -73,6 +74,7 @@ function findDetailByUserId(userId, bookId) {
 			"b.title",
 			"b.author",
 			"ub.readingStatus",
+			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount",
@@ -86,11 +88,11 @@ function findDetailByUserId(userId, bookId) {
 		);
 }
 
-async function updateReadingStatus(userId, bookId, readingStatus) {
+async function update(userId, bookId, update) {
 	const [id] = await db("userBooks")
 		.where({ userId })
-		.where("id", bookId)
-		.update({ readingStatus })
+		.where("userBooks.bookId", bookId)
+		.update( update )
 		.returning("id");
 	return findDetailByUserId(userId, id);
 }
