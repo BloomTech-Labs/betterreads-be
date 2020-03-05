@@ -19,7 +19,6 @@ router.post("/signup", (request, response) => {
 					id: user.id,
 					fullName: user.fullName,
 					emailAddress: user.emailAddress,
-					username: user.username,
 					image: user.image,
 					googleID: user.googleID,
 					facebookID: user.facebookID
@@ -47,7 +46,6 @@ router.post("/signin", (request, response) => {
 						id: user.id,
 						fullName: user.fullName,
 						emailAddress: user.emailAddress,
-						username: user.username,
 						image: user.image,
 						googleID: user.googleID,
 						facebookID: user.facebookID

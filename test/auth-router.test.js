@@ -19,7 +19,6 @@ describe("auth-router", function() {
 			.send({
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				username: "seedusername",
 				password: "seedpassword"
 			});
 	});
@@ -37,7 +36,6 @@ describe("auth-router", function() {
 				.send({
 					fullName: "Judith Lastname",
 					emailAddress: "testemail",
-					username: "judithpriestfriends",
 					password: "testpassword"
 				})
 				.expect(201);
@@ -49,7 +47,6 @@ describe("auth-router", function() {
 				.send({ 
 					fullName: "Person Lastname",
 					emailAddress: "testemail3",
-					username: "helloworld", 
 					password: "testpassword" 
 				})
 				.then(res => {

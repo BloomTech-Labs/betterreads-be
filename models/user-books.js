@@ -7,7 +7,7 @@ module.exports = {
 	isBookInUserBooks,
 	findByUserId,
 	findDetailByUserId,
-	updateReadingStatus,
+	update,
 	remove
 };
 
@@ -26,16 +26,17 @@ function findById(id) {
 	return db("userBooks").where({ id });
 }
 
+
 function isBookInUserBooks(userId, googleId) {
 	return db("userBooks as ub")
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.where("b.googleId", googleId)
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.title",
-			"b.author"
+			"b.authors"
 		);
 
 }
@@ -45,11 +46,13 @@ function findByUserId(userId) {
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
+			"b.id as bookId",
 			"b.googleId",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
+			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount"
@@ -63,32 +66,32 @@ function findDetailByUserId(userId, bookId) {
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.isbn10",
 			"b.isbn13",
-			"ub.readingStatus",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
+			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount",
 			"b.publisher",
-			"b.publishDate",
+			"b.publishedDate",
 			"b.description",
 			"b.textSnippet",
 			"b.language",
-			"b.webRenderLink",
+			"b.webReaderLink",
 			"b.isEbook"
 		);
 }
 
-async function updateReadingStatus(userId, bookId, readingStatus) {
+async function update(userId, bookId, update) {
 	const [id] = await db("userBooks")
 		.where({ userId })
-		.where("id", bookId)
-		.update({ readingStatus })
+		.where("userBooks.bookId", bookId)
+		.update( update )
 		.returning("id");
 	return findDetailByUserId(userId, id);
 }
