@@ -4,6 +4,7 @@ module.exports = {
 	findBy,
 	add,
 	findById,
+	findFavorites,
 	isBookInUserBooks,
 	findByUserId,
 	findDetailByUserId,
@@ -24,6 +25,21 @@ async function add(userbook) {
 
 function findById(id) {
 	return db("userBooks").where({ id });
+}
+
+
+function findFavorites(userId) {
+	return db("userBooks").where({ userId }).then(book => {
+	const favorites = []
+		for (i=0; i< book.length; i++){
+			if (book[i].favorite === true){
+				favorites.push(book[i])
+			}
+		}
+		return favorites
+		
+	 
+	})
 }
 
 
