@@ -18,7 +18,7 @@ To get the server running locally:
 - Clone this repo
 - **npm install** to install all required dependencies
 - **npm server** to start the local server
-- **npm test** to start server using testing environment
+- **npm run test** to start server using testing environment
 
 ### Seeding for tests
 
@@ -60,7 +60,6 @@ repeat...until all seed files are run
 { 
   fullName: STRING, 
   emailAddress: STRING, 
-  username: STRING,  
   password: STRING 
 }
 ```
@@ -151,8 +150,8 @@ repeat...until all seed files are run
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves/:userId`                  | all users      | Returns an empty shelf                        |
-| GET    | `/api/shelves/user/:userId`          | all users      | Returns all user's shelves                    |
+| POST   | `/api/shelves/:userId`          | all users      | Returns an empty shelf                        |
+| GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
@@ -178,7 +177,7 @@ repeat...until all seed files are run
 ```
 {
   id: UUID
-  email: STRING
+  emailAddress: STRING
   password: STRING
 }
 ```
