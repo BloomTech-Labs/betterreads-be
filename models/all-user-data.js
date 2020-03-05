@@ -1,6 +1,7 @@
 const db = require("../database/db-config.js");
 
 module.exports = {
+    booksFor,
     findBy,
     shelvesFor,
     find,
@@ -53,7 +54,7 @@ function findBooksIn(shelfId) {
         .select("ubs.bookId")
 }
 
-function findBy(userId) {
+async function findBy(userId) {
     return db("users")    
     .where("id", userId) 
     .select("id", "fullName", "emailAddress")
@@ -68,6 +69,7 @@ function findBy(userId) {
             .where("ub.userId", userId)
             .join("books", "books.id", "ub.bookId")
             .count("books.id as count")
+            .first()
             .then(allBooks => {
                 return db("userBooksOnAShelf as ubs")
                     .join("userShelves as us", "ubs.shelfId", "us.id")
@@ -80,7 +82,6 @@ function findBy(userId) {
                         }
                 })
             })
-          
         })
     })
 }
