@@ -36,7 +36,7 @@ function isBookInUserBooks(userId, googleId) {
 			"ub.id as userBooksId",
 			"b.googleId",
 			"b.title",
-			"b.author"
+			"b.authors"
 		);
 
 }
@@ -50,7 +50,7 @@ function findByUserId(userId) {
 			"b.id as bookId",
 			"b.googleId",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
 			"ub.favorite",
 			"b.categories",
@@ -70,20 +70,19 @@ function findDetailByUserId(userId, bookId) {
 			"b.googleId",
 			"b.isbn10",
 			"b.isbn13",
-			"ub.readingStatus",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
 			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount",
 			"b.publisher",
-			"b.publishDate",
+			"b.publishedDate",
 			"b.description",
 			"b.textSnippet",
 			"b.language",
-			"b.webRenderLink",
+			"b.webReaderLink",
 			"b.isEbook"
 		);
 }

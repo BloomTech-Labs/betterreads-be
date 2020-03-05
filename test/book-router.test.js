@@ -14,9 +14,9 @@ describe("book-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",
-		author: "McWorld",
+		authors: "McWorld",
 		publisher: "Penguin",
-		publishDate: "2/21/2020",
+		publishedDate: "2/21/2020",
 		description: "The end of the book",
 		isbn10: "12345678911234567891",
 		isbn13: "12345678911234567891234",
@@ -25,7 +25,7 @@ describe("book-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "english",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: true
 	};
@@ -33,9 +33,9 @@ describe("book-router", function() {
 	const otherBook = {
 		googleId: "qwertyomsname",
 		title: "Lander McPherson",
-		author: "Civil Mary",
+		authors: "Civil Mary",
 		publisher: "Top hat",
-		publishDate: "4/2/1931",
+		publishedDate: "4/2/1931",
 		description: "The begining of the book",
 		isbn10: "0293129582812931832914",
 		isbn13: "90w8q9weqw9eq0w9e0w9eq9",
@@ -44,7 +44,7 @@ describe("book-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "english",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: false
 	};
@@ -75,7 +75,6 @@ describe("book-router", function() {
 			.send({
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				username: "seedusername",
 				password: "seedpassword"
 			}).then(res => {
 				const cookie = res.headers["set-cookie"]

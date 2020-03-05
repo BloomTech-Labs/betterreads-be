@@ -48,7 +48,6 @@ describe("user-shelves-router", function() {
 			.send({
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				username: "seedusername",
 				password: "seedpassword"
 			}).then(res => {
 				const cookie = res.headers["set-cookie"]
