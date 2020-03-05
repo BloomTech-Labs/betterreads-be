@@ -14,7 +14,7 @@ describe("book-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",
-		author: "McWorld",
+		authors: "McWorld",
 		publisher: "Penguin",
 		publishedDate: "2/21/2020",
 		description: "The end of the book",
@@ -33,7 +33,7 @@ describe("book-router", function() {
 	const otherBook = {
 		googleId: "qwertyomsname",
 		title: "Lander McPherson",
-		author: "Civil Mary",
+		authors: "Civil Mary",
 		publisher: "Top hat",
 		publishedDate: "4/2/1931",
 		description: "The begining of the book",

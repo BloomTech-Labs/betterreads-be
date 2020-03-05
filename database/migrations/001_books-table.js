@@ -3,7 +3,7 @@ exports.up = function(knex) {
 		tbl.increments();
 		tbl.string("googleId").notNullable();
 		tbl.string("title");
-		tbl.string("author");
+		tbl.string("authors");
 		tbl.string("publisher");
 		tbl.string("publishedDate");
 		tbl.string("description", 10000);

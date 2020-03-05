@@ -16,7 +16,7 @@ describe("user-books-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",
-		author: "McWorld",
+		authors: "McWorld",
 		publisher: "Penguin",
 		publishedDate: "2/21/2020",
 		description: "The end of the book",
@@ -35,7 +35,7 @@ describe("user-books-router", function() {
 	const anotherBookObject = {
 		googleId: "1203sodmfo",
 		title: "blahr fadwer",
-		author: "Glower Pleoq",
+		authors: "Glower Pleoq",
 		publisher: "Donkey",
 		publishedDate: "12/21/1992",
 		description: "This is the start",
@@ -107,7 +107,7 @@ describe("user-books-router", function() {
 					.get("/api/1/library")
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.body[0].author).toBe("McWorld");
+						expect(res.body[0].authors).toBe("McWorld");
 					});
 				return req;
 			});

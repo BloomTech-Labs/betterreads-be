@@ -12,7 +12,7 @@ function booksFor(userId) {
     return db("userBooks as ub")
         .where("ub.userId", userId)
         .join("books as b", "b.id", "ub.bookId")
-        .select("b.title", "b.author", "b.thumbnail", "b.smallThumbnail", "b.googleId")
+        .select("b.title", "b.authors", "b.thumbnail", "b.smallThumbnail", "b.googleId")
 }
 
 // MARK: -- return total number of shelves
@@ -73,7 +73,7 @@ function findBy(userId) {
                     .join("userShelves as us", "ubs.shelfId", "us.id")
                     .join("books as b", "b.id", "ubs.bookId")
                     .where("us.userId", userId)
-                    .distinct("us.id as shelfId", "b.title", "b.author", "b.thumbnail", "b.smallThumbnail").orderBy("shelfId")
+                    .distinct("us.id as shelfId", "b.title", "b.authors", "b.thumbnail", "b.smallThumbnail").orderBy("shelfId")
                     .then(bookWithShelf => {
                         return {
                             ...user, userShelves, bookWithShelf: bookWithShelf, library: allBooks
