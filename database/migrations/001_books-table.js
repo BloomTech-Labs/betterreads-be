@@ -3,9 +3,9 @@ exports.up = function(knex) {
 		tbl.increments();
 		tbl.string("googleId").notNullable();
 		tbl.string("title");
-		tbl.string("author");
+		tbl.string("authors");
 		tbl.string("publisher");
-		tbl.string("publishDate");
+		tbl.string("publishedDate");
 		tbl.string("description", 10000);
 		tbl.string("isbn10");
 		tbl.string("isbn13");
@@ -14,7 +14,7 @@ exports.up = function(knex) {
 		tbl.string("thumbnail");
 		tbl.string("smallThumbnail");
 		tbl.string("language");
-		tbl.string("webRenderLink");
+		tbl.string("webReaderLink");
 		tbl.string("textSnippet", 10000);
 		tbl.boolean("isEbook");
 	});

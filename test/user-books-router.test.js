@@ -16,9 +16,9 @@ describe("user-books-router", function() {
 	const bookObject = {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",
-		author: "McWorld",
+		authors: "McWorld",
 		publisher: "Penguin",
-		publishDate: "2/21/2020",
+		publishedDate: "2/21/2020",
 		description: "The end of the book",
 		isbn10: "12345678911234567891",
 		isbn13: "12345678911234567891234",
@@ -27,7 +27,7 @@ describe("user-books-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "english",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: true
 	};
@@ -35,9 +35,9 @@ describe("user-books-router", function() {
 	const anotherBookObject = {
 		googleId: "1203sodmfo",
 		title: "blahr fadwer",
-		author: "Glower Pleoq",
+		authors: "Glower Pleoq",
 		publisher: "Donkey",
-		publishDate: "12/21/1992",
+		publishedDate: "12/21/1992",
 		description: "This is the start",
 		isbn10: "729287373489282",
 		isbn13: "92283843739200200",
@@ -46,7 +46,7 @@ describe("user-books-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "russian",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: false
 	};
@@ -83,7 +83,6 @@ describe("user-books-router", function() {
 			.send({
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				username: "seedusername",
 				password: "seedpassword"
 			}).then(res => {
 				const cookie = res.headers["set-cookie"]
@@ -107,7 +106,8 @@ describe("user-books-router", function() {
 					.get("/api/1/library")
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.body[0].author).toBe("McWorld");
+						console.log(res.body)
+						expect(res.body[0].authors).toBe("McWorld");
 					});
 				return req;
 			});
