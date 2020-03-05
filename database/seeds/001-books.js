@@ -3,7 +3,7 @@ const faker = require('faker');
 const createFakeBooks = () => ({
 	googleId: `${faker.address.longitude()}`,
 	title: faker.commerce.product(),
-	author: faker.name.firstName(),
+	authors: faker.name.firstName(),
 	publisher: faker.company.companyName(),
 	publishedDate: `${Math.floor(Math.random() * (2020 - 1900 + 1) + 1900)}`,
 	description: faker.lorem.sentences(),

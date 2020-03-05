@@ -35,7 +35,7 @@ function isBookInUserBooks(userId, googleId) {
 			"ub.id",
 			"b.googleId",
 			"b.title",
-			"b.author"
+			"b.authors"
 		);
 
 }
@@ -48,7 +48,7 @@ function findByUserId(userId) {
 			"ub.id",
 			"b.googleId",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
 			"b.categories",
 			"b.thumbnail",
@@ -69,7 +69,7 @@ function findDetailByUserId(userId, bookId) {
 			"b.isbn13",
 			"ub.readingStatus",
 			"b.title",
-			"b.author",
+			"b.authors",
 			"ub.readingStatus",
 			"b.categories",
 			"b.thumbnail",
