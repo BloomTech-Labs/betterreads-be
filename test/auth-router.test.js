@@ -19,14 +19,13 @@ describe("auth-router", function() {
 			.send({
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				username: "seedusername",
 				password: "seedpassword"
 			});
 	});
 
 	describe("test environment", function() {
 		it("should be using test env", function() {
-			expect(process.env.DB_ENV).toBe("testing");
+			expect(process.env.NODE_ENV).toBe("testing");
 		});
 	});
 
@@ -37,7 +36,6 @@ describe("auth-router", function() {
 				.send({
 					fullName: "Judith Lastname",
 					emailAddress: "testemail",
-					username: "judithpriestfriends",
 					password: "testpassword"
 				})
 				.expect(201);
@@ -48,8 +46,7 @@ describe("auth-router", function() {
 				.post("/api/auth/signup")
 				.send({ 
 					fullName: "Person Lastname",
-					emailAddress: "testemail3",
-					username: "helloworld", 
+					emailAddress: "testemail3", 
 					password: "testpassword" 
 				})
 				.then(res => {
