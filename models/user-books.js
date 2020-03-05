@@ -115,6 +115,6 @@ async function update(userId, bookId, update) {
 function remove(userId, bookId) {
 	return db("userBooks")
 		.where({ userId })
-		.where("id", bookId)
+		.where("userBooks.bookId", bookId)
 		.del();
 }
