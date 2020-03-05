@@ -90,13 +90,14 @@ router.put("/:shelfId", (req, res) => {
 
     Shelves.findById(shelfId).then(shelf => {
         if (shelf.length > 0) {
-            const shelfId = shelf[0].id;
+        
+            const shelfId = shelf[0].shelfId;
             Shelves.update(updatedShelfobj, shelfId)
                 .then(updatedShelf => {
                     res.status(200).json(updatedShelf);
                 })
                 .catch(err => {
-                    res.status(500).json({ message: "" });
+                    res.status(500).json({ message: "shelf not updated" });
                 });
         } else {
             res.status(404).json({ message: "userShelf: does not exist" });
