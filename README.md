@@ -17,7 +17,8 @@ To get the server running locally:
 
 - Clone this repo
 - **npm install** to install all required dependencies
-- **npm server** to start the local server
+- **npm run server** to start the local server
+- **npm start** only for production
 - **npm run test** to start server using testing environment
 
 ### Seeding for tests
