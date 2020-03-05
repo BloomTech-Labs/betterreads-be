@@ -131,6 +131,7 @@ repeat...until all seed files are run
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
 | GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
 | PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
@@ -303,9 +304,11 @@ repeat...until all seed files are run
 
 `add(book)` -> Returns a single book
 
-`findById(bookId)` -> finds book by bookId
+`findById(bookId)` -> Finds book by bookId
 
-`isBookInUserBooks(userId, googleId)` -> checks if book is already in user's library
+`findFavorites(userId)` -> Returns array of favorite books
+
+`isBookInUserBooks(userId, googleId)` -> Checks if book is already in user's library
 
 `findByUserId(userId)` -> Return all books in user's library
 
