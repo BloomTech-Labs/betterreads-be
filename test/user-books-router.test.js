@@ -18,7 +18,7 @@ describe("user-books-router", function() {
 		title: "Chantra Swandie",
 		author: "McWorld",
 		publisher: "Penguin",
-		publishDate: "2/21/2020",
+		publishedDate: "2/21/2020",
 		description: "The end of the book",
 		isbn10: "12345678911234567891",
 		isbn13: "12345678911234567891234",
@@ -27,7 +27,7 @@ describe("user-books-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "english",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: true
 	};
@@ -37,7 +37,7 @@ describe("user-books-router", function() {
 		title: "blahr fadwer",
 		author: "Glower Pleoq",
 		publisher: "Donkey",
-		publishDate: "12/21/1992",
+		publishedDate: "12/21/1992",
 		description: "This is the start",
 		isbn10: "729287373489282",
 		isbn13: "92283843739200200",
@@ -46,7 +46,7 @@ describe("user-books-router", function() {
 		thumbnail: "image.png",
 		smallThumbnail: "small-img.png",
 		language: "russian",
-		webRenderLink: "testLink",
+		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
 		isEbook: false
 	};

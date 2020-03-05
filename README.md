@@ -99,7 +99,7 @@ repeat...until all seed files are run
   title: STRING,
   authors: STRING,
   publisher: STRING,
-  publishDate: STRING,
+  publishedDate: STRING,
   description: STRING,
   isbn10: STRING,
   isbn13: STRING,
@@ -108,7 +108,7 @@ repeat...until all seed files are run
   thumbnail: STRING,
   smallThumbnail: STRING,
   language: STRING,
-  webRenderLink: STRING,
+  webReaderLink: STRING,
   textSnippet: STRING,
   isEbook: BOOLEAN
 }
