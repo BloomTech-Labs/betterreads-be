@@ -26,7 +26,7 @@ async function add(shelf) {
 }
 
 function findById(id) {
-	return db("userShelves").where({ id });
+	return db("userShelves").where({ id }).select("*");
 }
 
   function update(updatedShelf, shelfId) {
