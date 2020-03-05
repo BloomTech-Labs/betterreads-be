@@ -24,7 +24,6 @@ passport.use(
 			const userProfile = {
 				fullName: profile.displayName,
 				emailAddress: profile.emails[0].value,
-				username: profile.displayName,
 				image: profile.photos[0].value,
 				googleID: profile.id
 			};
@@ -56,7 +55,6 @@ passport.use(
 			const userProfile = {
 				fullName: profile.displayName,
 				emailAddress: profile.emails[0].value,
-				username: profile.displayName,
 				image: profile.photos[0].value,
 				facebookID: profile.id
 			};
