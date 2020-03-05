@@ -59,7 +59,7 @@ function findByUserId(userId) {
 function findDetailByUserId(userId, bookId) {
 	return db("userBooks as ub")
 		.where({ userId })
-		.where("ub.id", bookId)
+		.where("ub.bookId", bookId)
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
@@ -68,18 +68,21 @@ function findDetailByUserId(userId, bookId) {
 			"b.isbn10",
 			"b.isbn13",
 			"ub.readingStatus",
+			"ub.dateStarted",
+			"ub.dateEnded",
+			"ub.dateAdded",
+			"ub.favorite",
 			"b.title",
 			"b.authors",
-			"ub.readingStatus",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount",
 			"b.publisher",
-			"b.publishDate",
+			"b.publishedDate",
 			"b.description",
 			"b.textSnippet",
 			"b.language",
-			"b.webRenderLink",
+			"b.webReaderLink",
 			"b.isEbook"
 		);
 }
