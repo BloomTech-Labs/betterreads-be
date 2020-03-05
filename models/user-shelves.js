@@ -10,12 +10,13 @@ module.exports = {
 };
 
 function findBy(filter) {
-	return db("userShelves").where(filter);
+	return db("userShelves").where(filter).select("id as shelfId", "userId", "shelfName", "isPrivate");
 }
 
 function findByUserId(userId) {
 	return db("userShelves")
-	.where("userId", userId);
+	.where("userId", userId)
+	.select("id as shelfId", "userId", "shelfName", "isPrivate");
 }
 
 async function add(shelf) {
@@ -26,7 +27,7 @@ async function add(shelf) {
 }
 
 function findById(id) {
-	return db("userShelves").where({ id }).select("*");
+	return db("userShelves").where({ id }).select("id as shelfId", "userId", "shelfName", "isPrivate");
 }
 
   function update(updatedShelf, shelfId) {

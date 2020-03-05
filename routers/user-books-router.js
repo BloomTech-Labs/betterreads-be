@@ -14,6 +14,19 @@ router.get("/:userId/library", (req, res) => {
     })
     .catch(err => res.status(500).json({ message: "error in returning data" }));
 });
+//MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
+router.get("/:userId/library/favorites", (req, res) => {
+  const userId = req.params.userId;
+  UserBooks.findByIdFilter(userId )
+    .then(userbooks => {
+      if (userbooks == undefined) {
+        res.status(400).json({ message: "userbooks: does not exist" });
+      } else {
+        res.status(200).json(userbooks);
+      }
+    })
+    .catch(err => res.status(500).json({ message: "error in returning data" }));
+});
 
 router.get("/:userId/library/:id", (req, res) => {
   const userId = req.params.userId;
@@ -96,6 +109,7 @@ router.post("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   const book = req.body.book;
   const status = req.body.readingStatus;
+  const favorite = req.body.favorite;
   if (book) {
     const googleId = book.googleId;
     // MARK: -- is the book in the user's library already?
@@ -114,7 +128,8 @@ router.post("/:userId/library", (req, res) => {
                     const userbookObject = {
                       bookId: book.id,
                       readingStatus: status,
-                      userId: userId
+                      userId: userId,
+                      favorite: favorite
                     };
                     // MARK: -- adding book to our user's library
                     UserBooks.add(userbookObject)
@@ -136,7 +151,8 @@ router.post("/:userId/library", (req, res) => {
                 const userbookObject = {
                   bookId: bk.id,
                   readingStatus: status,
-                  userId: userId
+                  userId: userId,
+                  favorite: favorite
                 };
                 // MARK: -- book exist in our books db, add the book to our user's library
                 UserBooks.add(userbookObject)

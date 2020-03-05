@@ -106,7 +106,6 @@ describe("user-books-router", function() {
 					.get("/api/1/library")
 					.set("cookie", cookie)
 					.then(res => {
-						console.log(res.body)
 						expect(res.body[0].authors).toBe("McWorld");
 					});
 				return req;
