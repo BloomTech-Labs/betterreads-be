@@ -19,9 +19,9 @@ exports.up = function(knex) {
 
 		tbl.integer("readingStatus").defaultTo(1);
 
-		tbl.datetime("date_started");
-		tbl.datetime("date_ended");
-		tbl.timestamp("added_at", 20).defaultTo(knex.fn.now());
+		tbl.datetime("dateStarted");
+		tbl.datetime("dateEnded");
+		tbl.timestamp("dateAdded", 20).defaultTo(knex.fn.now());
 		tbl.boolean("favorite").defaultTo(false);
 	});
 };
