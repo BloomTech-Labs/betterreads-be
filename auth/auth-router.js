@@ -73,11 +73,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: "https://master.d38ik4lz0erzf8.amplifyapp.com/failure"
+		failureRedirect: "https://www.readrr.app/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect("https://master.d38ik4lz0erzf8.amplifyapp.com/success");
+		response.redirect("https://www.readrr.app/success");
 	}
 );
 
@@ -92,11 +92,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: "https://master.d38ik4lz0erzf8.amplifyapp.com/failure"
+		failureRedirect: "https://www.readrr.app/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect("https://master.d38ik4lz0erzf8.amplifyapp.com/success");
+		response.redirect("https://www.readrr.app/success");
 	}
 );
 
