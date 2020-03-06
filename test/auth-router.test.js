@@ -46,7 +46,7 @@ describe("auth-router", function() {
 				.post("/api/auth/signup")
 				.send({ 
 					fullName: "Person Lastname",
-					emailAddress: "testemail3",
+					emailAddress: "testemail3", 
 					password: "testpassword" 
 				})
 				.then(res => {
