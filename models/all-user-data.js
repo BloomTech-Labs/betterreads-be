@@ -75,7 +75,7 @@ async function findBy(userId) {
                     .join("userShelves as us", "ubs.shelfId", "us.id")
                     .join("books as b", "b.id", "ubs.bookId")
                     .where("us.userId", userId)
-                    .distinct("us.id as shelfId", "b.title", "b.authors", "b.thumbnail", "b.smallThumbnail").orderBy("shelfId")
+                    .distinct("us.id as shelfId", "b.title", "b.authors", "b.thumbnail", "b.smallThumbnail", "b.id as bookId").orderBy("shelfId")
                     .then(bookWithShelf => {
                         return {
                             ...user, userShelves, bookWithShelf: bookWithShelf, library: allBooks
