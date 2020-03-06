@@ -25,7 +25,7 @@ describe("auth-router", function() {
 
 	describe("test environment", function() {
 		it("should be using test env", function() {
-			expect(process.env.DB_ENV).toBe("testing");
+			expect(process.env.NODE_ENV).toBe("testing");
 		});
 	});
 
