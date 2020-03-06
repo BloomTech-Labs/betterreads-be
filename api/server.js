@@ -28,7 +28,7 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-server.use(cors({ credentials: true, origin: "https://www.readrr.app" }));
+server.use(cors({ credentials: true, origin: "http://localhost:5000" }));
 
 // MARK: -- session and cookie configuration
 server.use(
