@@ -8,7 +8,7 @@
 betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
 
 
-#### 1️⃣ Backend deployed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend deployed at [AWS_ELASTIC_BEANSTALK](https://api.readrr.app/) <br>
 
 
 ## 1️⃣ Getting started
@@ -35,8 +35,6 @@ To get the server running locally:
 8.  knex seed:run --env=testing --specific=002-user-shelves.js
 9.  knex migrate:up --env=testing
 10. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
-
-repeat...until all seed files are run
 
 ### Express
 
@@ -357,8 +355,9 @@ create a .env file that includes the following:
     * GOOGLE_CLIENT_SECRET - this is generated in your google account
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
+    * FAILURE_URL - this is set in the elastic beanstalk env
+    * SUCCESS_URL - this is set in the elastic beanstalk env
 
-    
     *  NODE_ENV - set to "development" until ready for "production"
     *  RDS_HOSTNAME - set in "production"
     
