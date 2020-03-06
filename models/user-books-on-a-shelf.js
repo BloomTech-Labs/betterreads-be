@@ -6,17 +6,18 @@ module.exports = {
 	remove
 };
 
-function findBooksOnShelf(shelfId) {
+function findBooksOnShelf(shelfId, bookId) {
 	return db('userBooksOnAShelf as bs')
 		.join('books as b', 'bs.bookId', 'b.id')
 		.join('userShelves as s', 's.id', 'bs.shelfId')
 		.where('shelfId', shelfId)
-		.select('bs.bookId', 'b.title','s.shelfName', 's.userId' )
+		.where('bs.bookId', bookId)
+		.select('bs.bookId', 'b.title','s.shelfName','bs.shelfId', 's.userId' )
 }
 
 function findById(id) {
 	return db('userBooksOnAShelf')
-		.where ({ id }).first();
+		.where ({ id }).first().select("*");
 }
 
 
@@ -29,8 +30,9 @@ async function addBooks(book) {
 
 
 
-async function remove(bookId) {
+async function remove(bookId, shelfId) {
 	return db("userBooksOnAShelf")
 		.where("bookId", bookId)
+		.where("shelfId", shelfId)
 		.del();
 }

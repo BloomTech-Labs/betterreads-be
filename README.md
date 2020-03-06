@@ -17,13 +17,24 @@ To get the server running locally:
 
 - Clone this repo
 - **npm install** to install all required dependencies
-- **npm server** to start the local server
-- **npm test** to start server using testing environment
+- **npm run server** to start the local server
+- **npm start** only for production
+- **npm run test** to start server using testing environment
 
 ### Seeding for tests
 
-1.   knex migrate:up --env=testing
-2.   knex seed:run --env=testing --specific=001-users.js
+- seed data is in database/seeds/
+
+1.  knex migrate:up --env=testing
+2.  knex seed:run --env=testing --specific=001-books.js
+3.  knex migrate:up --env=testing
+4.  knex seed:run --env=testing --specific=001-users.js
+5.  knex migrate:up --env=testing
+6.  knex seed:run --env=testing --specific=002-user-books.js
+7.  knex migrate:up --env=testing
+8.  knex seed:run --env=testing --specific=002-user-shelves.js
+9.  knex migrate:up --env=testing
+10. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
 
 repeat...until all seed files are run
 
@@ -120,10 +131,12 @@ repeat...until all seed files are run
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
 | GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
 | PUT    | `/api/:userId/library/:bookId`   | all users           | Returns a single book (put for readingStatus)             |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return book object                                        |
+| POST   | `/api/:userId/libraryfav`        | all users           | Return book object                                        |
 
 
 # Body Required
@@ -139,7 +152,8 @@ repeat...until all seed files are run
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves/:userId`          | all users      | Returns an empty shelf                        |
+| POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
+| POST   | `/api/shelves/userFav/:userId`  | all users      | Returns shelf with favorite books             |
 | GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
@@ -194,7 +208,7 @@ repeat...until all seed files are run
 }
 ```
 
-#### 2️⃣ GOOGLEBOOKS
+#### 2️⃣ BOOKS
 
 ---
 
@@ -229,11 +243,10 @@ repeat...until all seed files are run
   id: UUID
   bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
-  readingStatus: INTEGER
-  dateStarted: Date
-  dateEnded: Date
-  dateAdded: Date
-  tags: STRING(/currently not included/)
+  readingStatus: INTEGER (NULLABLE)
+  date_started: DATETIME (NULLABLE)
+  date_ended: DATETIME (NULLABLE)
+  favorite: BOOLEAN (NULLABLE)
 }
 ```
 
@@ -244,7 +257,7 @@ repeat...until all seed files are run
   id: UUID
   userId: UUID foreign key in USERS table
   shelfName: STRING
-  isPrivate: BOOLEAN
+  isPrivate: BOOLEAN (NULLABLE)
 }
 ```
 
@@ -292,15 +305,17 @@ repeat...until all seed files are run
 
 `add(book)` -> Returns a single book
 
-`findById(book)` -> finds book by bookId
+`findById(bookId)` -> Finds book by bookId
 
-`isBookInUserBooks(userId, googleId)` -> checks if book is already in user's library
+`findFavorites(userId)` -> Returns array of favorite books
+
+`isBookInUserBooks(userId, googleId)` -> Checks if book is already in user's library
 
 `findByUserId(userId)` -> Return all books in user's library
 
 `findDetailByUserId(userId, bookId)` -> Return a single book with full details
 
-`updateReadingStatus(userId, bookId)` -> Return a single book with full details
+`update(userId, bookId)` -> Return a single book with full details
 
 `remove(userId, bookId)` -> Returns nothing 
 
@@ -314,13 +329,13 @@ repeat...until all seed files are run
 
 `findByUserId(userId)` -> Returns all of 1 User's shelves
 
-`add` -> Returns a single bookshelf
+`add(shelf)` -> Returns a single bookshelf
 
-`findById` -> Returns a single bookshelf
+`findById(id)` -> Returns a single bookshelf
 
-`update` -> Returns a single bookshelf
+`update(updatedShelf, shelfId)` -> Returns a single bookshelf
 
-`remove` -> Returns nothing
+`remove(shelfId)` -> Returns nothing
 
 
 ## 3️⃣ Environment Variables
@@ -343,11 +358,10 @@ create a .env file that includes the following:
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
 
-    <!-- *  STAGING_DB - optional development db for using functionality not available in SQLite
+    
     *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard -->
+    *  RDS_HOSTNAME - set in "production"
+    
     
 ## Contributing
 

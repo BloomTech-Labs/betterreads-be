@@ -4,10 +4,11 @@ module.exports = {
 	findBy,
 	add,
 	findById,
+	findFavorites,
 	isBookInUserBooks,
 	findByUserId,
 	findDetailByUserId,
-	updateReadingStatus,
+	update,
 	remove
 };
 
@@ -26,13 +27,29 @@ function findById(id) {
 	return db("userBooks").where({ id });
 }
 
+
+function findFavorites(userId) {
+	return db("userBooks").where({ userId }).then(book => {
+	const favorites = []
+		for (i=0; i< book.length; i++){
+			if (book[i].favorite === true){
+				favorites.push(book[i])
+			}
+		}
+		return favorites
+		
+	 
+	})
+}
+
+
 function isBookInUserBooks(userId, googleId) {
 	return db("userBooks as ub")
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.where("b.googleId", googleId)
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.title",
 			"b.authors"
@@ -45,11 +62,13 @@ function findByUserId(userId) {
 		.where({ userId })
 		.join("books as b", "ub.bookId", "b.id")
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
+			"b.id as bookId",
 			"b.googleId",
 			"b.title",
 			"b.authors",
 			"ub.readingStatus",
+			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount"
@@ -63,7 +82,7 @@ function findDetailByUserId(userId, bookId) {
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
-			"ub.id",
+			"ub.id as userBooksId",
 			"b.googleId",
 			"b.isbn10",
 			"b.isbn13",
@@ -87,11 +106,11 @@ function findDetailByUserId(userId, bookId) {
 		);
 }
 
-async function updateReadingStatus(userId, bookId, readingStatus) {
+async function update(userId, bookId, update) {
 	const [id] = await db("userBooks")
 		.where({ userId })
-		.where("id", bookId)
-		.update({ readingStatus })
+		.where("userBooks.bookId", bookId)
+		.update( update )
 		.returning("id");
 	return findDetailByUserId(userId, id);
 }
@@ -99,6 +118,6 @@ async function updateReadingStatus(userId, bookId, readingStatus) {
 function remove(userId, bookId) {
 	return db("userBooks")
 		.where({ userId })
-		.where("id", bookId)
+		.where("userBooks.bookId", bookId)
 		.del();
 }
