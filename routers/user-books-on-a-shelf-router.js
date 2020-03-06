@@ -4,43 +4,157 @@ const UserShelves = require("../models/user-shelves");
 const UserBooks = require("../models/user-books");
 const Books = require("../models/books.js");
 
-router.post(
-  "/shelves/:shelfId/",
-  isBookInBookDb,
-  isBookInUserBooksDb,
-  (req, res) => {
+router.post( "/shelves/:shelfId",(req, res) => {
     const shelfId = req.params.shelfId;
     const book = req.body.book;
     const googleId = req.body.book.googleId;
     const status = req.body.readingStatus;
+    const favorite = req.body.favorite
+ 
 
-    Books.findBy({ googleId }).then(bk => {
-      const bookId = bk[0].id;
-      const bookObj = {
-        bookId: bookId,
-        shelfId: shelfId
-      };
+  UserShelves.findById(shelfId).then(shelf => {
+    const userId = shelf[0].userId;
 
-      BooksOnShelf.findBooksOnShelf(shelfId, bookId).then(booksOnS => {
-        if (booksOnS.length > 0) {
-          res.status(500).json({ message: "book is already in user shelf" });
-        } else {
-          if ((bookId, shelfId)) {
-            BooksOnShelf.addBooks(bookObj)
-              .then(book => {
-                res.status(200).json(book);
-              })
-              .catch(err => {
-                res.status(500).json({
-                  message: "error in adding book to shelf"
-                });
+  
+  Books.findBy({ googleId })
+    .first()
+    .then(bk => {
+      if (bk == undefined) {
+        Books.add(book)
+          .then(bk => {
+
+            const userbookObject = {
+              bookId: bk.id,
+              readingStatus: status,
+              favorite: favorite,
+              userId: userId
+            };
+            UserBooks.add(userbookObject)
+            .then(added => {
+              console.log({ AddedBook: added });
+              const bkId = added[0].bookId;
+              BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
+                if (booksOnS.length > 0) {
+                  res.status(500).json({ message: "book is already in user shelf" });
+                } else {
+
+                  if ((bkId, shelfId)) {
+                    const bookObj = {
+                      bookId:bkId,
+                      shelfId: shelfId
+                    }
+                    BooksOnShelf.addBooks(bookObj)
+                      .then(book => {
+                        res.status(200).json({book, message:" book added to book DB, user-book and user-shelf" });
+                      })
+                      .catch(err => {
+                        res.status(500).json({
+                          message: "error in adding book to shelf"
+                        });
+                      });
+                  }
+                }
               });
+            })
+            .catch(err => {
+              res.status(401).json({ message: "Error in posting userbook" });
+            });
+            console.log({ Book: bk, message: "book added to book db" });
+          })
+          .catch(err => {
+            res.status(200).json({
+              message: "Book not added to book db"
+            });
+          });
+      } else {
+        console.log({ message: "book is already in books DB" });
+
+        
+        
+        UserBooks.isBookInUserBooks(userId, googleId).then(book => {
+        
+          if (book.length == 0){
+            Books.findBy({ googleId }).then(bk => {
+              
+              const userbookObject = {
+              bookId: bk[0].id,
+              readingStatus: status,
+              favorite: favorite,
+              userId: userId
+            };
+            
+            UserBooks.add(userbookObject)
+            .then(added => {
+           
+              const bkId = added[0].bookId;
+             
+              BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
+                
+                if (booksOnS.length > 0) {
+                  res.status(500).json({ message: "book is already in user shelf" });
+                } else {
+                  if ((bkId, shelfId)) {
+                    
+                    const bookObj ={
+                      bookId: bkId,
+                      shelfId: shelfId
+                    }
+                    BooksOnShelf.addBooks(bookObj)
+                      .then(book => {
+                        res.status(200).json(book);
+                      })
+                      .catch(err => {
+                        res.status(500).json({
+                          message: "error in adding book to shelf"
+                        });
+                      });
+                  }
+                }
+              });
+            })
+            .catch(err => {
+              res.status(400).json({ message: "Error in posting userbook" });
+            });
+            })
+            
+          } else{
+            
+            Books.findBy({ googleId }).then(book => {
+              const bkId = book[0].id;
+              BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
+              
+              if (booksOnS.length > 0) {
+                res.status(500).json({ message: "book is already in user shelf" });
+              } else {
+                if ((bkId, shelfId)) {
+                  
+                  const bookObj ={
+                    bookId: bkId,
+                    shelfId: shelfId
+                  }
+                  BooksOnShelf.addBooks(bookObj)
+                    .then(book => {
+                      res.status(200).json(book);
+                    })
+                    .catch(err => {
+                      res.status(500).json({
+                        message: "error in adding book to shelf"
+                      });
+                    });
+                }
+              }
+            });
+            })
+            
           }
-        }
-      });
+        
+
+      })
+    }
+    
     });
-  }
-);
+})
+});
 
 router.delete("/shelves/:shelfId", (req, res) => {
   const userId = req.params.userId;
@@ -85,67 +199,5 @@ router.get("/shelves/:shelfId", (req, res) => {
   }
 });
 
-function isBookInBookDb(req, res, next) {
-  const book = req.body.book;
-  const googleId = req.body.book.googleId;
-
-  Books.findBy({ googleId })
-    .first()
-    .then(bk => {
-      if (bk == undefined) {
-        Books.add(book)
-          .then(bk => {
-            console.log({ Book: bk, message: "book added to book db" });
-          })
-          .catch(err => {
-            console.log({
-              message: "Book not added to book db"
-            });
-          });
-      } else {
-        console.log({ message: "book is already in books DB" });
-      }
-      next();
-    });
-}
-
-function isBookInUserBooksDb(req, res, next) {
-  const shelfId = req.params.shelfId;
-  const reqGoogleId = req.body.book.googleId;
-  const status = req.body.readingStatus;
-
-  UserShelves.findById(shelfId).then(shelf => {
-    const uId = shelf[0].userId;
-
-    UserBooks.isBookInUserBooks(uId, reqGoogleId).then(bk => {
-      if (bk.length == 0) {
-        Books.findBy({ googleId: reqGoogleId })
-          .then(book2 => {
-            const bookId = book2[0].id;
-            const userbookObject = {
-              bookId: bookId,
-              readingStatus: status,
-              userId: uId
-            };
-
-            UserBooks.add(userbookObject)
-
-              .then(added => {
-                console.log({ AddedBook: added });
-              })
-              .catch(err => {
-                console.log({ message: "Error in posting userbook" });
-              });
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        console.log({ message: "book is already in user's library" });
-      }
-    });
-    next();
-  });
-}
 
 module.exports = router;
