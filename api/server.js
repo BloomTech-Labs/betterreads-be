@@ -28,25 +28,7 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-var whitelist = [
-'https://readrr.app', 
-'https://www.readrr.app', 
-'https://api.readrr.app', 
-'http://localhost:3000',
-'br-web-backend-prod.us-west-2.elasticbeanstalk.com',
-'dualstack.awseb-AWSEB-1D3R3YVDO2VAW-1276376664.us-west-2.elb.amazonaws.com',
-]
-
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-server.use(cors(corsOptions));
+server.use(cors());
 
 // MARK: -- session and cookie configuration
 server.use(
