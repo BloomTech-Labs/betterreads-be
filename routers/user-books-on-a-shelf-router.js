@@ -32,7 +32,7 @@ router.post( "/shelves/:shelfId",(req, res) => {
             UserBooks.add(userbookObject)
             .then(added => {
               console.log({ AddedBook: added });
-              const bkId = added[0].bookId;
+              const bkId = added.bookId;
               BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
                 if (booksOnS.length > 0) {
                   res.status(500).json({ message: "book is already in user shelf" });
@@ -57,7 +57,7 @@ router.post( "/shelves/:shelfId",(req, res) => {
               });
             })
             .catch(err => {
-              res.status(401).json({ message: "Error in posting userbook" });
+              res.status(401).json({ message: "Error in posting userbook 60" });
             });
             console.log({ Book: bk, message: "book added to book db" });
           })
@@ -86,7 +86,7 @@ router.post( "/shelves/:shelfId",(req, res) => {
             UserBooks.add(userbookObject)
             .then(added => {
            
-              const bkId = added[0].bookId;
+              const bkId = added.bookId;
              
               BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
                 
