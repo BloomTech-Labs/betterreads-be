@@ -20,7 +20,7 @@ async function add(userbook) {
 	const [id] = await db("userBooks")
 		.insert(userbook)
 		.returning("id");
-	return findById(id);
+	return findById(id).first();
 }
 
 function findById(id) {
@@ -52,7 +52,9 @@ function isBookInUserBooks(userId, googleId) {
 			"ub.id as userBooksId",
 			"b.googleId",
 			"b.title",
-			"b.authors"
+			"b.authors",
+			"ub.favorite",
+			"b.id as bookId"
 		);
 
 }
