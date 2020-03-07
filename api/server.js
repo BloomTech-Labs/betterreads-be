@@ -36,6 +36,7 @@ var whitelist = [
 'br-web-backend-prod.us-west-2.elasticbeanstalk.com',
 'dualstack.awseb-AWSEB-1D3R3YVDO2VAW-1276376664.us-west-2.elb.amazonaws.com',
 ]
+
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
