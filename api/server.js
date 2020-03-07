@@ -28,7 +28,7 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-var whitelist = ['https://www.readrr.app', 'http://localhost:3000']
+var whitelist = ['https://readrr.app', 'https://www.readrr.app', 'https://api.readrr.app', 'http://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
