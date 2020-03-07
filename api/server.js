@@ -28,7 +28,7 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-server.use(cors());
+server.use(cors({ credentials: true }));
 
 // MARK: -- session and cookie configuration
 server.use(
