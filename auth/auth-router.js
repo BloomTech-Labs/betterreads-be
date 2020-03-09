@@ -73,11 +73,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: process.env.FAILURE_URL || "http//localhost:3000/failure"
+		failureRedirect: `${process.env.RESULT_URL}/failure` || "http//localhost:3000/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(process.env.SUCCESS_URL || "http://localhost:3000/success");
+		response.redirect(`${process.env.RESULT_URL}/success` || "http://localhost:3000/success");
 	}
 );
 
@@ -92,11 +92,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: process.env.FAILURE_URL || "http://localhost:3000/failure"
+		failureRedirect: `${process.env.RESULT_URL}/failure` || "http://localhost:3000/failure"
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(process.env.SUCCESS_URL || "http://localhost:3000/success");
+		response.redirect(`${process.env.RESULT_URL}/success` || "http://localhost:3000/success");
 	}
 );
 
