@@ -170,7 +170,7 @@ describe("user-books-router", function() {
 					.send(book2)
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.body[0].bookId).toBe(2)
+						expect(res.body.bookId).toBe(2)
 					});
 				return req;
 			});
