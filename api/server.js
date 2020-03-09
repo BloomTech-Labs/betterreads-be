@@ -28,7 +28,17 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-server.use(cors({ origin: "*", credentials: true }));
+const whitelist = ["http://localhost:3000", "https://readrr.app"]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+server.use(cors());
 
 // MARK: -- session and cookie configuration
 server.use(
