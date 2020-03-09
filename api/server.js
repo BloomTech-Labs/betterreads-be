@@ -36,9 +36,9 @@ var corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'))
     }
-  }
+  }, credentials: true
 }
-server.use(cors());
+server.use(cors(corsOptions));
 
 // MARK: -- session and cookie configuration
 server.use(
