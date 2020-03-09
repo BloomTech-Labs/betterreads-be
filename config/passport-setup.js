@@ -17,7 +17,7 @@ passport.use(
 	new GoogleStrategy({ 
 			clientID: process.env.GOOGLE_CLIENT_ID, 
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-			callbackURL: "/api/auth/google/redirect"
+			callbackURL: "https://api.readrr.app/api/auth/google/redirect"
 		},
 		(accessToken, refreshToken, profile, done) => {
 			const userProfile = {
@@ -46,7 +46,7 @@ passport.use(
 	new FacebookStrategy({
 			clientID: process.env.FACEBOOK_CLIENT_ID,
 			clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-			callbackURL: "/api/auth/facebook/redirect",
+			callbackURL: "https://api.readrr.app/api/auth/facebook/redirect",
 			profileFields: ["id", "displayName", "photos", "email"]
 		},
 		(accessToken, refreshToken, profile, done) => {
