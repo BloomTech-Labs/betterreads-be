@@ -28,12 +28,12 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-// const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
-// var corsOptions = {
-// 	origin: "*",
-//    	credentials: true
-// }
-// server.use(cors(corsOptions));
+const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
+var corsOptions = {
+	origin: "*",
+   	credentials: true
+}
+server.use(cors());
 
 // MARK: -- session and cookie configuration
 server.use(
