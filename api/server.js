@@ -28,15 +28,10 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-const whitelist = ["http://localhost:3000", "https://readrr.app"]
+const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }, credentials: true
+	origin: "*",
+   	credentials: true
 }
 server.use(cors(corsOptions));
 
