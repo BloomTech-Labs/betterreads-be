@@ -114,9 +114,9 @@ router.post("/:userId/library", (req, res) => {
     const googleId = book.googleId;
     // MARK: -- is the book in the user's library already?
     UserBooks.isBookInUserBooks(userId, googleId)
-      .then(here => {
+      .then(library => {
         // MARK: -- length == 0, user does not have book in their library
-        if (here.length == 0) {
+        if (library.length == 0) {
           // MARK: -- check to see if the book in our books database
           Books.findBy({ googleId })
             .first()
@@ -186,20 +186,19 @@ router.post("/:userId/libraryfav", (req, res) => {
   const userId = req.params.userId;
   const book = req.body.book;
   const status = req.body.readingStatus;
-  const googleId = req.body.book.googleId
 
   if (book) {
     const googleId = book.googleId;
     // MARK: -- is the book in the user's library already?
     UserBooks.isBookInUserBooks(userId, googleId)
-      .then(here => {
+      .then(library => {
         // MARK: -- length == 0, user does not have book in their library
-        if (here.length == 0) {
+        if (library.length == 0) {
           // MARK: -- check to see if the book in our books database
           Books.findBy({ googleId })
             .first()
             .then(bk => {
-              console.log("here")
+              
               if (bk == undefined) {
                   
                 // MARK: -- adding the book to our books db since it is not there
@@ -230,7 +229,7 @@ router.post("/:userId/libraryfav", (req, res) => {
                     });
                   });
               } else {
-                console.log("here")
+      
                 const bkId = bk[0].bookId
                 const userbookObject = {
                   bookId: bkId,
@@ -239,19 +238,18 @@ router.post("/:userId/libraryfav", (req, res) => {
                   favorite: true
                 };
                UserBooks.add(userbookObject).then(book => {
-                 console.log("book 246 book added to user library favorite: true",book)
+                 
 
                 });
               }
             });
-        } else if (here[0].favorite == true) {
-          console.log("Book Is already in user's library 252")
+        } else if (library[0].favorite == true) {
+          
         
            
-            const bkId = here[0].bookId;
+            const bkId = library[0].bookId;
             const unfav = {favorite: false}
-            console.log("bookId, userId", bkId, userId)
-            console.log("here", here)
+         
             UserBooks.update(userId, bkId, unfav)
             .then(userbook => {
               if (userbook == undefined) {
@@ -273,7 +271,7 @@ router.post("/:userId/libraryfav", (req, res) => {
             );
 
           } else{
-            const bkId = here[0].bookId;
+            const bkId = library[0].bookId;
             const fav = {favorite: true}
             UserBooks.update(userId, bkId, fav)
             .then(userbook => {
@@ -283,7 +281,7 @@ router.post("/:userId/libraryfav", (req, res) => {
                 });
               } else {
                 res
-                  .status(201)
+                  .status(200)
                   .json({
                     userbook: userbook,
                     message:
