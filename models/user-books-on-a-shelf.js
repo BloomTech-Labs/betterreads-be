@@ -3,7 +3,8 @@ const db = require("../database/db-config.js");
 module.exports = {
 	findBooksOnShelf,
 	addBooks,
-	remove
+	remove,
+	removeAll
 };
 
 function findBooksOnShelf(shelfId, bookId) {
@@ -35,4 +36,19 @@ async function remove(bookId, shelfId) {
 		.where("bookId", bookId)
 		.where("shelfId", shelfId)
 		.del();
+}
+
+async function removeAll(bookId, userId) {
+	return db("userBooksOnAShelf")
+	.join("userShelves as us", "userBooksOnAShelf.shelfId", "us.id")
+		.where("bookId", bookId)
+		.where("us.userId", userId)
+		.select("shelfId")
+		.then(id => {
+			id.map(del => {	
+			  remove(bookId, del.shelfId)
+			})
+			return id
+		})
+		
 }
