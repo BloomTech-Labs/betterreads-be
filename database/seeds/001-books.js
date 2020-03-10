@@ -16,7 +16,8 @@ const createFakeBooks = () => ({
 	language: 'english',
 	webReaderLink: `${faker.internet.url()}`,
 	textSnippet: faker.lorem.text(),
-	isEbook: faker.random.boolean()
+	isEbook: faker.random.boolean(),
+	averageRating: 3
 });
 
 exports.seed = function(knex) {
