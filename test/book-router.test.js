@@ -27,7 +27,8 @@ describe("book-router", function() {
 		language: "english",
 		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
-		isEbook: true
+		isEbook: true,
+		averageRating: 4
 	};
 
 	const otherBook = {
@@ -46,7 +47,8 @@ describe("book-router", function() {
 		language: "english",
 		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
-		isEbook: false
+		isEbook: false,
+		averageRating: 4
 	};
 
 	const badBookObject = {

@@ -26,15 +26,16 @@ To get the server running locally:
 - seed data is in database/seeds/
 
 1.  knex migrate:up --env=testing
-2.  knex seed:run --env=testing --specific=001-books.js
+2.  knex migrate:up --env=testing
 3.  knex migrate:up --env=testing
 4.  knex seed:run --env=testing --specific=001-users.js
-5.  knex migrate:up --env=testing
-6.  knex seed:run --env=testing --specific=002-user-books.js
-7.  knex migrate:up --env=testing
-8.  knex seed:run --env=testing --specific=002-user-shelves.js
-9.  knex migrate:up --env=testing
-10. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
+5.  knex seed:run --env=testing --specific=001-books.js
+6.  knex migrate:up --env=testing
+7.  knex seed:run --env=testing --specific=002-user-books.js
+8.  knex migrate:up --env=testing
+9.  knex seed:run --env=testing --specific=002-user-shelves.js
+10.  knex migrate:up --env=testing
+11. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
 
 ### Express
 
@@ -119,7 +120,8 @@ To get the server running locally:
   language: STRING,
   webReaderLink: STRING,
   textSnippet: STRING,
-  isEbook: BOOLEAN
+  isEbook: BOOLEAN,
+  averageRating: DECIMAL
 }
 ```
 
