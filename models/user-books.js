@@ -84,6 +84,7 @@ function findDetailByUserId(userId, bookId) {
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
+			"b.id as bookId",
 			"ub.id as userBooksId",
 			"b.googleId",
 			"b.isbn10",
@@ -104,17 +105,18 @@ function findDetailByUserId(userId, bookId) {
 			"b.textSnippet",
 			"b.language",
 			"b.webReaderLink",
-			"b.isEbook"
+			"b.isEbook",
+			"b.averageRating"
 		);
 }
 
 async function update(userId, bookId, update) {
-	const [id] = await db("userBooks")
+	const [id] = await db("userBooks as ub")
 		.where({ userId })
-		.where("userBooks.bookId", bookId)
+		.where("ub.bookId", bookId)
 		.update( update )
-		.returning("id");
-	return findDetailByUserId(userId, id);
+		.returning("ub.bookId")
+	return findDetailByUserId(userId, id)
 }
 
 function remove(userId, bookId) {
