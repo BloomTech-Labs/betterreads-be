@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "cross-env NODE_ENV=testing jest --watch --runInBand --detectOpenHandles",
 		"server": "nodemon index.js",
-		"start": "npx knex migrate:latest --env=production && node index.js"
+		"start": "npx knex migrate:latest && node index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -39,8 +39,7 @@
 		"passport": "^0.4.1",
 		"passport-facebook": "^3.0.0",
 		"passport-google-oauth20": "^2.0.0",
-		"pg": "^7.18.1",
-		"postgres": "^1.0.2"
+		"pg": "^7.18.1"
 	},
 	"jest": {
 		"testEnvironment": "node"

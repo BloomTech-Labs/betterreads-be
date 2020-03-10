@@ -1,4 +1,5 @@
 require("dotenv").config();
+const pg = require("pg");
 
 module.exports = {
 	development: {
@@ -35,11 +36,11 @@ module.exports = {
 	},
 
 	production: {
-		client: 'postgres',
+		client: "pg",
 		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
-			max: 10
+			max: 20
 		},
 		migrations: {
 			directory: "./database/migrations"

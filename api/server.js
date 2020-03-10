@@ -3,10 +3,11 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
-const passportSetup = require("../config/passport-setup");
+
+const passportSetup = require("../config/passport-setup.js");
 const session = require("express-session");
 const knexSessionStore = require("connect-session-knex")(session);
-const config = require("../database/db-config");
+const config = require("../database/db-config.js");
 
 // MARK: -- restricted middleware
 const restricted = require("../auth/restricted-middleware.js");
@@ -27,7 +28,13 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-server.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+// const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
+var corsOptions = {
+	origin: "https://www.readrr.app",
+	methods: "GET,PUT,POST,DELETE",
+   	credentials: true
+}
+server.use(cors(corsOptions));
 
 // MARK: -- session and cookie configuration
 server.use(
