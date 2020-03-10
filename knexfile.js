@@ -1,15 +1,17 @@
 require("dotenv").config();
 const pg = require("pg");
 
+const connect = (database_name) => ({
+	host: process.env.HOST,
+	user: process.env.DB_USER,
+	password: process.env.PASSWORD,
+	database: database_name
+})
+
 module.exports = {
 	development: {
 		client: "pg",
-		connection: {
-			host: process.env.HOST,
-			user: process.env.DB_USER,
-			password: process.env.PASSWORD,
-			database: process.env.DB
-		},
+		connection: connect(process.env.DB),
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./database/migrations"
@@ -49,12 +51,7 @@ module.exports = {
 
 	testing: {
 		client: "pg",
-		connection: {
-			host: process.env.HOST,
-			user: process.env.DB_USER,
-			password: process.env.PASSWORD,
-			database: process.env.TEST_DB
-		},
+		connection: connect(process.env.TEST_DB),
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./database/migrations"
