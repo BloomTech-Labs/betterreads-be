@@ -29,7 +29,8 @@ describe("user-books-router", function() {
 		language: "english",
 		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
-		isEbook: true
+		isEbook: true,
+		averageRating: 4
 	};
 
 	const anotherBookObject = {
@@ -48,7 +49,8 @@ describe("user-books-router", function() {
 		language: "russian",
 		webReaderLink: "testLink",
 		textSnippet: "testSnippet",
-		isEbook: false
+		isEbook: false,
+		averageRating: 2
 	};
 
 	const book1 = {
