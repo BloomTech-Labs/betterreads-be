@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "cross-env NODE_ENV=testing jest --watch --runInBand --detectOpenHandles",
 		"server": "nodemon index.js",
+		"prestart": "npx knex migrate:rollback",
 		"start": "npx knex migrate:latest && node index.js"
 	},
 	"repository": {
