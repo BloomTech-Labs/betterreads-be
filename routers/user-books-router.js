@@ -182,7 +182,7 @@ router.post("/:userId/library", (req, res) => {
   }
 });
 
-router.post("/:userId/libraryreadingstatus", (req, res) => {
+router.post("/:userId/libraryStatus", (req, res) => {
   const userId = req.params.userId;
   const book = req.body.book;
   const status = req.body.readingStatus;
