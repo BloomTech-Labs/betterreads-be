@@ -62,7 +62,7 @@ router.put("/:userId/library/:id", (req, res) => {
 });
 
 // MARK: -- Delete userbook from library grab id through body
-router.delete("/:userId/library/", (req, res) => {
+router.delete("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   const bookId = req.body.id;
   UserBooks.remove(userId, bookId)
@@ -127,9 +127,9 @@ router.post("/:userId/library", (req, res) => {
                   .then(book => {
                     const userbookObject = {
                       bookId: book.id,
-                      readingStatus: status,
                       userId: userId,
-                      favorite: favorite
+                      favorite: favorite,
+                      readingStatus: status
                     };
                     // MARK: -- adding book to our user's library
                     UserBooks.add(userbookObject)
@@ -150,8 +150,8 @@ router.post("/:userId/library", (req, res) => {
               } else {
                 const userbookObject = {
                   bookId: bk.id,
-                  readingStatus: status,
                   userId: userId,
+                  readingStatus: status,
                   favorite: favorite
                 };
                 // MARK: -- book exist in our books db, add the book to our user's library
@@ -182,211 +182,20 @@ router.post("/:userId/library", (req, res) => {
   }
 });
 
-router.post("/:userId/libraryStatus", (req, res) => {
-  const userId = req.params.userId;
-  const book = req.body.book;
+// MARK: -- For when in the your searching for a book
+router.put("/:userId/library", (req, res) => {
+  const userId = req.params.userId
+  const bookId = req.body.bookId
   const status = req.body.readingStatus;
-  const readingStatus = req.body.readingStatus;
   const favorite = req.body.favorite;
-  if (book) {
-    const googleId = book.googleId;
-    // MARK: -- is the book in the user's library already?
-    UserBooks.isBookInUserBooks(userId, googleId)
-      .then(library => {
-        // MARK: -- length == 0, user does not have book in their library
-        if (library.length == 0) {
-          // MARK: -- check to see if the book in our books database
-          Books.findBy({ googleId })
-            .first()
-            .then(bk => {
-              if (bk == undefined) {
-                // MARK: -- adding the book to our books db since it is not there
-                Books.add(book)
-                  .then(book => {
-                    const userbookObject = {
-                      bookId: book.id,
-                      readingStatus: status,
-                      userId: userId,
-                      favorite: favorite
-                    };
-                    // MARK: -- adding book to our user's library
-                    UserBooks.add(userbookObject)
-                      .then(added => {
-                        res.status(201).json(added);
-                      })
-                      .catch(err => {
-                        res.status(500).json({
-                          message: "Error in posting userbook"
-                        });
-                      });
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "Book not added to book db"
-                    });
-                  });
-              } else {
-                const userbookObject = {
-                  bookId: bk.id,
-                  readingStatus: status,
-                  userId: userId,
-                  favorite: favorite
-                };
-                // MARK: -- book exist in our books db, add the book to our user's library
-                UserBooks.add(userbookObject)
-                  .then(added => {
-                    res.status(201).json(added);
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "Error in posting userbook"
-                    });
-                  });
-              }
-            });
-        } else {
-          // MARK: -- user already has the book in their user library
-          console.log({
-            message: "Book already exist in your library"
-          });
-            const bookId = library[0].bookId; 
-          UserBooks.update(userId, bookId, {readingStatus})
-          .then(updated => {
-            res.status(201).json(updated)
-          })
-          .catch(err => {
-            res.status(500).json({ message: "Error in updating user-book" });
-          })
-        }
-      })
-      .catch(nothere => {
-        res.status(500).json({ message: "Error in userbook posting" });
-      });
-  } else {
-    // MARK: -- book did not have information provided
-    res.status(400).json({ message: "Please provide a book" });
-  }
-});
-// MARK: -- ADDS BOOK TO USER LIBRARY AND SETS FAVORITE TO TRUE
-router.post("/:userId/libraryfav", (req, res) => {
-  const userId = req.params.userId;
-  const book = req.body.book;
-  const status = req.body.readingStatus;
 
-  if (book) {
-    const googleId = book.googleId;
-    // MARK: -- is the book in the user's library already?
-    UserBooks.isBookInUserBooks(userId, googleId)
-      .then(library => {
-        // MARK: -- length == 0, user does not have book in their library
-        if (library.length == 0) {
-          // MARK: -- check to see if the book in our books database
-          Books.findBy({ googleId })
-            .first()
-            .then(bk => {
-              
-              if (bk == undefined) {
-                  
-                // MARK: -- adding the book to our books db since it is not there
-                Books.add(book)
-                  .then(book => {
-                    const userbookObject = {
-                      bookId: book.id,
-                      readingStatus: status,
-                      userId: userId,
-                      favorite: true
-                    };
-                    // MARK: -- adding book to our user's library
-                    UserBooks.add(userbookObject)
-                      .then(added => {
-                        res
-                          .status(201)
-                          .json(added);
-                      })
-                      .catch(err => {
-                        res.status(500).json({
-                          message: "Error in posting userbook"
-                        });
-                      });
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "Book not added to book db"
-                    });
-                  });
-              } else {
-      
-                const bkId = bk[0].bookId
-                const userbookObject = {
-                  bookId: bkId,
-                  readingStatus: status,
-                  userId: userId,
-                  favorite: true
-                };
-               UserBooks.add(userbookObject).then(book => {
-                 
-
-                });
-              }
-            });
-        } else if (library[0].favorite == true) {
-          
-        
-           
-            const bkId = library[0].bookId;
-            const unfav = {favorite: false}
-         
-            UserBooks.update(userId, bkId, unfav)
-            .then(userbook => {
-              if (userbook == undefined) {
-                res.status(400).json({
-                  message: "userbook: does not exist. no change."
-                });
-              } else {
-                res
-                  .status(201)
-                  .json({
-                    userbook: userbook,
-                    message:
-                      "book is already in user's library/ favorite: False"
-                  });
-              }
-            })
-            .catch(err =>
-              res.status(500).json({ message: "error in changing data 247" })
-            );
-
-          } else{
-            const bkId = library[0].bookId;
-            const fav = {favorite: true}
-            UserBooks.update(userId, bkId, fav)
-            .then(userbook => {
-              if (userbook == undefined) {
-                res.status(400).json({
-                  message: "userbook: does not exist. no change."
-                });
-              } else {
-                res
-                  .status(200)
-                  .json({
-                    userbook: userbook,
-                    message:
-                      "book is already in user's library/ favorite: True"
-                  });
-              }
-            })
-            .catch(err =>
-              res.status(500).json({ message: "error in changing data" })
-            );
-
-
-          }
-        
-      });
-  } else {
-    // MARK: -- book did not have information provided
-    res.status(400).json({ message: "Please provide a book" });
-  }
+  UserBooks.update(bookId, userId, { readingStatus: status, favorite: favorite })
+    .then(updated => {
+      res.status(201).json(updated)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
 });
 
 module.exports = router;
