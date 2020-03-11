@@ -3,6 +3,15 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
 
+const userObject = (user) => ({
+	id: user.id,
+	fullName: user.fullName,
+	emailAddress: user.emailAddress,
+	image: user.image,
+	googleID: user.googleID,
+	facebookID: user.facebookID
+});
+
 // MARK: -- local
 router.post("/signup", (request, response) => {
 	let user = request.body;
@@ -15,14 +24,7 @@ router.post("/signup", (request, response) => {
 			const user = request.session.user;
 			response.status(201).json({
 				message: "successfully registered user",
-				user: {
-					id: user.id,
-					fullName: user.fullName,
-					emailAddress: user.emailAddress,
-					image: user.image,
-					googleID: user.googleID,
-					facebookID: user.facebookID
-				}
+				user: userObject(user)
 
 			});
 		})
@@ -42,14 +44,7 @@ router.post("/signin", (request, response) => {
 				const user = request.session.user;
 				response.status(200).json({
 					message: "successfully logged in",
-					user: {
-						id: user.id,
-						fullName: user.fullName,
-						emailAddress: user.emailAddress,
-						image: user.image,
-						googleID: user.googleID,
-						facebookID: user.facebookID
-					}
+					user: userObject(user)
 				});
 			} else {
 				response.status(500).json({ message: "invalid credentials" });
