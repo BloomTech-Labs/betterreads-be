@@ -12,6 +12,9 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
+const FAILURE = `${process.env.BASE_URL}/failure` || "http//localhost:3000/failure"
+const SUCCESS = `${process.env.BASE_URL}/success` || "http://localhost:3000/success"
+
 // MARK: -- local
 router.post("/signup", (request, response) => {
 	let user = request.body;
@@ -68,11 +71,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: `${process.env.BASE_URL}/failure` || "http//localhost:3000/failure"
+		failureRedirect: FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(`${process.env.BASE_URL}/success` || "http://localhost:3000/success");
+		response.redirect(SUCCESS);
 	}
 );
 
@@ -87,11 +90,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: `${process.env.BASE_URL}/failure` || "http://localhost:3000/failure"
+		failureRedirect: FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(`${process.env.BASE_URL}/success` || "http://localhost:3000/success");
+		response.redirect(SUCCESS);
 	}
 );
 
