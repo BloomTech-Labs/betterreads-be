@@ -109,22 +109,9 @@ router.post("/:userId/library", (req, res) => {
                 // MARK: -- adding the book to our books db since it is not there
                 Books.add(book)
                   .then(book => {
-                    const userbookObject = {
-                      bookId: book.id,
-                      userId: userId,
-                      favorite: favorite,
-                      readingStatus: status
-                    };
+                    const newUserBookObject = createUserBook(book, userId, favorite, status)
                     // MARK: -- adding book to our user's library
-                    UserBooks.add(userbookObject)
-                      .then(added => {
-                        res.status(201).json(added);
-                      })
-                      .catch(err => {
-                        res.status(500).json({
-                          message: "Error in posting userbook"
-                        });
-                      });
+                    addToUserBooks(req, res, newUserBookObject)
                   })
                   .catch(err => {
                     res.status(500).json({
@@ -132,22 +119,9 @@ router.post("/:userId/library", (req, res) => {
                     });
                   });
               } else {
-                const userbookObject = {
-                  bookId: bk.id,
-                  userId: userId,
-                  readingStatus: status,
-                  favorite: favorite
-                };
+                const userBookObject = createUserBook(bk, userId, favorite, status)
                 // MARK: -- book exist in our books db, add the book to our user's library
-                UserBooks.add(userbookObject)
-                  .then(added => {
-                    res.status(201).json(added);
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "Error in posting userbook"
-                    });
-                  });
+                addToUserBooks(req, res, userBookObject)
               }
             });
         } else {
@@ -165,5 +139,27 @@ router.post("/:userId/library", (req, res) => {
     res.status(400).json({ message: "Please provide a book" });
   }
 });
+
+// MARK: -- Helper functions
+function createUserBook(book, userId, favorite, status) {
+  return { 
+    bookId: book.id,
+    userId: userId,
+    favorite: favorite,
+    readingStatus: status
+  }
+};
+
+async function addToUserBooks(req, res, userbookObject) {
+  await UserBooks.add(userbookObject)
+    .then(added => {
+      res.status(201).json(added);
+    })
+    .catch(err => {
+      res.status(500).json({
+          message: "Error in posting userbook"
+      });
+    });
+}
 
 module.exports = router;
