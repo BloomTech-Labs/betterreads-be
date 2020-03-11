@@ -12,8 +12,11 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
-const FAILURE =  "http//localhost:3000/failure" || `${process.env.BASE_URL}/failure`
-const SUCCESS =  "http://localhost:3000/success" || `${process.env.BASE_URL}/success`
+
+const API_FAILURE = `${process.env.BASE_URL}/failure`
+const API_SUCCESS = `${process.env.BASE_URL}/success`
+
+
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
@@ -71,11 +74,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: FAILURE
+		failureRedirect: API_FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(SUCCESS);
+		response.redirect(API_SUCCESS);
 	}
 );
 
@@ -90,11 +93,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: FAILURE
+		failureRedirect: API_FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(SUCCESS);
+		response.redirect(API_SUCCESS);
 	}
 );
 
