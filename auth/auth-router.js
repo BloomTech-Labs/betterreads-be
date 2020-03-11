@@ -3,6 +3,18 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
 
+const userObject = (user) => ({
+	id: user.id,
+	fullName: user.fullName,
+	emailAddress: user.emailAddress,
+	image: user.image,
+	googleID: user.googleID,
+	facebookID: user.facebookID
+});
+
+const FAILURE = `${process.env.BASE_URL}/failure` || "http//localhost:3000/failure"
+const SUCCESS = `${process.env.BASE_URL}/success` || "http://localhost:3000/success"
+
 // MARK: -- local
 router.post("/signup", (request, response) => {
 	let user = request.body;
@@ -15,14 +27,7 @@ router.post("/signup", (request, response) => {
 			const user = request.session.user;
 			response.status(201).json({
 				message: "successfully registered user",
-				user: {
-					id: user.id,
-					fullName: user.fullName,
-					emailAddress: user.emailAddress,
-					image: user.image,
-					googleID: user.googleID,
-					facebookID: user.facebookID
-				}
+				user: userObject(user)
 
 			});
 		})
@@ -42,14 +47,7 @@ router.post("/signin", (request, response) => {
 				const user = request.session.user;
 				response.status(200).json({
 					message: "successfully logged in",
-					user: {
-						id: user.id,
-						fullName: user.fullName,
-						emailAddress: user.emailAddress,
-						image: user.image,
-						googleID: user.googleID,
-						facebookID: user.facebookID
-					}
+					user: userObject(user)
 				});
 			} else {
 				response.status(500).json({ message: "invalid credentials" });
@@ -73,11 +71,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: `${process.env.RESULT_URL}/failure` || "http//localhost:3000/failure"
+		failureRedirect: FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(`${process.env.RESULT_URL}/success` || "http://localhost:3000/success");
+		response.redirect(SUCCESS);
 	}
 );
 
@@ -92,11 +90,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: `${process.env.RESULT_URL}/failure` || "http://localhost:3000/failure"
+		failureRedirect: FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(`${process.env.RESULT_URL}/success` || "http://localhost:3000/success");
+		response.redirect(SUCCESS);
 	}
 );
 
