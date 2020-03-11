@@ -130,25 +130,39 @@ To get the server running locally:
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
+| GET    | `/api/:userId/library/:id`       | all users           | Returns a single book                                     |
 | GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
-| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns updated book object                               |
+| PUT    | `/api/:userId/library/`          | all users           | Returns updated                                           |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
-| DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
-| POST   | `/api/:userId/libraryStatus`     | all users           | Return added book object w/ updated reading status        |
-| POST   | `/api/:userId/libraryfav`        | all users           | Return book object object w/ favorite: true               |
 
 
 
-# Body Required
+# Body Required 
 
+-- PUT `/api/:userId/library`
 ```js
 {
-  googleId: STRING,
-  userId: INTEGER
+  bookId: FOREIGN KEY from books,
+  readingStatus: INTEGER,
+  favorite: BOOLEAN
 }
 ```
+
+-- DELETE `/api/:userId/library`
+{
+  bookId: FOREIGN KEY from books
+}
+
+-- POST `/api/:userId/library`
+```js
+{
+  book: OBJECT,
+  readingStatus: INTEGER,
+  favorite: BOOLEAN
+}
+```
+
 
 # User's shelves
 
@@ -233,6 +247,7 @@ To get the server running locally:
   webRenderLink: STRING
   textSnipped: STRING
   isEbook: BOOLEAN
+  averageRating: DECIMAL
 }
 ```
 
@@ -246,8 +261,9 @@ To get the server running locally:
   bookId: UUID foreign key in GOOGLEBOOKS table
   userId: UUID foreign key in USERS table
   readingStatus: INTEGER (NULLABLE)
-  date_started: DATETIME (NULLABLE)
-  date_ended: DATETIME (NULLABLE)
+  dateStarted: DATETIME (NULLABLE)
+  dateEnded: DATETIME (NULLABLE)
+  dateAdded: DATETIME (AUTOMATICALLY GENERATED)
   favorite: BOOLEAN (NULLABLE)
 }
 ```
@@ -277,8 +293,6 @@ To get the server running locally:
 
 #### Users
 
-`findById(id)` -> Returns a single user by id
-
 `add(user object)` -> Returns the created user
 
 `findBy(filter)` -> Return all users matching filter
@@ -289,13 +303,13 @@ To get the server running locally:
 
 #### Books
 
-`findById(id)` -> Returns a single book
+`findBy(filter)` -> returns an array of books associated to filter
 
 `getAll()` -> Returns all books
 
 `add(book object)` -> Returns a single book
 
-`findBy(filter)` -> returns an array of books associated to filter
+`findById(id)` -> Returns a single book
 
 <br>
 <br>
@@ -359,8 +373,7 @@ create a .env file that includes the following:
     * GOOGLE_CLIENT_SECRET - this is generated in your google account
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
-    * FAILURE_URL - this is set in the elastic beanstalk env
-    * SUCCESS_URL - this is set in the elastic beanstalk env
+    * BASE_URL - this is set in elastic beanstalk env
 
     *  NODE_ENV - set to "development" until ready for "production"
     *  RDS_HOSTNAME - set in "production"
