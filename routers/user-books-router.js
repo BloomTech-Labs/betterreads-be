@@ -3,6 +3,7 @@ const UserBooks = require("../models/user-books.js");
 const Books = require("../models/books.js");
 
 // MARK: -- GET
+// MARK: -- List
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   UserBooks.findByUserId(userId)
@@ -15,7 +16,9 @@ router.get("/:userId/library", (req, res) => {
     })
     .catch(err => res.status(500).json({ message: "error in returning data" }));
 });
-//MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
+
+// MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
+// MARK: -- List favorite
 router.get("/:userId/library/favorites", (req, res) => {
   const userId = req.params.userId;
   UserBooks.findByIdFilter(userId )
@@ -29,6 +32,7 @@ router.get("/:userId/library/favorites", (req, res) => {
     .catch(err => res.status(500).json({ message: "error in returning data" }));
 });
 
+// MARK: -- GET SINGLE BOOK
 router.get("/:userId/library/:id", (req, res) => {
   const userId = req.params.userId;
   const bookId = req.params.id;
@@ -44,26 +48,7 @@ router.get("/:userId/library/:id", (req, res) => {
 });
 
 // MARK: -- PUT
-router.put("/:userId/library/:id", (req, res) => {
-  const userId = req.params.userId;
-  const bookId = req.params.id;
-  const update = req.body;
-
-  UserBooks.update(userId, bookId, update)
-
-    .then(userbook => {
-      if (userbook == undefined) {
-        res.status(400).json({
-          message: "userbook: does not exist. no change."
-        });
-      } else {
-        res.status(201).json(userbook);
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in changing data" }));
-});
-
-// MARK: -- For when in the your searching for a book
+// MARK: -- PUT in list page, for when searching and/or in user library,
 router.put("/:userId/library", (req, res) => {
   const userId = req.params.userId
   const bookId = req.body.bookId
@@ -80,7 +65,7 @@ router.put("/:userId/library", (req, res) => {
 });
 
 // MARK: -- DELETE
-// MARK: -- Delete userbook from library grab id through body
+// MARK: -- Delete from user library
 router.delete("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   const bookId = req.body.id;
@@ -103,28 +88,7 @@ router.delete("/:userId/library", (req, res) => {
     .catch(err => res.status(500).json({ message: "error in removing data" }));
 });
 
-router.delete("/:userId/library/:id", (req, res) => {
-  const userId = req.params.userId;
-  const bookId = req.params.id;
-  UserBooks.remove(userId, bookId)
-    .then(deleted => {
-      if (deleted == undefined) {
-        res.status(400).json({
-          message: "userbook: does not exist. nothing removed."
-        });
-      } else {
-        if (deleted == 0) {
-          res.status(500).json({ message: "userbook: not deleted" });
-        } else {
-          res.status(204).json(deleted);
-        }
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in removing data" }));
-});
-
 // MARK: -- POST
-// MARK: -- REFACTOR, I WILL BREAK THIS DOWN
 router.post("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   const book = req.body.book;
