@@ -190,7 +190,7 @@ describe("user-books-router", function() {
 					.send({ bookId: 1, readingStatus: 2, favorite: true })
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.status).toBe(201)
+						expect(res.body.authors).toBe("McWorld")
 					});
 				return req;
 			});
