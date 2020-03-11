@@ -211,8 +211,8 @@ describe("user-books-router", function() {
 		it("PUT favorite on userbooks", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
-					.put("/api/1/library/")
-					.send({ book: 1, private: true })
+					.put("/api/1/library")
+					.send({ bookId: 1, readingStatus: 2, favorite: true })
 					.set("cookie", cookie)
 					.then(res => {
 						expect(res.status).toBe(201)
