@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const UserBooks = require("../models/user-books.js");
 const Books = require("../models/books.js");
+const BooksOnAShelf = require("../models/user-books-on-a-shelf")
 
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
@@ -77,27 +78,18 @@ router.delete("/:userId/library/", (req, res) => {
             message: "deleted == 0, nothing was deleted"
           });
         } else {
-          res.status(204).json(deleted);
-        }
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in removing data" }));
-});
-
-router.delete("/:userId/library/:id", (req, res) => {
-  const userId = req.params.userId;
-  const bookId = req.params.id;
-  UserBooks.remove(userId, bookId)
-    .then(deleted => {
-      if (deleted == undefined) {
-        res.status(400).json({
-          message: "userbook: does not exist. nothing removed."
-        });
-      } else {
-        if (deleted == 0) {
-          res.status(500).json({ message: "userbook: not deleted" });
-        } else {
-          res.status(204).json(deleted);
+          BooksOnAShelf.removeAll(bookId, userId)
+          .then(removed => {
+            console.log("removed", removed.length)
+            if (removed.length > 0){
+              res.status(204).json({message: "book deleted from user shelf and library"})
+            } else {
+              res.status(204).json({message: "book deleted from user library"})
+            }
+          })
+          .catch(err => {
+            res.status(404).json({message: "error removing book from shelf"})
+          })
         }
       }
     })
