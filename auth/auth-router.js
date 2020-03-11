@@ -12,8 +12,8 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
-const FAILURE = `${process.env.BASE_URL}/failure` || "http//localhost:3000/failure"
-const SUCCESS = `${process.env.BASE_URL}/success` || "http://localhost:3000/success"
+const FAILURE =  "http//localhost:3000/failure" || `${process.env.BASE_URL}/failure`
+const SUCCESS =  "http://localhost:3000/success" || `${process.env.BASE_URL}/success`
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
