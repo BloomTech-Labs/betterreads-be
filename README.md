@@ -136,8 +136,6 @@ To get the server running locally:
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
-| POST   | `/api/:userId/libraryStatus`     | all users           | Return added book object w/ updated reading status        |
-| POST   | `/api/:userId/libraryfav`        | all users           | Return book object object w/ favorite: true               |
 
 
 
@@ -145,8 +143,9 @@ To get the server running locally:
 
 ```js
 {
-  googleId: STRING,
-  userId: INTEGER
+  book: OBJECT,
+  readingStatus: INTEGER,
+  favorite: BOOLEAN
 }
 ```
 
