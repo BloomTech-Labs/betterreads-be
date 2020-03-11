@@ -132,7 +132,8 @@ To get the server running locally:
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
 | GET    | `/api/:userId/library/:bookId`   | all users           | Returns a single book                                     |
 | GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
-| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns updated book object                               |
+| PUT    | `/api/:userId/library/`          | all users           | Returns updated                                           |
+| PUT    | `/api/:userId/library/:bookId`   | all users           | Returns updated                                           |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | DELETE | `/api/:userId/library/:bookId`   | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |

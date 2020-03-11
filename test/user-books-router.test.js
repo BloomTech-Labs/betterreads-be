@@ -55,12 +55,14 @@ describe("user-books-router", function() {
 
 	const book1 = {
 		book: bookObject,
-		readingStatus: 1
+		readingStatus: 1,
+		favorite: false
 	};
 
 	const book2 = {
 		book: anotherBookObject,
-		readingStatus: 3
+		readingStatus: 3,
+		favorite: true
 	};
 
 	// MARK: -- helper function to grab cookie
@@ -205,6 +207,19 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("PUT favorite on userbooks", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library/")
+					.send({ book: 1, private: true })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(201)
+					});
+				return req;
+			});
+		})
 
 		it("PUT status on non-existent userbooks", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
