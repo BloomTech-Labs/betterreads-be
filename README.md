@@ -373,7 +373,7 @@ create a .env file that includes the following:
     * GOOGLE_CLIENT_SECRET - this is generated in your google account
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
-    * BASE_URL - this is set in elastic beanstalk env
+    * BASE_URL - set to localhost 3000 and set in elastic beanstock
 
     *  NODE_ENV - set to "development" until ready for "production"
     *  RDS_HOSTNAME - set in "production"
