@@ -2,6 +2,7 @@ const router = require("express").Router();
 const UserBooks = require("../models/user-books.js");
 const Books = require("../models/books.js");
 
+// MARK: -- GET
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
   UserBooks.findByUserId(userId)
@@ -42,6 +43,7 @@ router.get("/:userId/library/:id", (req, res) => {
     .catch(err => res.status(500).json({ message: "error in returning data" }));
 });
 
+// MARK: -- PUT
 router.put("/:userId/library/:id", (req, res) => {
   const userId = req.params.userId;
   const bookId = req.params.id;
@@ -61,6 +63,23 @@ router.put("/:userId/library/:id", (req, res) => {
     .catch(err => res.status(500).json({ message: "error in changing data" }));
 });
 
+// MARK: -- For when in the your searching for a book
+router.put("/:userId/library", (req, res) => {
+  const userId = req.params.userId
+  const bookId = req.body.bookId
+  const status = req.body.readingStatus;
+  const favorite = req.body.favorite;
+
+  UserBooks.update(bookId, userId, { readingStatus: status, favorite: favorite })
+    .then(updated => {
+      res.status(201).json(updated)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+});
+
+// MARK: -- DELETE
 // MARK: -- Delete userbook from library grab id through body
 router.delete("/:userId/library", (req, res) => {
   const userId = req.params.userId;
@@ -104,6 +123,7 @@ router.delete("/:userId/library/:id", (req, res) => {
     .catch(err => res.status(500).json({ message: "error in removing data" }));
 });
 
+// MARK: -- POST
 // MARK: -- REFACTOR, I WILL BREAK THIS DOWN
 router.post("/:userId/library", (req, res) => {
   const userId = req.params.userId;
@@ -180,22 +200,6 @@ router.post("/:userId/library", (req, res) => {
     // MARK: -- book did not have information provided
     res.status(400).json({ message: "Please provide a book" });
   }
-});
-
-// MARK: -- For when in the your searching for a book
-router.put("/:userId/library", (req, res) => {
-  const userId = req.params.userId
-  const bookId = req.body.bookId
-  const status = req.body.readingStatus;
-  const favorite = req.body.favorite;
-
-  UserBooks.update(bookId, userId, { readingStatus: status, favorite: favorite })
-    .then(updated => {
-      res.status(201).json(updated)
-    })
-    .catch(err => {
-      res.status(500).json(err)
-    })
 });
 
 module.exports = router;
