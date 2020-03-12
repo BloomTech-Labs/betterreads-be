@@ -33,9 +33,9 @@ router.get("/:userId/library/favorites", (req, res) => {
 });
 
 // MARK: -- GET SINGLE BOOK
-router.get("/:userId/library/:id", (req, res) => {
+router.get("/:userId/library/:bookId", (req, res) => {
   const userId = req.params.userId;
-  const bookId = req.params.id;
+  const bookId = req.params.bookId;
   UserBooks.findDetailByUserId(userId, bookId)
     .then(userbook => {
       if (userbook == undefined) {
@@ -72,7 +72,7 @@ router.put("/:userId/library", (req, res) => {
 // MARK: -- Delete from user library
 router.delete("/:userId/library", (req, res) => {
   const userId = req.params.userId;
-  const bookId = req.body.id;
+  const bookId = req.body.bookId;
   UserBooks.remove(userId, bookId)
     .then(deleted => {
       if (deleted == undefined) {
