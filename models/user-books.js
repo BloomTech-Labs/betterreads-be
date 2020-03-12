@@ -110,13 +110,11 @@ function findDetailByUserId(userId, bookId) {
 		);
 }
 
-async function update(userId, bookId, update) {
-	const [id] = await db("userBooks as ub")
+function update(userId, bookId, update) {
+	return db("userBooks as ub")
 		.where({ userId })
 		.where("ub.bookId", bookId)
 		.update( update )
-		.returning("ub.bookId")
-	return findDetailByUserId(userId, id)
 }
 
 function remove(userId, bookId) {
