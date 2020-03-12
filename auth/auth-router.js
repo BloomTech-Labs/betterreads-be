@@ -1,3 +1,4 @@
+require("dotenv").config();
 const router = require("express").Router();
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
@@ -13,8 +14,8 @@ const userObject = (user) => ({
 });
 
 
-const API_FAILURE = "https://www.readrr.app/failure"
-const API_SUCCESS = "https://www.readrr.app/success"
+const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
+const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
 
 
 
