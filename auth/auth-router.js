@@ -13,8 +13,8 @@ const userObject = (user) => ({
 });
 
 
-const API_FAILURE = `https://readrr.app/failure`
-const API_SUCCESS = `https://readrr.app/success`
+const API_FAILURE = `https://api.readrr.app/failure`
+const API_SUCCESS = `https://api.readrr.app/success`
 
 
 
