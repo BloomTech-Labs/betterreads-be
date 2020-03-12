@@ -64,7 +64,6 @@ router.put("/:userId/library", (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err)
       res.status(500).json(err)
     })
 });

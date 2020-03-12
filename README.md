@@ -331,7 +331,9 @@ To get the server running locally:
 
 `findDetailByUserId(userId, bookId)` -> Return a single book with full details
 
-`update(userId, bookId)` -> Return a single book with full details
+`find(userId, bookId)` -> Return a single book with no details
+
+`update(userId, bookId, update)` -> Return a single book with full details
 
 `remove(userId, bookId)` -> Returns nothing 
 
@@ -375,8 +377,8 @@ create a .env file that includes the following:
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
     * BASE_URL - set to localhost 3000 and set in elastic beanstock
 
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  RDS_HOSTNAME - set in "production"
+    * NODE_ENV - set to "development" until ready for "production"
+    * RDS_HOSTNAME - set in "production"
     
     
 ## Contributing
