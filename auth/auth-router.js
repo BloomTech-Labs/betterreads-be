@@ -13,8 +13,8 @@ const userObject = (user) => ({
 });
 
 
-const API_FAILURE = `${process.env.BASE_URL}/failure`
-const API_SUCCESS = `${process.env.BASE_URL}/success`
+const API_FAILURE = `https://readrr.app/failure`
+const API_SUCCESS = `https://readrr.app/success`
 
 
 
