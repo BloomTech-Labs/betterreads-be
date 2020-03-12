@@ -12,6 +12,10 @@ module.exports = {
 	development: {
 		client: "pg",
 		connection: connect(process.env.DB),
+		pool: {
+			min: 2,
+			max: 100
+		},
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./database/migrations"
@@ -42,7 +46,7 @@ module.exports = {
 		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
-			max: 20
+			max: 100
 		},
 		migrations: {
 			directory: "./database/migrations"
