@@ -24,7 +24,10 @@ async function add(userbook) {
 }
 
 function findById(id) {
-	return db("userBooks").where({ id });
+	return db("userBooks")
+	.where("userBooks.id", id)
+	.join("books as b", "b.id", "userBooks.bookId")
+	.returning("*")
 }
 
 
