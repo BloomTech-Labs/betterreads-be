@@ -203,7 +203,7 @@ describe("user-books-router", function() {
 					.send({ bookId: 231312, readingStatus: 1, favorite: false })
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.status).toBe(500)
+						expect(res.status).toBe(400)
 					});
 				return req;
 			});

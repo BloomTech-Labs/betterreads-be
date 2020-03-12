@@ -55,9 +55,13 @@ router.put("/:userId/library", (req, res) => {
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
 
-  UserBooks.update(bookId, userId, { readingStatus: status, favorite: favorite })
+  UserBooks.update(userId, bookId, { readingStatus: status, favorite: favorite })
     .then(updated => {
-      res.status(201).json(updated)
+      if(updated == undefined) { 
+        res.status(400).json({ message: "cannot update book, not found in library" })
+      } else {
+        res.status(201).json(updated)
+      }
     })
     .catch(err => {
       res.status(500).json(err)
