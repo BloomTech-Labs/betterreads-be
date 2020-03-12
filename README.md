@@ -376,11 +376,11 @@ create a .env file that includes the following:
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
 
-    * BASE_URL - set in elastic beanstock, already pointed to localhost for development
-    * FAIL_URL - set in elastic beanstock, already pointed to localhost for development
-    * SUCCESS_URL - set in elastic beanstock, already pointed to localhost for development
-    * GOOGLE_CALLBACK - set in elastic beanstock, already pointed to localhost for development
-    * FACEBOOK_CALLBACK - set in elastic beanstock, already pointed to localhost for development
+    * BASE_URL - set in "production" for elastic beanstock
+    * FAIL_URL - set in "production" for elastic beanstock
+    * SUCCESS_URL - set in "production" for elastic beanstock
+    * GOOGLE_CALLBACK - set in "production" for elastic beanstock
+    * FACEBOOK_CALLBACK - set in "production" for elastic beanstock
 
     * NODE_ENV - set to "development" until ready for "production"
     * RDS_HOSTNAME - set in "production"
