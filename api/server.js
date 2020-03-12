@@ -30,7 +30,7 @@ server.use(helmet());
 // MARK: -- cors
 // const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
 var corsOptions = {
-	origin: "http://localhost:3000",
+	origin: "https://www.readrr.app",
 	methods: "GET,PUT,POST,DELETE",
    	credentials: true
 }

@@ -110,11 +110,20 @@ function findDetailByUserId(userId, bookId) {
 		);
 }
 
-function update(userId, bookId, update) {
+function findBookIdByUserId(userId, bookId) {
 	return db("userBooks as ub")
-		.where({ userId })
+		.where("ub.userId", userId)
+		.where("ub.bookId", bookId)
+		.select("ub.id")
+		.first()
+}
+
+async function update(userId, bookId, update) {
+	await db("userBooks as ub")
+		.where("ub.userId", userId)
 		.where("ub.bookId", bookId)
 		.update( update )
+	return findBookIdByUserId(userId, bookId)
 }
 
 function remove(userId, bookId) {
