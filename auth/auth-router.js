@@ -1,3 +1,4 @@
+require("dotenv").config();
 const router = require("express").Router();
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
@@ -12,8 +13,11 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
-const FAILURE = `${process.env.BASE_URL}/failure` || "http//localhost:3000/failure"
-const SUCCESS = `${process.env.BASE_URL}/success` || "http://localhost:3000/success"
+
+const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
+const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
+
+
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
@@ -71,11 +75,11 @@ router.get(
 router.get(
 	"/google/redirect",
 	passport.authenticate("google", {
-		failureRedirect: FAILURE
+		failureRedirect: API_FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(SUCCESS);
+		response.redirect(API_SUCCESS);
 	}
 );
 
@@ -90,11 +94,11 @@ router.get(
 router.get(
 	"/facebook/redirect",
 	passport.authenticate("facebook", {
-		failureRedirect: FAILURE
+		failureRedirect: API_FAILURE
 	}),
 	(request, response) => {
 		request.session.user = request.user;
-		response.redirect(SUCCESS);
+		response.redirect(API_SUCCESS);
 	}
 );
 

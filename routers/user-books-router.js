@@ -34,9 +34,9 @@ router.get("/:userId/library/favorites", (req, res) => {
 });
 
 // MARK: -- GET SINGLE BOOK
-router.get("/:userId/library/:id", (req, res) => {
+router.get("/:userId/library/:bookId", (req, res) => {
   const userId = req.params.userId;
-  const bookId = req.params.id;
+  const bookId = req.params.bookId;
   UserBooks.findDetailByUserId(userId, bookId)
     .then(userbook => {
       if (userbook == undefined) {
@@ -55,10 +55,23 @@ router.put("/:userId/library", (req, res) => {
   const bookId = req.body.bookId
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
+  const dateStarted = req.body.dateStarted == undefined ? null : new Date(req.body.dateStarted)
+  const dateEnded = req.body.dateEnded == undefined ? null : new Date(req.body.dateEnded)
 
-  UserBooks.update(bookId, userId, { readingStatus: status, favorite: favorite })
+  UserBooks.update(userId, bookId, 
+    { 
+      readingStatus: status, 
+      favorite: favorite, 
+      dateStarted: dateStarted,
+      dateEnded: dateEnded
+    }
+  )
     .then(updated => {
-      res.status(201).json(updated)
+      if(updated == undefined) { 
+        res.status(400).json({ message: "cannot update book, not found in library" })
+      } else {
+        res.status(201).json(updated)
+      }
     })
     .catch(err => {
       res.status(500).json(err)
@@ -69,7 +82,7 @@ router.put("/:userId/library", (req, res) => {
 // MARK: -- Delete from user library
 router.delete("/:userId/library", (req, res) => {
   const userId = req.params.userId;
-  const bookId = req.body.id;
+  const bookId = req.body.bookId;
   UserBooks.remove(userId, bookId)
     .then(deleted => {
       if (deleted == undefined) {
@@ -121,22 +134,9 @@ router.post("/:userId/library", (req, res) => {
                 // MARK: -- adding the book to our books db since it is not there
                 Books.add(book)
                   .then(book => {
-                    const userbookObject = {
-                      bookId: book.id,
-                      userId: userId,
-                      favorite: favorite,
-                      readingStatus: status
-                    };
+                    const newUserBookObject = createUserBook(book, userId, favorite, status)
                     // MARK: -- adding book to our user's library
-                    UserBooks.add(userbookObject)
-                      .then(added => {
-                        res.status(201).json(added);
-                      })
-                      .catch(err => {
-                        res.status(500).json({
-                          message: "Error in posting userbook"
-                        });
-                      });
+                    addToUserBooks(req, res, newUserBookObject)
                   })
                   .catch(err => {
                     res.status(500).json({
@@ -144,22 +144,9 @@ router.post("/:userId/library", (req, res) => {
                     });
                   });
               } else {
-                const userbookObject = {
-                  bookId: bk.id,
-                  userId: userId,
-                  readingStatus: status,
-                  favorite: favorite
-                };
+                const userBookObject = createUserBook(bk, userId, favorite, status)
                 // MARK: -- book exist in our books db, add the book to our user's library
-                UserBooks.add(userbookObject)
-                  .then(added => {
-                    res.status(201).json(added);
-                  })
-                  .catch(err => {
-                    res.status(500).json({
-                      message: "Error in posting userbook"
-                    });
-                  });
+                addToUserBooks(req, res, userBookObject)
               }
             });
         } else {
@@ -177,5 +164,27 @@ router.post("/:userId/library", (req, res) => {
     res.status(400).json({ message: "Please provide a book" });
   }
 });
+
+// MARK: -- Helper functions
+function createUserBook(book, userId, favorite, status) {
+  return { 
+    bookId: book.id,
+    userId: userId,
+    favorite: favorite,
+    readingStatus: status
+  }
+};
+
+async function addToUserBooks(req, res, userbookObject) {
+  await UserBooks.add(userbookObject)
+    .then(added => {
+      res.status(201).json(added);
+    })
+    .catch(err => {
+      res.status(500).json({
+          message: "Error in posting userbook"
+      });
+    });
+}
 
 module.exports = router;

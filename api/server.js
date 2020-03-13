@@ -1,4 +1,5 @@
 // MARK: -- third party
+require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -28,9 +29,8 @@ server.use(express.json());
 server.use(helmet());
 
 // MARK: -- cors
-// const whitelist = ["http://localhost:3000", "https://readrr.app", "*"]
 var corsOptions = {
-	origin: "https://www.readrr.app",
+	origin: process.env.BASE_URL || "http://localhost:3000",
 	methods: "GET,PUT,POST,DELETE",
    	credentials: true
 }
