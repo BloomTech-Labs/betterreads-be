@@ -24,7 +24,10 @@ async function add(userbook) {
 }
 
 function findById(id) {
-	return db("userBooks").where({ id });
+	return db("userBooks")
+	.where("userBooks.id", id)
+	.join("books as b", "b.id", "userBooks.bookId")
+	.returning("*")
 }
 
 
@@ -71,6 +74,8 @@ function findByUserId(userId) {
 			"b.authors",
 			"ub.readingStatus",
 			"ub.favorite",
+			"ub.dateStarted",
+			"ub.dateEnded",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount"
@@ -79,8 +84,10 @@ function findByUserId(userId) {
 
 function findDetailByUserId(userId, bookId) {
 	return db("userBooks as ub")
-		.where({ userId })
-		.where("ub.bookId", bookId)
+		.where({ 
+			userId: userId,
+			bookId: bookId
+		})
 		.join("books as b", "ub.bookId", "b.id")
 		.first()
 		.select(
@@ -110,18 +117,30 @@ function findDetailByUserId(userId, bookId) {
 		);
 }
 
+function find(userId, bookId) {
+	return db("userBooks")
+		.where({ 
+			userId: userId, 
+			bookId: bookId 
+		})
+		.first()
+}
+
 async function update(userId, bookId, update) {
-	const [id] = await db("userBooks as ub")
-		.where({ userId })
-		.where("ub.bookId", bookId)
-		.update( update )
-		.returning("ub.bookId")
-	return findDetailByUserId(userId, id)
+	await db("userBooks")
+		.where({ 
+			userId: userId, 
+			bookId: bookId 
+		})
+		.update(update)
+	return find(userId, bookId)
 }
 
 function remove(userId, bookId) {
 	return db("userBooks")
-		.where({ userId })
-		.where("userBooks.bookId", bookId)
+		.where({
+		 	userId: userId,
+		 	bookId: bookId 
+		 })
 		.del();
 }

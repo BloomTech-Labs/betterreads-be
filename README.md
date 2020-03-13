@@ -132,7 +132,7 @@ To get the server running locally:
 | GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
 | GET    | `/api/:userId/library/:id`       | all users           | Returns a single book                                     |
 | GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
-| PUT    | `/api/:userId/library/`          | all users           | Returns updated                                           |
+| PUT    | `/api/:userId/library`           | all users           | Returns updated                                           |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
 
@@ -145,14 +145,18 @@ To get the server running locally:
 {
   bookId: FOREIGN KEY from books,
   readingStatus: INTEGER,
-  favorite: BOOLEAN
+  favorite: BOOLEAN,
+  dateStarted: STRING, (YYYY-MM-DD)
+  dateEnded: STRING, (YYYY-MM-DD)
 }
 ```
 
 -- DELETE `/api/:userId/library`
+```js
 {
   bookId: FOREIGN KEY from books
 }
+```
 
 -- POST `/api/:userId/library`
 ```js
@@ -331,7 +335,9 @@ To get the server running locally:
 
 `findDetailByUserId(userId, bookId)` -> Return a single book with full details
 
-`update(userId, bookId)` -> Return a single book with full details
+`find(userId, bookId)` -> Return a single book with no details
+
+`update(userId, bookId, update)` -> Return a single book with full details
 
 `remove(userId, bookId)` -> Returns nothing 
 
@@ -373,10 +379,15 @@ create a .env file that includes the following:
     * GOOGLE_CLIENT_SECRET - this is generated in your google account
     * FACEBOOK_CLIENT_ID - this is generated in your facebook account
     * FACEBOOK_CLIENT_SECRET - this is generated in your facebook account
-    * BASE_URL - this is set in elastic beanstalk env
 
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  RDS_HOSTNAME - set in "production"
+    * BASE_URL - set in "production" for elastic beanstock
+    * FAIL_URL - set in "production" for elastic beanstock
+    * SUCCESS_URL - set in "production" for elastic beanstock
+    * GOOGLE_CALLBACK - set in "production" for elastic beanstock
+    * FACEBOOK_CALLBACK - set in "production" for elastic beanstock
+
+    * NODE_ENV - set to "development" until ready for "production"
+    * RDS_HOSTNAME - set in "production"
     
     
 ## Contributing
