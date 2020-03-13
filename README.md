@@ -152,9 +152,11 @@ To get the server running locally:
 ```
 
 -- DELETE `/api/:userId/library`
+```js
 {
   bookId: FOREIGN KEY from books
 }
+```
 
 -- POST `/api/:userId/library`
 ```js
