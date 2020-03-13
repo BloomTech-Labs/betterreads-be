@@ -145,7 +145,9 @@ To get the server running locally:
 {
   bookId: FOREIGN KEY from books,
   readingStatus: INTEGER,
-  favorite: BOOLEAN
+  favorite: BOOLEAN,
+  dateStarted: STRING,
+  dateEnded: STRING,
 }
 ```
 

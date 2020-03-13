@@ -208,6 +208,32 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("PUT date started on userbook", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library")
+					.send({ bookId: 1, dateStarted: "2020-03-13" })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(201)
+					});
+				return req;
+			});
+		});
+
+		it("PUT date started and date ended on userbook", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.put("/api/1/library")
+					.send({ bookId: 1, dateStarted: "2020-01-02", dateEnded: "2020-02-17" })
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.status).toBe(201)
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("DELETE userbook", function() {
@@ -216,7 +242,7 @@ describe("user-books-router", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.delete("/api/1/library/")
-					.send({ id: 1 })
+					.send({ bookId: 1 })
 					.set("cookie", cookie)
 					.then(res => {
 						expect(res.status).toBe(204)
