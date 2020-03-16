@@ -34,7 +34,7 @@ router.post("/shelves/:shelfId", (req, res) => {
                 .catch(err => {
                   res
                     .status(401)
-                    .json({ message: "Error in posting userbook 60" });
+                    .json({ message: "Error in posting userbook" });
                 });
               console.log({ Book: bk, message: "book added to book db" });
             })
