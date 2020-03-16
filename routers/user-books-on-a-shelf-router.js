@@ -105,15 +105,14 @@ router.delete("/shelves/:shelfId", (req, res) => {
 
 router.get("/shelves/:shelfId", (req, res) => {
   const shelfId = req.params.shelfId;
+  const bookId = req.body.bookId;
 
   if (shelfId) {
-    BooksOnShelf.findBooksOnShelf(shelfId)
+    BooksOnShelf.findBooksOnShelf(shelfId, bookId)
       .then(book => {
-        console.log(book);
         res.status(200).json(book);
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({
           message: "error in getting books from the shelf"
         });
