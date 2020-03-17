@@ -1,3 +1,4 @@
+const helper = require("./helpers.js");
 const router = require("express").Router();
 const Shelves = require("../models/user-shelves.js");
 
@@ -49,32 +50,12 @@ router.post("/userFav/:userId", (req, res) => {
 
 router.get("/user/:userId", (req, res) => {
     const userId = req.params.userId;
-    Shelves.findByUserId(userId)
-        .then(userShelf => {
-            if (userShelf == undefined) {
-                res.status(400).json({ message: "userShelf: does not exist" });
-            } else {
-                res.status(200).json(userShelf);
-            }
-        })
-        .catch(err => {
-            res.status(500).json({ message: "error in returning data" });
-        });
+    helper.findInShelves(req, res, Shelves.findByUserId, userId)
 });
 
 router.get("/:shelfId", (req, res) => {
     const shelfId = req.params.shelfId;
-    Shelves.findById(shelfId)
-        .then(userShelf => {
-            if (userShelf == undefined) {
-                res.status(400).json({ message: "userShelf: does not exist" });
-            } else {
-                res.status(200).json(userShelf);
-            }
-        })
-        .catch(err => {
-            res.status(500).json({ message: "error in returning data" });
-        });
+    helper.findInShelves(req, res, Shelves.findByUserId, shelfId)
 });
 
 router.put("/:shelfId", (req, res) => {
