@@ -41,8 +41,8 @@ module.exports = {
   },
 
   // MARK: -- BooksOnShelf model
-  addToUserShelf: async function(req, res, Model, shelfId, bkId) {
-    await Model.findBooksOnShelf(shelfId, bkId)
+  addToUserShelf: function(req, res, Model, shelfId, bkId) {
+    Model.findBooksOnShelf(shelfId, bkId)
       .then(bookonshelf => {
         if (bookonshelf.length > 0) {
           res.status(500).json({ message: "book is already in user shelf" });
@@ -50,8 +50,8 @@ module.exports = {
           if ((bkId, shelfId)) {
             const bookObj = { bookId: bkId, shelfId: shelfId }
             Model.addBooks(bookObj)
-                 .then(book => { res.status(200).json({ book, message: " book added to user-shelf" }) })
-                 .catch(err => { res.status(500).json({ message: "error in adding book to shelf" }) })
+                 .then(book => res.status(200).json({ book, message: "book added to user-shelf" }))
+                 .catch(err => res.status(500).json({ message: "error in adding book to shelf. Book may already exist on shelf." }))
           } else {
             res.status(500).json({ message: "book id and shelf id undefined"})
           }
