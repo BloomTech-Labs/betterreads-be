@@ -66,13 +66,6 @@ const body = {
             shelfId: 1
           }
 
-    
-    
-    
-    
-
-    
-
 	// MARK: -- helper function to grab cookie
 	function promisedCookie(user) {
 		return new Promise((resolve, reject) => {
@@ -138,24 +131,37 @@ const body = {
             
 			});
         });
+
+        it("GET res is user.Id", function() {
+            return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+                const req = request(server)
+                    .get("/api/booksonshelf/shelves/1")
+                    .send({bookId: 1})
+                    .set("cookie", cookie)
+                    .then(res => {
+                        expect(res.body[0].userId).toBe(1);
+                    });
+                return req;
+            
+            });
+        });
         
     });
     
-    describe("GET user books on shelf user userId", function() {
-		it("GET res is user.Id", function() {
-			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
-				const req = request(server)
-                    .get("/api/booksonshelf/shelves/1")
-					.send({bookId: 1})
-					.set("cookie", cookie)
-					.then(res => {
-                        
-						expect(res.body[0].userId).toBe(1);
-					});
-                return req;
-            
-			});
+    describe("DELETE from shelf", function() {
+        it("Delete book from shelf", function () {
+            return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+            const req = request(server)
+                .delete("/api/booksonshelf/shelves/1")
+                .send({ bookId: 1 })
+                .set("cookie", cookie)
+                .then(res => {
+                    expect(res.status).toBe(200)
+                });
+            return req;
+
+            });
         });
-        
 	});
+
 });

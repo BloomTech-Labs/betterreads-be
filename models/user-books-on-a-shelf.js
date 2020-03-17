@@ -31,17 +31,19 @@ async function addBooks(book) {
 
 
 
-async function remove(bookId, shelfId) {
+function remove(bookId, shelfId) {
 	return db("userBooksOnAShelf")
-		.where("bookId", bookId)
-		.where("shelfId", shelfId)
+		.where({
+			bookId: bookId,
+			shelfId: shelfId
+		})
 		.del();
 }
 
-async function removeAll(bookId, userId) {
+function removeAll(bookId, userId) {
 	return db("userBooksOnAShelf")
 	.join("userShelves as us", "userBooksOnAShelf.shelfId", "us.id")
-		.where("bookId", bookId)
+		.where({ bookId })
 		.where("us.userId", userId)
 		.select("shelfId")
 		.then(id => {
