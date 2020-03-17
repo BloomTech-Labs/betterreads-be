@@ -9,6 +9,20 @@ module.exports = {
       readingStatus: status
     }
   },
+
+  // MARK: -- UserBooks model
+  findInUserBooks: function(req, res, Action, param) {
+    Action(param)
+    .then(userbooks => {
+      if (userbooks == undefined) {
+        res.status(400).json({ message: "userbooks: does not exist" });
+      } else {
+        res.status(200).json(userbooks);
+      }
+    })
+    .catch(err => res.status(500).json({ message: "error in returning data" }));
+  },
+
   // MARK: -- UserBooks model
   addToUserBooks: async function(req, res, Model, userbookObject) {
     await Model.add(userbookObject)
@@ -28,7 +42,6 @@ module.exports = {
       if (bookonshelf.length > 0) {
         res.status(500).json({ message: "book is already in user shelf" });
       } else {
-
         if ((bkId, shelfId)) {
           const bookObj = { bookId: bkId, shelfId: shelfId }
           Model.addBooks(bookObj)
