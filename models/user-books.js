@@ -74,6 +74,8 @@ function findByUserId(userId) {
 			"b.authors",
 			"ub.readingStatus",
 			"ub.favorite",
+			"ub.dateStarted",
+			"ub.dateEnded",
 			"b.categories",
 			"b.thumbnail",
 			"b.pageCount"
