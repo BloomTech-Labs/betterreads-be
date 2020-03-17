@@ -1,37 +1,22 @@
+const helper = require("./helpers.js");
 const router = require("express").Router();
 const UserBooks = require("../models/user-books.js");
 const Books = require("../models/books.js");
+const BooksOnAShelf = require("../models/user-books-on-a-shelf")
+
 
 // MARK: -- GET
 // MARK: -- List
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
-  UserBooks.findByUserId(userId)
-    .then(userbooks => {
-      if (userbooks == undefined) {
-        res.status(400).json({ message: "userbooks: does not exist" });
-      } else {
-        res.status(200).json(userbooks);
-      }
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ message: "error in returning data" }) })
+  helper.findInUserBooks(req, res, UserBooks.findByUserId, userId)
 });
 
 // MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
 // MARK: -- List favorite
 router.get("/:userId/library/favorites", (req, res) => {
   const userId = req.params.userId;
-  UserBooks.findByIdFilter(userId )
-    .then(userbooks => {
-      if (userbooks == undefined) {
-        res.status(400).json({ message: "userbooks: does not exist" });
-      } else {
-        res.status(200).json(userbooks);
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in returning data" }));
+  helper.findInUserBooks(req, res, UserBooks.findByIdFilter, userId)
 });
 
 // MARK: -- GET SINGLE BOOK
@@ -96,7 +81,17 @@ router.delete("/:userId/library", (req, res) => {
             message: "deleted == 0, nothing was deleted"
           });
         } else {
-          res.status(204).json(deleted);
+          BooksOnAShelf.removeAll(bookId, userId)
+          .then(removed => {
+            if (removed.length > 0){
+              res.status(204).json({message: "book deleted from user shelf and library"})
+            } else {
+              res.status(204).json({message: "book deleted from user library"})
+            }
+          })
+          .catch(err => {
+            res.status(404).json({message: "error removing book from shelf"})
+          })
         }
       }
     })
@@ -125,9 +120,9 @@ router.post("/:userId/library", (req, res) => {
                 // MARK: -- adding the book to our books db since it is not there
                 Books.add(book)
                   .then(book => {
-                    const newUserBookObject = createUserBook(book, userId, favorite, status)
+                    const newUserBookObject = helper.createUserBook(book, userId, favorite, status)
                     // MARK: -- adding book to our user's library
-                    addToUserBooks(req, res, newUserBookObject)
+                    helper.addToUserBooks(req, res, UserBooks, newUserBookObject)
                   })
                   .catch(err => {
                     res.status(500).json({
@@ -135,9 +130,9 @@ router.post("/:userId/library", (req, res) => {
                     });
                   });
               } else {
-                const userBookObject = createUserBook(bk, userId, favorite, status)
+                const userBookObject = helper.createUserBook(bk, userId, favorite, status)
                 // MARK: -- book exist in our books db, add the book to our user's library
-                addToUserBooks(req, res, userBookObject)
+                helper.addToUserBooks(req, res, UserBooks, userBookObject)
               }
             });
         } else {
@@ -155,27 +150,5 @@ router.post("/:userId/library", (req, res) => {
     res.status(400).json({ message: "Please provide a book" });
   }
 });
-
-// MARK: -- Helper functions
-function createUserBook(book, userId, favorite, status) {
-  return { 
-    bookId: book.id,
-    userId: userId,
-    favorite: favorite,
-    readingStatus: status,
-  }
-};
-
-async function addToUserBooks(req, res, userbookObject) {
-  await UserBooks.add(userbookObject)
-    .then(added => {
-      res.status(201).json(added);
-    })
-    .catch(err => {
-      res.status(500).json({
-          message: "Error in posting userbook"
-      });
-    });
-}
 
 module.exports = router;
