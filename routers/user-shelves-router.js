@@ -55,7 +55,7 @@ router.get("/user/:userId", (req, res) => {
 
 router.get("/:shelfId", (req, res) => {
     const shelfId = req.params.shelfId;
-    helper.findInShelves(req, res, Shelves.findByUserId, shelfId)
+    helper.findInShelves(req, res, Shelves.findById, shelfId)
 });
 
 router.put("/:shelfId", (req, res) => {
