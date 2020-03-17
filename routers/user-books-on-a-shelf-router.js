@@ -13,39 +13,35 @@ router.post("/shelves/:shelfId", (req, res) => {
   const favorite = req.body.favorite;
 
   UserShelves.findById(shelfId).first().then(shelf => {
-    const userId = shelf.userId;
-
-    Books.findBy({ googleId }).first().then(bk => {
-        if (bk == undefined) {
-          Books.add(book).then(bk => {
-            const newUserBookObject = helper.createUserBook(bk, userId, favorite, status);
-            helper.addToUserBook(req, res, UserBooks, newUserBookObject)
-          })
-          .catch(err => res.status(200).json({ message: "Book not added to book db" }) );
+    const userId = shelf.userId
+    Books.findBy({ googleId }).first().then(foundbook => {
+      if (foundbook == undefined) {
+        Books.add(book).then(bk => {
+          const newUserBookObject = helper.createUserBook(bk, userId, favorite, status);
+          UserBooks.add(newUserBookObject).then(added => {
+            const bookId = added.bookId
+            helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bookId)
+          }).catch(err => res.status(500).json({ message: "could not add book to user library" }))
+        }).catch(err => { res.status(500).json({ message: "could not add book to all books" })
+      })
+    } else {
+      UserBooks.isBookInUserBooks(userId, foundbook.googleId).first().then(inlibrary => {
+        if (inlibrary == undefined) {
+          const userBookObject = helper.createUserBook(foundbook, userId, favorite, status);
+          UserBooks.add(userBookObject).then(added => {
+            const bookId = foundbook.id
+            helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bookId)
+          }).catch(err => res.status(404).json({ message: "could not add to user library" }))
+        } else if (Object.keys(inlibrary).length > 0) {
+          const bookId = inlibrary.bookId
+          helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bookId)
         } else {
-          // MARK: -- book in book db
-          UserBooks.isBookInUserBooks(userId, googleId).then(book => {
-            if (book.length == 0) {
-              Books.findBy({ googleId }).first().then(bk => {
-                const userBookObject = helper.createUserBook(bk, userId, favorite, status);
-                UserBooks.add(userBookObject).then(added => {
-                  const bkId = added.bookId;
-                  helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bkId) ;
-                })
-                .catch(err => res.status(400).json({ message: "Error in posting userbook" }) )
-              })
-            } else {
-              Books.findBy({ googleId }).first().then(book => {
-                const bkId = book.id;
-                helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bkId) ;
-              })
-              .catch(err => res.status(400).json({ message: "Could not find book" }) );
-            }
-          })
-          .catch(err => res.status(400).json({ message: "Could not find book in userbooks" }) ) // isBookInUserBook
-        } // end of else
-      }).catch(err => res.status(500).json({ message: "Could not find book" }) ) // findBy book
-  }).catch(err => res.status(404).json({ message: "Could not find shelf" }) ) // findBy shelves
+          res.status(500).json({ message: "Aasa's fault" })
+        }
+      }).catch(err => res.status(404).json({ message: "book not in library" }))
+    }
+    }).catch(err => res.status(500).json({ message: "error finding book" } ))
+  }).catch(err => res.status(404).json({ message: "could not find shelf" } ))
 });
 
 router.delete("/shelves/:shelfId", (req, res) => {
