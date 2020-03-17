@@ -1,3 +1,4 @@
+const helper = require("./helpers.js");
 const router = require("express").Router();
 const BooksOnShelf = require("../models/user-books-on-a-shelf.js");
 const UserShelves = require("../models/user-shelves");
@@ -20,23 +21,13 @@ router.post("/shelves/:shelfId", (req, res) => {
         if (bk == undefined) {
           Books.add(book)
             .then(bk => {
-              const newUserBookObject = createUserBook(
+              const newUserBookObject = helper.createUserBook(
                 bk,
                 userId,
                 favorite,
                 status
               );
-              UserBooks.add(newUserBookObject)
-                .then(added => {
-                  const bkId = added.bookId;
-                  addToUserShelf(req, res, shelfId, bkId) 
-                })
-                .catch(err => {
-                  res
-                    .status(401)
-                    .json({ message: "Error in posting userbook" });
-                });
-              console.log({ Book: bk, message: "book added to book db" });
+              helper.addToUserBook(req, res, UserBooks, newUserBookObject)
             })
             .catch(err => {
               res.status(200).json({
@@ -44,22 +35,22 @@ router.post("/shelves/:shelfId", (req, res) => {
               });
             });
         } else {
-          console.log({ message: "book is already in books DB" });
-
+          // MARK: -- book in book db
           UserBooks.isBookInUserBooks(userId, googleId).then(book => {
             if (book.length == 0) {
-              Books.findBy({ googleId }).then(bk => {
-                const newUserBookObject = createUserBook(
+              Books.findBy({ googleId })
+              .first()
+              .then(bk => {
+                const userBookObject = helper.createUserBook(
                   bk[0],
                   userId,
                   favorite,
                   status
                 );
-
-                UserBooks.add(newUserBookObject)
+                UserBooks.add(userBookObject)
                   .then(added => {
                     const bkId = added.bookId;
-                    addToUserShelf(req, res, shelfId, bkId) 
+                    helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bkId) 
                   })
                   .catch(err => {
                     res
@@ -68,9 +59,11 @@ router.post("/shelves/:shelfId", (req, res) => {
                   });
               });
             } else {
-              Books.findBy({ googleId }).then(book => {
-                const bkId = book[0].id;
-                addToUserShelf(req, res, shelfId, bkId) 
+              Books.findBy({ googleId })
+              .first()
+              .then(book => {
+                const bkId = book.id;
+                helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bkId) 
               });
             }
           });
@@ -127,34 +120,6 @@ function createUserBook(bk, userId, favorite, status) {
     favorite: favorite,
     readingStatus: status
   };
-}
-
-async function addToUserShelf(req, res, shelfId, bkId) {
-
-  await BooksOnShelf.findBooksOnShelf(shelfId, bkId).then(booksOnS => {
-    if (booksOnS.length > 0) {
-      res.status(500).json({ message: "book is already in user shelf" });
-    } else {
-      if ((bkId, shelfId)) {
-        const bookObj = {
-          bookId: bkId,
-      shelfId: shelfId
-        }
-        BooksOnShelf.addBooks(bookObj)
-      .then(book => {
-        res.status(200).json({
-          book,
-          message: " book added to user-shelf"
-        });
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: "error in adding book to shelf"
-        });
-      });
-      }
-    }
-  });
 }
 
 module.exports = router;
