@@ -9,30 +9,14 @@ const BooksOnAShelf = require("../models/user-books-on-a-shelf")
 // MARK: -- List
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
-  UserBooks.findByUserId(userId)
-    .then(userbooks => {
-      if (userbooks == undefined) {
-        res.status(400).json({ message: "userbooks: does not exist" });
-      } else {
-        res.status(200).json(userbooks);
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in returning data" }));
+  helper.findInUserBooks(req, res, UserBooks.findByUserId, userId)
 });
 
 // MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
 // MARK: -- List favorite
 router.get("/:userId/library/favorites", (req, res) => {
   const userId = req.params.userId;
-  UserBooks.findByIdFilter(userId )
-    .then(userbooks => {
-      if (userbooks == undefined) {
-        res.status(400).json({ message: "userbooks: does not exist" });
-      } else {
-        res.status(200).json(userbooks);
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in returning data" }));
+  helper.findInUserBooks(req, res, UserBooks.findByIdFilter, userId)
 });
 
 // MARK: -- GET SINGLE BOOK
