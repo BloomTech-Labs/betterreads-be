@@ -182,6 +182,46 @@ To get the server running locally:
 | POST   | `/api/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
 | PUT    | `/api/shelves/:shelfId/`        | all users      | Return books                                  |
 
+
+-- POST `/api/shelves/user/:userId`
+```js
+{
+  shelfName: STRING,
+  isPrivate: BOOLEAN
+}
+```
+
+-- GET `/api/shelves/:shelfId`
+```js
+{
+  bookId: FOREIGN KEY from books
+}
+```
+
+-- PUT `/api/shelves/:shelfId`
+```js
+{
+  shelfName: STRING,
+  isPrivate: BOOLEAN
+}
+```
+
+-- POST `/api/shelves/:shelfId`
+```js
+{
+  book: OBJECT,
+  readingStatus: INTEGER,
+  favorite: BOOLEAN
+}
+```
+
+-- DELETE `/api/shelves/:shelfId`
+```js
+{
+  bookId: FOREIGN KEY from books
+}
+```
+
 # Onboarding
 
 | Method | Endpoint             | Access Control | Description        |
@@ -358,6 +398,17 @@ To get the server running locally:
 `update(updatedShelf, shelfId)` -> Returns a single bookshelf
 
 `remove(shelfId)` -> Returns nothing
+
+
+#### UserBooksOnAShelf
+
+`findBooksOnShelf(shelfId, bookId)` -> Returns books on shelf
+
+`addBooks(book)` -> Returns book
+
+`remove(bookId, shelfId)` -> Returns nothing
+
+`removeAll(bookId, userId)` -> Returns removed shelf id
 
 
 ## 3️⃣ Environment Variables
