@@ -181,6 +181,7 @@ To get the server running locally:
 | DELETE | `/api/shelves/:shelfId/:bookId` | all users      | Return book id                                |
 | POST   | `/api/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
 | PUT    | `/api/shelves/:shelfId/`        | all users      | Return books                                  |
+| GET    | `/api/shelves/allbooks/:shelfId`| all users      | Returns all books on user shelf               |
 
 
 -- POST `/api/shelves/user/:userId`
