@@ -1,6 +1,6 @@
 module.exports = {
 
-  // MARK: -- UserBooks model
+  // MARK: -- UserBooks helper (in routers)
   createUserBook: function(book, userId, favorite, status) {
     return { 
       bookId: book.id,
@@ -9,10 +9,8 @@ module.exports = {
       readingStatus: status
     }
   },
-
-
-  
-  // MARK: -- UserShelves model & UserBooks model
+ 
+  // MARK: -- UserShelves & UserBooks helper (in routers)
   findIn: function(req, res, Action, param, where) {
     Action(param)
       .then(variable => {
@@ -23,14 +21,14 @@ module.exports = {
       .catch(err => res.status(500).json({ message: "error in returning data" }) );
   },
 
-    // MARK: -- UserBooks model
-    addToUserBooks: async function(req, res, Model, userbookObject) {
-      await Model.add(userbookObject)
-        .then(added => res.status(201).json(added) )
-        .catch(err => res.status(500).json({ message: "Error in posting userbook"} ) )
-    },
+  // MARK: -- UserBooks helper (in routers)
+  addToUserBooks: async function(req, res, Model, userbookObject) {
+    await Model.add(userbookObject)
+      .then(added => res.status(201).json(added) )
+      .catch(err => res.status(500).json({ message: "Error in posting userbook"} ) )
+  },
 
-  // MARK: -- BooksOnShelf model
+  // MARK: -- BooksOnShelf helper (in routers)
   addToUserShelf: function(req, res, Model, shelfId, bkId) {
     Model.findBook(shelfId, bkId)
       .then(bookonshelf => {

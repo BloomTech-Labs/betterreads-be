@@ -12,29 +12,7 @@ router.post("/user/:userId", (req, res) => {
     shelfName: shelfName,
     isPrivate: isPrivate
   };
-  Shelves.add(userShelfObj)
-    .then(userShelf => {
-      if (userShelf == undefined) {
-        res.status(400).json({ message: "userShelf: does not exist" });
-      } else {
-        res.status(200).json(userShelf);
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "error in returning data" });
-    });
-});
-
-router.post("/userFav/:userId", (req, res) => {
-  const userId = req.params.userId;
-  const shelfName = "Favorites";
-  const isPrivate = false;
-
-  const userShelfObj = {
-    userId: userId,
-    shelfName: shelfName,
-    isPrivate: isPrivate
-  };
+  
   Shelves.add(userShelfObj)
     .then(userShelf => {
       if (userShelf == undefined) {
@@ -50,12 +28,12 @@ router.post("/userFav/:userId", (req, res) => {
 
 router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId;
-  helper.findInShelves(req, res, Shelves.findBy, userId);
+  helper.findIn(req, res, Shelves.findBy, userId);
 });
 
 router.get("/:shelfId", (req, res) => {
   const shelfId = req.params.shelfId;
-  helper.findInShelves(req, res, Shelves.findBy, shelfId);
+  helper.findIn(req, res, Shelves.findBy, shelfId);
 });
 
 router.put("/:shelfId", (req, res) => {
