@@ -16,14 +16,14 @@ async function add(shelf) {
 	const [id] = await db("userShelves")
 		.insert(shelf)
 		.returning("id");
-	return findById(id);
+	return findBy(id);
 }
 
 
-  function update(updatedShelf, shelfId) {
+function update(updatedShelf, shelfId) {
 	return db("userShelves")
-	.update(updatedShelf)
-	.where("id", shelfId)
+		.update(updatedShelf)
+		.where("id", shelfId)
 }
 
 function remove(shelfId) {
