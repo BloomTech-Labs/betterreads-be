@@ -9,14 +9,14 @@ const BooksOnAShelf = require("../models/user-books-on-a-shelf")
 // MARK: -- List
 router.get("/:userId/library", (req, res) => {
   const userId = req.params.userId;
-  helper.findInUserBooks(req, res, UserBooks.findByUserId, userId)
+  helper.findIn(req, res, UserBooks.findByUserId, userId)
 });
 
 // MARK: -- GET ALL BOOK WITH FAVORITE: TRUE
 // MARK: -- List favorite
 router.get("/:userId/library/favorites", (req, res) => {
   const userId = req.params.userId;
-  helper.findInUserBooks(req, res, UserBooks.findByIdFilter, userId)
+  helper.findIn(req, res, UserBooks.findByIdFilter, userId)
 });
 
 // MARK: -- GET SINGLE BOOK
