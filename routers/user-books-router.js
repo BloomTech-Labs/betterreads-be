@@ -41,8 +41,8 @@ router.put("/:userId/library", (req, res) => {
   const bookId = req.body.bookId
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
-  const dateStarted = req.body.dateStarted == undefined ? null : new Date(req.body.dateStarted)
-  const dateEnded = req.body.dateEnded == undefined ? null : new Date(req.body.dateEnded)
+  const dateStarted = typeof(req.body.dateStarted) == typeof(String()) ? new Date(req.body.dateStarted) : null
+  const dateEnded = typeof(req.body.dateEnded) == typeof(String()) ? new Date(req.body.dateEnded) : null
 
   UserBooks.update(userId, bookId, 
     { 
@@ -104,6 +104,7 @@ router.post("/:userId/library", (req, res) => {
   const book = req.body.book;
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
+
   if (book) {
     const googleId = book.googleId;
     // MARK: -- is the book in the user's library already?

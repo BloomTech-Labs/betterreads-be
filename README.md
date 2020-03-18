@@ -136,8 +136,6 @@ To get the server running locally:
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
 
-
-
 # Body Required 
 
 -- PUT `/api/:userId/library`
@@ -173,16 +171,12 @@ To get the server running locally:
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
 | POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
-| POST   | `/api/shelves/userFav/:userId`  | all users      | Returns shelf with favorite books             |
 | GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
-| DELETE | `/api/shelves/:shelfId/:bookId` | all users      | Return book id                                |
-| POST   | `/api/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
-| PUT    | `/api/shelves/:shelfId/`        | all users      | Return books                                  |
-| GET    | `/api/shelves/allbooks/:shelfId`| all users      | Returns all books on user shelf               |
 
+# Body Required 
 
 -- POST `/api/shelves/user/:userId`
 ```js
@@ -207,6 +201,24 @@ To get the server running locally:
 }
 ```
 
+# User's book on a shelf
+
+| Method | Endpoint                                     | Access Control | Description                                   |
+| ------ | -------------------------------------------- | -------------- | --------------------------------------------- |
+| DELETE | `/api/booksonshelf/shelves/:shelfId/:bookId` | all users      | Return book id                                |
+| POST   | `/api/booksonshelf/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
+| GET    | `/api/booksonshelf/shelves/allbooks/:shelfId`| all users      | Returns all books on user shelf               |
+| GET    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book                                   |               |
+
+# Body Required 
+
+-- DELETE `/api/shelves/:shelfId`
+```js
+{
+  bookId: FOREIGN KEY from books
+}
+```
+
 -- POST `/api/shelves/:shelfId`
 ```js
 {
@@ -216,12 +228,13 @@ To get the server running locally:
 }
 ```
 
--- DELETE `/api/shelves/:shelfId`
+-- GET `/api/booksonshelf/shelves/:shelfId`
 ```js
 {
   bookId: FOREIGN KEY from books
 }
 ```
+
 
 # Onboarding
 
@@ -390,20 +403,21 @@ To get the server running locally:
 
 `findBy(filter)` -> Returns an array of bookshelves
 
-`findByUserId(userId)` -> Returns all of 1 User's shelves
-
 `add(shelf)` -> Returns a single bookshelf
-
-`findById(id)` -> Returns a single bookshelf
 
 `update(updatedShelf, shelfId)` -> Returns a single bookshelf
 
 `remove(shelfId)` -> Returns nothing
 
+<br>
+<br>
+<br>
 
 #### UserBooksOnAShelf
 
-`findBooksOnShelf(shelfId, bookId)` -> Returns books on shelf
+`findBook(shelfId, bookId)` -> Returns books on shelf
+
+`findAllBooks(shelfId)` -> Return all books on shelf
 
 `addBooks(book)` -> Returns book
 
@@ -411,6 +425,25 @@ To get the server running locally:
 
 `removeAll(bookId, userId)` -> Returns removed shelf id
 
+<br>
+<br>
+<br>
+
+#### AllUserData
+
+`booksFor(userId)` -> Returns all books for user 
+
+`findBy(userId)` -> Returns everything about user
+
+`shelvesFor(userId)` -> Returns all shelves for user
+
+`find(userId)` -> Returns number of books on a shelf
+
+`findBooksIn(shelfId)` -> Returns all books on shelf 
+
+<br>
+<br>
+<br>
 
 ## 3️⃣ Environment Variables
 

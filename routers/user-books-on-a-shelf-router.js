@@ -28,7 +28,7 @@ router.post("/shelves/:shelfId", (req, res) => {
       UserBooks.isBookInUserBooks(userId, foundbook.googleId).first().then(inlibrary => {
         if (inlibrary == undefined) {
           const userBookObject = helper.createUserBook(foundbook, userId, favorite, status);
-          UserBooks.add(userBookObject).then(added => {
+          UserBooks.add(userBookObject).then(() => {
             const bookId = foundbook.id
             helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bookId)
           }).catch(err => res.status(404).json({ message: "could not add to user library" }))
