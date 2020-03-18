@@ -1,7 +1,7 @@
 const db = require("../database/db-config.js");
 
 module.exports = {
-	findBooksOnShelf,
+	findBook,
 	findAllBooks,
 	addBooks,
 	remove,
@@ -9,7 +9,7 @@ module.exports = {
 
 };
 
-function findBooksOnShelf(shelfId, bookId) {
+function findBook(shelfId, bookId) {
 	return db('userBooksOnAShelf as bs')
 		.join('books as b', 'bs.bookId', 'b.id')
 		.join('userShelves as s', 's.id', 'bs.shelfId')
