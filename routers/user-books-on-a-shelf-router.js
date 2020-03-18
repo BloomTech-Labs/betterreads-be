@@ -12,7 +12,7 @@ router.post("/shelves/:shelfId", (req, res) => {
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
 
-  UserShelves.findById(shelfId).first().then(shelf => {
+  UserShelves.findBy(shelfId).first().then(shelf => {
     const userId = shelf.userId
     Books.findBy({ googleId }).first().then(foundbook => {
       if (foundbook == undefined) {
@@ -62,7 +62,7 @@ router.get("/shelves/:shelfId", (req, res) => {
   const bookId = req.body.bookId;
 
   if (shelfId) {
-    BooksOnShelf.findBooksOnShelf(shelfId, bookId)
+    BooksOnShelf.findBook(shelfId, bookId)
       .then(book => res.status(200).json( book ))
       .catch(err => res.status(500).json({ message: "error in getting books from the shelf" }) )
   } else {
