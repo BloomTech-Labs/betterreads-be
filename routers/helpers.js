@@ -10,39 +10,29 @@ module.exports = {
     }
   },
 
-  // MARK: -- UserBooks model
-  findInUserBooks: function(req, res, Action, param) {
-    Action(param)
-    .then(userbooks => {
-      if (userbooks == undefined) {
-        res.status(400).json({ message: "userbooks: does not exist" });
-      } else {
-        res.status(200).json(userbooks);
-      }
-    })
-    .catch(err => res.status(500).json({ message: "error in returning data" }));
-  },
 
-  // MARK: -- UserBooks model
-  addToUserBooks: async function(req, res, Model, userbookObject) {
-    await Model.add(userbookObject)
-      .then(added => res.status(201).json(added) )
-      .catch(err => res.status(500).json({ message: "Error in posting userbook"} ) )
-  },
-
-  // MARK: -- UserShelves model
-  findInShelves: function(req, res, Action, param) {
+  
+  // MARK: -- UserShelves model & UserBooks model
+  findIn: function(req, res, Action, param, where) {
     Action(param)
-      .then(usershelf => {
-        if (usershelf == undefined) { res.status(400).json({ message: "userShelf: does not exist" }) } 
-        else { res.status(200).json(usershelf) }
+      .then(variable => {
+        if (variable == undefined) { 
+          res.status(400).json({ message: `${where}: does not exist` }) } 
+        else { res.status(200).json(variable) }
       })
       .catch(err => res.status(500).json({ message: "error in returning data" }) );
   },
 
+    // MARK: -- UserBooks model
+    addToUserBooks: async function(req, res, Model, userbookObject) {
+      await Model.add(userbookObject)
+        .then(added => res.status(201).json(added) )
+        .catch(err => res.status(500).json({ message: "Error in posting userbook"} ) )
+    },
+
   // MARK: -- BooksOnShelf model
   addToUserShelf: function(req, res, Model, shelfId, bkId) {
-    Model.findBooksOnShelf(shelfId, bkId)
+    Model.findBook(shelfId, bkId)
       .then(bookonshelf => {
         if (bookonshelf.length > 0) {
           res.status(500).json({ message: "book is already in user shelf" });
