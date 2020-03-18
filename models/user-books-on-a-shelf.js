@@ -2,9 +2,11 @@ const db = require("../database/db-config.js");
 
 module.exports = {
 	findBooksOnShelf,
+	findAllBooks,
 	addBooks,
 	remove,
-	removeAll
+	removeAll,
+
 };
 
 function findBooksOnShelf(shelfId, bookId) {
@@ -15,6 +17,29 @@ function findBooksOnShelf(shelfId, bookId) {
 		.where('bs.bookId', bookId)
 		.select('bs.bookId', 'b.title','s.shelfName', 'bs.shelfId', 's.userId' )
 }
+
+function findAllBooks(shelfId) {
+	return db('userBooksOnAShelf as bs')
+		.join('books as b', 'bs.bookId', 'b.id')
+		.join('userShelves as s', 's.id', 'bs.shelfId')
+		.where({ shelfId: shelfId })
+		.select('bs.bookId', 'b.title', 'bs.shelfId', 's.userId' )
+		.then(books => {
+			return db("userShelves as s")
+			 .where({ id: shelfId })
+			.select("s.shelfName")
+			.first()
+			.then(name => {
+				console.log(books, name)
+				const ShelfName = Object.values(name)[0]
+				return {
+					ShelfName, books
+				}
+			})
+		})
+}
+
+
 
 function findById(id) {
 	return db('userBooksOnAShelf')
