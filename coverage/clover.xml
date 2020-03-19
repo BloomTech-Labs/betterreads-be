@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584636289554" clover="3.2.0">
-  <project timestamp="1584636289554" name="All files">
-    <metrics statements="691" coveredstatements="288" conditionals="415" coveredconditionals="50" methods="260" coveredmethods="70" elements="1366" coveredelements="408" complexity="0" loc="691" ncloc="691" packages="10" files="37" classes="37"/>
+<coverage generated="1584646939964" clover="3.2.0">
+  <project timestamp="1584646939964" name="All files">
+    <metrics statements="691" coveredstatements="288" conditionals="413" coveredconditionals="49" methods="260" coveredmethods="70" elements="1364" coveredelements="407" complexity="0" loc="691" ncloc="691" packages="10" files="37" classes="37"/>
     <package name="betterreads-backend">
       <metrics statements="8" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
       <file name="index.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/index.js">
@@ -273,13 +273,13 @@
       </file>
     </package>
     <package name="betterreads-backend.database">
-      <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="db-config.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/db-config.js">
-        <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="6" type="stmt"/>
         <line num="2" count="6" type="stmt"/>
         <line num="3" count="6" type="stmt"/>
-        <line num="5" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="5" count="6" type="stmt"/>
         <line num="6" count="6" type="stmt"/>
         <line num="8" count="6" type="stmt"/>
       </file>
