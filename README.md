@@ -205,8 +205,9 @@ To get the server running locally:
 
 | Method | Endpoint                                     | Access Control | Description                                   |
 | ------ | -------------------------------------------- | -------------- | --------------------------------------------- |
-| DELETE | `/api/booksonshelf/shelves/:shelfId/:bookId` | all users      | Return book id                                |
-| POST   | `/api/booksonshelf/shelves/:shelfId/:bookId` | all users      | Return shelf object with book object in shelf |
+| DELETE | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book id                                |
+| POST   | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
+| PUT    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
 | GET    | `/api/booksonshelf/shelves/allbooks/:shelfId`| all users      | Returns all books on user shelf               |
 | GET    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book                                   |               |
 
@@ -225,6 +226,14 @@ To get the server running locally:
   book: OBJECT,
   readingStatus: INTEGER,
   favorite: BOOLEAN
+}
+```
+
+-- PUT `/api/shelves/:shelfId`
+```js
+{
+  bookId: FOREIGN KEY from books,
+  newShelfId: ShelfID from updated shelf
 }
 ```
 
