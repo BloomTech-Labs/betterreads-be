@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584632537759" clover="3.2.0">
-  <project timestamp="1584632537759" name="All files">
+<coverage generated="1584636289554" clover="3.2.0">
+  <project timestamp="1584636289554" name="All files">
     <metrics statements="691" coveredstatements="288" conditionals="415" coveredconditionals="50" methods="260" coveredmethods="70" elements="1366" coveredelements="408" complexity="0" loc="691" ncloc="691" packages="10" files="37" classes="37"/>
     <package name="betterreads-backend">
       <metrics statements="8" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
