@@ -4,6 +4,7 @@ module.exports = {
 	findBook,
 	findAllBooks,
 	addBooks,
+	update,
 	remove,
 	removeAll,
 
@@ -56,7 +57,12 @@ async function addBooks(book) {
 	return findById(id);
 }
 
-
+ function update(bookId, shelfId, newShelfId) {
+	return db("userBooksOnAShelf")
+		.where({ bookId: bookId, shelfId: shelfId })
+		.update({shelfId: newShelfId})
+		.returning("*");
+}
 
 function remove(bookId, shelfId) {
 	return db("userBooksOnAShelf")
