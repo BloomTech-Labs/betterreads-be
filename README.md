@@ -23,7 +23,7 @@ To get the server running locally:
 
 ### Seeding for tests
 
-- seed data is in database/seeds/
+- seed data is in database/seeds/ (seeds have been removed)
 
 1.  knex migrate:up --env=testing
 2.  knex migrate:up --env=testing
