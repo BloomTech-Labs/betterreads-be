@@ -1,108 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584646939964" clover="3.2.0">
-  <project timestamp="1584646939964" name="All files">
-    <metrics statements="691" coveredstatements="288" conditionals="413" coveredconditionals="49" methods="260" coveredmethods="70" elements="1364" coveredelements="407" complexity="0" loc="691" ncloc="691" packages="10" files="37" classes="37"/>
-    <package name="betterreads-backend">
-      <metrics statements="8" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
-      <file name="index.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/index.js">
+<coverage generated="1584654130247" clover="3.2.0">
+  <project timestamp="1584654130247" name="All files">
+    <metrics statements="651" coveredstatements="0" conditionals="419" coveredconditionals="0" methods="247" coveredmethods="0" elements="1317" coveredelements="0" complexity="0" loc="651" ncloc="651" packages="9" files="32" classes="32"/>
+    <package name="betterreads-be">
+      <metrics statements="8" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="index.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/index.js">
         <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="6" count="0" type="stmt"/>
       </file>
-      <file name="knexfile.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/knexfile.js">
-        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="4" count="12" type="stmt"/>
-        <line num="11" count="6" type="stmt"/>
+      <file name="knexfile.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/knexfile.js">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.api">
-      <metrics statements="35" coveredstatements="35" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <file name="server.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/api/server.js">
-        <metrics statements="35" coveredstatements="35" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="6" count="6" type="stmt"/>
-        <line num="8" count="6" type="stmt"/>
-        <line num="9" count="6" type="stmt"/>
-        <line num="10" count="6" type="stmt"/>
-        <line num="11" count="6" type="stmt"/>
-        <line num="14" count="6" type="stmt"/>
-        <line num="17" count="6" type="stmt"/>
-        <line num="18" count="6" type="stmt"/>
-        <line num="19" count="6" type="stmt"/>
-        <line num="20" count="6" type="stmt"/>
-        <line num="21" count="6" type="stmt"/>
-        <line num="22" count="6" type="stmt"/>
-        <line num="23" count="6" type="stmt"/>
-        <line num="26" count="6" type="stmt"/>
-        <line num="28" count="6" type="stmt"/>
-        <line num="29" count="6" type="stmt"/>
-        <line num="32" count="6" type="stmt"/>
-        <line num="37" count="6" type="stmt"/>
-        <line num="40" count="6" type="stmt"/>
-        <line num="58" count="6" type="stmt"/>
-        <line num="59" count="6" type="stmt"/>
-        <line num="61" count="6" type="stmt"/>
-        <line num="62" count="6" type="stmt"/>
-        <line num="63" count="6" type="stmt"/>
-        <line num="64" count="6" type="stmt"/>
-        <line num="65" count="6" type="stmt"/>
-        <line num="66" count="6" type="stmt"/>
-        <line num="67" count="6" type="stmt"/>
-        <line num="69" count="6" type="stmt"/>
-        <line num="70" count="3" type="stmt"/>
-        <line num="73" count="6" type="stmt"/>
-      </file>
-    </package>
-    <package name="betterreads-backend.auth">
-      <metrics statements="51" coveredstatements="35" conditionals="16" coveredconditionals="12" methods="13" coveredmethods="6"/>
-      <file name="auth-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/auth/auth-router.js">
-        <metrics statements="47" coveredstatements="31" conditionals="12" coveredconditionals="8" methods="12" coveredmethods="5"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="7" count="60" type="stmt"/>
-        <line num="17" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="18" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="23" count="6" type="stmt"/>
-        <line num="24" count="33" type="stmt"/>
-        <line num="25" count="33" type="stmt"/>
-        <line num="26" count="33" type="stmt"/>
-        <line num="28" count="33" type="stmt"/>
-        <line num="30" count="33" type="stmt"/>
-        <line num="31" count="33" type="stmt"/>
-        <line num="32" count="33" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
+    <package name="betterreads-be.api">
+      <metrics statements="35" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="server.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/api/server.js">
+        <metrics statements="35" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="44" count="6" type="stmt"/>
-        <line num="45" count="28" type="stmt"/>
-        <line num="47" count="28" type="stmt"/>
-        <line num="49" count="28" type="cond" truecount="4" falsecount="0"/>
-        <line num="50" count="27" type="stmt"/>
-        <line num="51" count="27" type="stmt"/>
-        <line num="52" count="27" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
-        <line num="67" count="6" type="stmt"/>
-        <line num="75" count="6" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="betterreads-be.auth">
+      <metrics statements="51" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="13" coveredmethods="0"/>
+      <file name="auth-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/auth/auth-router.js">
+        <metrics statements="47" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="49" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
-        <line num="87" count="6" type="stmt"/>
-        <line num="94" count="6" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
         <line num="100" count="0" type="stmt"/>
         <line num="101" count="0" type="stmt"/>
-        <line num="106" count="6" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
         <line num="107" count="0" type="stmt"/>
-        <line num="114" count="6" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
         <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="118" count="0" type="stmt"/>
@@ -110,37 +110,37 @@
         <line num="120" count="0" type="stmt"/>
         <line num="124" count="0" type="stmt"/>
         <line num="131" count="0" type="stmt"/>
-        <line num="135" count="6" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
       </file>
-      <file name="restricted-middleware.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/auth/restricted-middleware.js">
-        <metrics statements="4" coveredstatements="4" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="83" type="cond" truecount="4" falsecount="0"/>
-        <line num="3" count="80" type="stmt"/>
-        <line num="5" count="3" type="stmt"/>
+      <file name="restricted-middleware.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/auth/restricted-middleware.js">
+        <metrics statements="4" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.config">
-      <metrics statements="25" coveredstatements="8" conditionals="8" coveredconditionals="4" methods="9" coveredmethods="0"/>
-      <file name="passport-setup.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/config/passport-setup.js">
-        <metrics statements="23" coveredstatements="8" conditionals="8" coveredconditionals="4" methods="9" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="6" count="6" type="stmt"/>
+    <package name="betterreads-be.config">
+      <metrics statements="25" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <file name="passport-setup.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/config/passport-setup.js">
+        <metrics statements="23" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
-        <line num="10" count="6" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
-        <line num="16" count="6" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="33" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="45" count="6" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
         <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -148,15 +148,15 @@
         <line num="65" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
       </file>
-      <file name="secrets.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/config/secrets.js">
+      <file name="secrets.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/config/secrets.js">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.coverage.lcov-report">
+    <package name="betterreads-be.coverage.lcov-report">
       <metrics statements="106" coveredstatements="0" conditionals="323" coveredconditionals="0" methods="52" coveredmethods="0"/>
-      <file name="block-navigation.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/coverage/lcov-report/block-navigation.js">
+      <file name="block-navigation.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/coverage/lcov-report/block-navigation.js">
         <metrics statements="28" coveredstatements="0" conditionals="15" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -187,11 +187,11 @@
         <line num="75" count="0" type="stmt"/>
         <line num="79" count="0" type="stmt"/>
       </file>
-      <file name="prettify.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/coverage/lcov-report/prettify.js">
+      <file name="prettify.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/coverage/lcov-report/prettify.js">
         <metrics statements="1" coveredstatements="0" conditionals="286" coveredconditionals="0" methods="29" coveredmethods="0"/>
         <line num="2" count="0" type="cond" truecount="0" falsecount="286"/>
       </file>
-      <file name="sorter.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/coverage/lcov-report/sorter.js">
+      <file name="sorter.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/coverage/lcov-report/sorter.js">
         <metrics statements="77" coveredstatements="0" conditionals="22" coveredconditionals="0" methods="17" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -272,21 +272,21 @@
         <line num="170" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.database">
-      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="db-config.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/db-config.js">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="6" count="6" type="stmt"/>
-        <line num="8" count="6" type="stmt"/>
+    <package name="betterreads-be.database">
+      <metrics statements="6" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="db-config.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/db-config.js">
+        <metrics statements="6" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.database.migrations">
+    <package name="betterreads-be.database.migrations">
       <metrics statements="72" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="22" coveredmethods="0"/>
-      <file name="001_books-table.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/001_books-table.js">
+      <file name="001_books-table.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/001_books-table.js">
         <metrics statements="21" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -310,7 +310,7 @@
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
       </file>
-      <file name="001_users-table.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/001_users-table.js">
+      <file name="001_users-table.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/001_users-table.js">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -324,7 +324,7 @@
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
       </file>
-      <file name="002_books-table-with-avg-rating.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/002_books-table-with-avg-rating.js">
+      <file name="002_books-table-with-avg-rating.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/002_books-table-with-avg-rating.js">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -333,7 +333,7 @@
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
       </file>
-      <file name="002_user-books-table.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/002_user-books-table.js">
+      <file name="002_user-books-table.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/002_user-books-table.js">
         <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -348,7 +348,7 @@
         <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
       </file>
-      <file name="002_user-shelves-table.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/002_user-shelves-table.js">
+      <file name="002_user-shelves-table.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/002_user-shelves-table.js">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -359,7 +359,7 @@
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
       </file>
-      <file name="003_user-books-on-a-shelf-table.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/003_user-books-on-a-shelf-table.js">
+      <file name="003_user-books-on-a-shelf-table.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/003_user-books-on-a-shelf-table.js">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -369,7 +369,7 @@
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
       </file>
-      <file name="004_user_genre.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/migrations/004_user_genre.js">
+      <file name="004_user_genre.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/database/migrations/004_user_genre.js">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -380,82 +380,12 @@
         <line num="16" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.database.seeds">
-      <metrics statements="52" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="17" coveredmethods="0"/>
-      <file name="001-books.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/seeds/001-books.js">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+    <package name="betterreads-be.models">
+      <metrics statements="78" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="50" coveredmethods="0"/>
+      <file name="all-user-data.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/all-user-data.js">
+        <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-      </file>
-      <file name="001-users.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/seeds/001-users.js">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-      </file>
-      <file name="002-user-books.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/seeds/002-user-books.js">
-        <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-      </file>
-      <file name="002-user-shelves.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/seeds/002-user-shelves.js">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-      </file>
-      <file name="003-user-books-on-a-shelf.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/database/seeds/003-user-books-on-a-shelf.js">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="betterreads-backend.models">
-      <metrics statements="77" coveredstatements="42" conditionals="2" coveredconditionals="0" methods="49" coveredmethods="22"/>
-      <file name="all-user-data.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/all-user-data.js">
-        <metrics statements="16" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
@@ -471,61 +401,62 @@
         <line num="74" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
       </file>
-      <file name="books.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/books.js">
-        <metrics statements="7" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="11" count="37" type="stmt"/>
+      <file name="books.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/books.js">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="19" count="22" type="stmt"/>
-        <line num="22" count="22" type="stmt"/>
-        <line num="26" count="25" type="stmt"/>
-      </file>
-      <file name="user-books-on-a-shelf.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/user-books-on-a-shelf.js">
-        <metrics statements="16" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="10" coveredmethods="6"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="13" count="3" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+      </file>
+      <file name="user-books-on-a-shelf.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/user-books-on-a-shelf.js">
+        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="68" count="1" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
       </file>
-      <file name="user-books.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/user-books.js">
-        <metrics statements="19" coveredstatements="12" conditionals="2" coveredconditionals="0" methods="11" coveredmethods="8"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
+      <file name="user-books.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/user-books.js">
+        <metrics statements="19" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
-        <line num="20" count="15" type="stmt"/>
-        <line num="23" count="15" type="stmt"/>
-        <line num="27" count="15" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
         <line num="38" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="39" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
-        <line num="50" count="17" type="stmt"/>
-        <line num="66" count="2" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
-        <line num="119" count="4" type="stmt"/>
-        <line num="128" count="4" type="stmt"/>
-        <line num="134" count="4" type="stmt"/>
-        <line num="138" count="2" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
       </file>
-      <file name="user-genre.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/user-genre.js">
-        <metrics statements="8" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
+      <file name="user-genre.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/user-genre.js">
+        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
@@ -533,233 +464,244 @@
         <line num="32" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
       </file>
-      <file name="user-shelves.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/user-shelves.js">
-        <metrics statements="7" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="11" count="12" type="stmt"/>
-        <line num="16" count="8" type="stmt"/>
-        <line num="19" count="8" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+      <file name="user-shelves.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/user-shelves.js">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
       </file>
-      <file name="users.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/models/users.js">
-        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="9" count="33" type="stmt"/>
-        <line num="15" count="28" type="stmt"/>
+      <file name="users.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/models/users.js">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="betterreads-backend.routers">
-      <metrics statements="259" coveredstatements="158" conditionals="60" coveredconditionals="31" methods="95" coveredmethods="40"/>
-      <file name="all-user-data-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/all-user-data-router.js">
-        <metrics statements="9" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
+    <package name="betterreads-be.routers">
+      <metrics statements="270" coveredstatements="0" conditionals="64" coveredconditionals="0" methods="98" coveredmethods="0"/>
+      <file name="all-user-data-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/all-user-data-router.js">
+        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
-        <line num="17" count="6" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
       </file>
-      <file name="book-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/book-router.js">
-        <metrics statements="24" coveredstatements="16" conditionals="8" coveredconditionals="4" methods="11" coveredmethods="5"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
+      <file name="book-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/book-router.js">
+        <metrics statements="24" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="13" count="0" type="stmt"/>
-        <line num="16" count="6" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="20" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="27" count="6" type="stmt"/>
-        <line num="28" count="21" type="stmt"/>
-        <line num="29" count="21" type="cond" truecount="1" falsecount="1"/>
-        <line num="30" count="21" type="stmt"/>
-        <line num="31" count="21" type="stmt"/>
-        <line num="34" count="21" type="cond" truecount="1" falsecount="1"/>
-        <line num="35" count="21" type="stmt"/>
-        <line num="37" count="21" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
-        <line num="59" count="6" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
       </file>
-      <file name="helpers.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/helpers.js">
-        <metrics statements="20" coveredstatements="13" conditionals="6" coveredconditionals="3" methods="12" coveredmethods="8"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="5" count="15" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="17" count="3" type="cond" truecount="1" falsecount="1"/>
+      <file name="helpers.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/helpers.js">
+        <metrics statements="20" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
-        <line num="26" count="15" type="stmt"/>
-        <line num="27" count="15" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="38" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
+        <line num="38" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
       </file>
-      <file name="user-books-on-a-shelf-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/user-books-on-a-shelf-router.js">
-        <metrics statements="61" coveredstatements="35" conditionals="12" coveredconditionals="5" methods="22" coveredmethods="8"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="6" count="6" type="stmt"/>
-        <line num="8" count="6" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="cond" truecount="1" falsecount="1"/>
+      <file name="user-books-on-a-shelf-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/user-books-on-a-shelf-router.js">
+        <metrics statements="72" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="25" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="107" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="118" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="127" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="130" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="154" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="158" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="159" count="0" type="stmt"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="167" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="172" count="0" type="stmt"/>
+        <line num="174" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="176" count="0" type="stmt"/>
+        <line num="178" count="0" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="187" count="0" type="stmt"/>
+      </file>
+      <file name="user-books-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/user-books-router.js">
+        <metrics statements="66" coveredstatements="0" conditionals="20" coveredconditionals="0" methods="19" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="29" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="47" count="6" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="51" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="60" count="6" type="stmt"/>
-        <line num="61" count="2" type="stmt"/>
-        <line num="62" count="2" type="stmt"/>
-        <line num="64" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="65" count="2" type="stmt"/>
-        <line num="66" count="2" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="73" count="6" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="76" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="85" count="6" type="stmt"/>
-      </file>
-      <file name="user-books-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/user-books-router.js">
-        <metrics statements="66" coveredstatements="55" conditionals="20" coveredconditionals="16" methods="19" coveredmethods="13"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="10" count="6" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="17" count="6" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="6" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="28" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="29" count="0" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="39" count="6" type="stmt"/>
-        <line num="40" count="4" type="stmt"/>
-        <line num="41" count="4" type="stmt"/>
-        <line num="42" count="4" type="stmt"/>
-        <line num="43" count="4" type="stmt"/>
-        <line num="44" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="45" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="47" count="4" type="stmt"/>
-        <line num="56" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="59" count="3" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="56" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
         <line num="63" count="0" type="stmt"/>
-        <line num="69" count="6" type="stmt"/>
-        <line num="70" count="2" type="stmt"/>
-        <line num="71" count="2" type="stmt"/>
-        <line num="72" count="2" type="stmt"/>
-        <line num="74" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="75" count="0" type="stmt"/>
-        <line num="79" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="79" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="80" count="0" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
-        <line num="86" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="87" count="0" type="stmt"/>
-        <line num="89" count="1" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="102" count="6" type="stmt"/>
-        <line num="103" count="17" type="stmt"/>
-        <line num="104" count="17" type="stmt"/>
-        <line num="105" count="17" type="stmt"/>
-        <line num="106" count="17" type="stmt"/>
-        <line num="108" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="109" count="16" type="stmt"/>
-        <line num="111" count="16" type="stmt"/>
-        <line num="114" count="16" type="cond" truecount="2" falsecount="0"/>
-        <line num="116" count="15" type="stmt"/>
-        <line num="119" count="15" type="cond" truecount="2" falsecount="0"/>
-        <line num="121" count="1" type="stmt"/>
-        <line num="123" count="1" type="stmt"/>
-        <line num="125" count="1" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="109" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="114" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="119" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
         <line num="128" count="0" type="stmt"/>
-        <line num="133" count="14" type="stmt"/>
-        <line num="135" count="14" type="stmt"/>
-        <line num="140" count="1" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
         <line num="146" count="0" type="stmt"/>
-        <line num="150" count="1" type="stmt"/>
-        <line num="154" count="6" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="154" count="0" type="stmt"/>
       </file>
-      <file name="user-genre-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/user-genre-router.js">
-        <metrics statements="38" coveredstatements="7" conditionals="8" coveredconditionals="0" methods="15" coveredmethods="0"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
+      <file name="user-genre-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/user-genre-router.js">
+        <metrics statements="38" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="15" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="9" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="19" count="6" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -769,7 +711,7 @@
         <line num="30" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
-        <line num="46" count="6" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
         <line num="48" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
@@ -779,7 +721,7 @@
         <line num="56" count="0" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
-        <line num="72" count="6" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
         <line num="76" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -787,42 +729,42 @@
         <line num="79" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
-        <line num="95" count="6" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
       </file>
-      <file name="user-shelves-router.js" path="/Users/taylorlohman/Desktop/workshop/Lambda/04Labs/betterreads-backend/routers/user-shelves-router.js">
-        <metrics statements="41" coveredstatements="28" conditionals="6" coveredconditionals="3" methods="13" coveredmethods="6"/>
-        <line num="1" count="6" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="5" count="6" type="stmt"/>
-        <line num="6" count="8" type="stmt"/>
-        <line num="7" count="8" type="stmt"/>
-        <line num="8" count="8" type="stmt"/>
-        <line num="10" count="8" type="stmt"/>
-        <line num="16" count="8" type="stmt"/>
-        <line num="18" count="8" type="cond" truecount="1" falsecount="1"/>
+      <file name="user-shelves-router.js" path="/Users/ryanhamblin/Desktop/labs/betterreads-be/routers/user-shelves-router.js">
+        <metrics statements="41" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="13" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="19" count="0" type="stmt"/>
-        <line num="21" count="8" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="29" count="6" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="34" count="6" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="39" count="6" type="stmt"/>
-        <line num="40" count="2" type="stmt"/>
-        <line num="41" count="2" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="50" count="2" type="stmt"/>
-        <line num="51" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="55" count="1" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
         <line num="58" count="0" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="66" count="6" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="69" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -831,7 +773,7 @@
         <line num="74" count="0" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
-        <line num="85" count="6" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
       </file>
     </package>
   </project>
