@@ -4,6 +4,7 @@
 	"description": "🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.",
 	"main": "index.js",
 	"scripts": {
+		"coverage": "NODE_ENV=testing jest --coverage --watchAll=false --detectOpenHandles --forceExit || true",
 		"test": "cross-env NODE_ENV=testing jest --watch --runInBand --detectOpenHandles",
 		"server": "nodemon index.js",
 		"start": "npx knex migrate:latest && node index.js"
@@ -42,6 +43,12 @@
 		"pg": "^7.18.1"
 	},
 	"jest": {
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"collectCoverageFrom": [
+			"**/*.js",
+      		"!**/node_modules/**",
+      		"!**/vendor/**",
+      		"!**/__tests__/**"
+		]
 	}
 }
