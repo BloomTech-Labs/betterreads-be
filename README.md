@@ -1,7 +1,7 @@
 # API Documentation
 
 ![Node](https://img.shields.io/node/v/express/latest)
-![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f872e79c70879e95bb7f/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-be/test_coverage)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 
