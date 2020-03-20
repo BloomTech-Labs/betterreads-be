@@ -482,6 +482,7 @@ create a .env file that includes the following:
 
     * NODE_ENV - set to "development" until ready for "production"
     * RDS_HOSTNAME - set in "production"
+    * DATA_SCIENCE - set in "production"
     
     
 ## Contributing
