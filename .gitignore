@@ -7,4 +7,3 @@ node_modules/
 !.elasticbeanstalk/*.global.yml
 database/seeds
 coverage/
-.codeclimate.yml

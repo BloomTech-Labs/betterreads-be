@@ -1,0 +1,4 @@
+exclude_patterns:
+  - "**/database/migrations/**"
+  - "**/index"
+  - "**/config/**"
