@@ -19,8 +19,13 @@ const booksRouter = require("../routers/book-router.js");
 const userBooksRouter = require("../routers/user-books-router.js");
 const userShelvesRouter = require ("../routers/user-shelves-router.js")
 const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
-const userGenre = require ("../routers/user-genre-router.js")
-const allUserData = require("../routers/all-user-data-router.js")
+const userGenre = require ("../routers/user-genre-router.js");
+const allUserData = require("../routers/all-user-data-router.js");
+
+// MARK: -- for data science
+const UserBooks = require("../models/user-books.js");
+const helper = require("../routers/helpers.js");
+
 
 // MARK: -- server
 const server = express();
@@ -58,6 +63,11 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 
+server.get(`/api/${process.env.DATA_SCIENCE}`, (req, res) => {
+	const userId = req.body.userId;
+	return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
+});
+
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
@@ -65,6 +75,7 @@ server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 
 server.use("/api/userData", restricted, allUserData);
+
 
 server.get("/", (request, response) =>
 	response.status(200).json({ message: "server is working" })
