@@ -1,4 +1,5 @@
 exclude_patterns:
-  - "**/database/migrations/**"
-  - "**/index"
-  - "**/config/**"
+  - "database/"
+  - "index.js"
+  - "config/"
+  - "**/node_modules/"
