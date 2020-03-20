@@ -1,0 +1,5 @@
+exclude_patterns:
+  - "database/"
+  - "index.js"
+  - "config/"
+  - "**/node_modules/"
