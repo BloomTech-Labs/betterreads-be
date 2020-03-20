@@ -2,7 +2,8 @@ const db = require("../database/db-config.js");
 
 module.exports = {
 	add,
-	findBy
+	findBy,
+	total
 };
 
 function add(user) {
@@ -15,4 +16,8 @@ function findBy(filter) {
 	return db("users")
 		.where(filter)
 		.first();
+}
+
+function total() {
+	return db("users").count("id")
 }
