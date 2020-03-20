@@ -63,6 +63,11 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 
+server.get(`/api/${process.env.DATA_SCIENCE}`, (req, res) => {
+	const userId = req.body.userId;
+	return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
+});
+
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
@@ -71,11 +76,6 @@ server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 
 server.use("/api/userData", restricted, allUserData);
 
-
-server.get(`/api/${process.env.DATA_SCIENCE}`, (request, response) => {
-	const userId = req.body.userId
-	helper.findIn(request, response, UserBooks.findById, userId, "userbooks")
-});
 
 server.get("/", (request, response) =>
 	response.status(200).json({ message: "server is working" })
