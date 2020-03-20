@@ -63,8 +63,8 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 
-server.get(`/api/${process.env.DATA_SCIENCE}`, (req, res) => {
-	const userId = req.body.userId;
+server.get(process.env.DATA_SCIENCE, (req, res) => {
+	const userId = req.params.userId;
 	return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
 });
 

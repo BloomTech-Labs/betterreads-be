@@ -26,18 +26,14 @@ module.exports = {
 	},
 
 	staging: {
-		client: "postgresql",
-		connection: {
-			database: "my_db",
-			user: "username",
-			password: "password"
-		},
+		client: "pg",
+		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
 			max: 10
 		},
 		migrations: {
-			tableName: "knex_migrations"
+			tableName: "./database/migrations"
 		}
 	},
 
