@@ -63,14 +63,13 @@ server.use(
 // MARK: -- data science
 server.get(process.env.DATA_SCIENCE, (req, res) => {
 	const userId = req.params.userId;
-	if(userId) {
-		return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
-	} else {
-		return Users.total().then(total => res.status(200).json(total))
-		.catch(err => res.status(500).json({ message: "error retrieving data" }))
-
-	}
+	return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
 });
+
+server.get(process.env.DATA_SCIENCE_TOTAL, (req, res) => {
+	Users.total().then(total => res.status(200).json(total))
+		.catch(err => res.status(500).json({ message: "error retrieving data" }))
+})
 
 // MARK: -- passport
 server.use(passport.initialize());
