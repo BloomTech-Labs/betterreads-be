@@ -133,7 +133,7 @@ router.put("/shelves/:shelfId", (req, res) => {
             .json({ message: "book moved to new shelf", ShelfId: updated });
         } else {
           res
-            .status(200)
+            .status(500)
             .json({ message: "check bookId, shelfId and newShelfId" });
         }
       })
