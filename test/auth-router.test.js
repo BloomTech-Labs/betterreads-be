@@ -45,7 +45,7 @@ describe("auth-router", function() {
 	});
 
 	describe("api/auth/login", function() {
-		it("is a json object", function() {
+		it("POST login success", function() {
 			return request(server)
 				.post("/api/auth/signin")
 				.send({ 
@@ -57,7 +57,7 @@ describe("auth-router", function() {
 				});
 		});
 
-		it("expect user", function() {
+		it("POST fake user", function() {
 			return request(server)
 				.post("/api/auth/signin")
 				.send({ emailAddress: "failseedemail", password: "failseedpassword" })

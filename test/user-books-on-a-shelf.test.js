@@ -5,7 +5,8 @@ const TestObject = require("./test-objects.js");
 const knexCleaner = require('knex-cleaner');
 
 const shelfObj = TestObject.shelfObj;
-const bookObject = TestObject.bookObject
+const bookObject = TestObject.bookObject;
+const promisedCookie = TestObject.promisedCookie;
 
 var options = {
 	mode: 'truncate',
@@ -15,20 +16,6 @@ var options = {
 };
 
 describe("user-books-on-a-shelf", function() {
-
-	// MARK: -- helper function to grab cookie
-	function promisedCookie(user) {
-		return new Promise((resolve, reject) => {
-			request(server)
-			.post("/api/auth/signin")
-			.send(user)
-			.end(function(err, res) {
-				if (err) { throw err; }
-				let signinCookie = res.headers["set-cookie"];
-				resolve(signinCookie);
-			});
-		});
-	}
 
 	beforeAll(async function() {
 		await knexCleaner.clean(db, options)
