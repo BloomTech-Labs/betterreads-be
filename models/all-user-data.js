@@ -2,10 +2,10 @@ const db = require("../database/db-config.js");
 
 module.exports = {
     booksFor,
-    findBy,
     shelvesFor,
     find,
-    findBooksIn
+    findBooksIn,
+    findBy,
 };
 
 // MARK: -- return all books for user
@@ -14,6 +14,14 @@ function booksFor(userId) {
         .where("ub.userId", userId)
         .join("books as b", "b.id", "ub.bookId")
         .select("b.title", "b.authors", "b.thumbnail", "b.smallThumbnail", "b.googleId")
+}
+
+// MARK: -- return all shelves for user
+function shelvesFor(userId) {
+    return db("users as u")
+        .where("u.id", userId)
+        .join("userShelves as us", "us.userId", "u.id")
+        .distinct("us.id").orderBy("us.id")
 }
 
 // MARK: -- return total number of shelves
@@ -38,14 +46,6 @@ function numberOfBooksOn(shelfId) {
         .where("shelfId", shelfId)
         .join("books as b", "b.id", "ubs.bookId")
         .count("b.id");
-}
-
-// MARK: -- return all shelves for user
-function shelvesFor(userId) {
-    return db("users as u")
-        .where("u.id", userId)
-        .join("userShelves as us", "us.userId", "u.id")
-        .distinct("us.id").orderBy("us.id")
 }
 
 function findBooksIn(shelfId) {

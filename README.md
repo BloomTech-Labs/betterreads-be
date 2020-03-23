@@ -208,8 +208,9 @@ To get the server running locally:
 | DELETE | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book id                                |
 | POST   | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
 | PUT    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
-| GET    | `/api/booksonshelf/shelves/allbooks/:shelfId`| all users      | Returns all books on user shelf               |
-| GET    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book                                   |               |
+| GET    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book                                   |
+| GET    | `/api/booksonshelf/shelves/allbooks/:shelfId`| all users      | Returns all books on one user shelf           |
+| GET    | `/api/booksonshelf/user/:userId`             | all users      | Returns all user's shelves with the books     |
 
 # Body Required 
 
@@ -241,6 +242,20 @@ To get the server running locally:
 ```js
 {
   bookId: FOREIGN KEY from books
+}
+```
+
+-- GET `/api/booksonshelf/shelves/allbooks/:shelfId`
+```js
+{
+  userId: FOREIGN KEY from users
+}
+```
+
+-- GET `/api/booksonshelf/shelves/user/:userId`
+```js
+{
+  userId: FOREIGN KEY from users
 }
 ```
 
@@ -414,6 +429,10 @@ To get the server running locally:
 
 `findBy(filter)` -> Returns an array of bookshelves
 
+`findByUser(id)` -> Returns an array of bookshelves
+
+`returnShelfId(userId)` -> Returns an array of shelf ids 
+
 `add(shelf)` -> Returns a single bookshelf
 
 `update(updatedShelf, shelfId)` -> Returns a single bookshelf
@@ -430,6 +449,12 @@ To get the server running locally:
 
 `findAllBooks(shelfId)` -> Return all books on shelf
 
+`returnEveryShelfFrom(userId)` -> Returns all books from user's shelves
+
+`findBooksIn(shelfId)` -> Returns books on shelf
+
+`findById(id)` -> Returns shelf with book
+
 `addBooks(book)` -> Returns book
 
 `remove(bookId, shelfId)` -> Returns nothing
@@ -444,13 +469,13 @@ To get the server running locally:
 
 `booksFor(userId)` -> Returns all books for user 
 
-`findBy(userId)` -> Returns everything about user
-
 `shelvesFor(userId)` -> Returns all shelves for user
 
 `find(userId)` -> Returns number of books on a shelf
 
 `findBooksIn(shelfId)` -> Returns all books on shelf 
+
+`findBy(userId)` -> Returns everything about user
 
 <br>
 <br>
@@ -485,6 +510,7 @@ create a .env file that includes the following:
     * NODE_ENV - set to "development" until ready for "production"
     * RDS_HOSTNAME - set in "production"
     * DATA_SCIENCE - set in "production"
+    * DATE_SCIENCE_TOTAL - set in "production"
     
     
 ## Contributing
