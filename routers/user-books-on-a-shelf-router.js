@@ -11,6 +11,7 @@ router.post("/shelves/:shelfId", (req, res) => {
   const googleId = req.body.book.googleId;
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
+  const userRating = req.body.userRating
 
   UserShelves.findBy(shelfId)
     .first()
@@ -26,7 +27,8 @@ router.post("/shelves/:shelfId", (req, res) => {
                   bk,
                   userId,
                   favorite,
-                  status
+                  status,
+                  userRating
                 );
                 UserBooks.add(newUserBookObject)
                   .then(added => {
@@ -59,7 +61,8 @@ router.post("/shelves/:shelfId", (req, res) => {
                     foundbook,
                     userId,
                     favorite,
-                    status
+                    status,
+                    userRating
                   );
                   UserBooks.add(userBookObject)
                     .then(() => {

@@ -146,6 +146,7 @@ To get the server running locally:
   favorite: BOOLEAN,
   dateStarted: STRING, (YYYY-MM-DD)
   dateEnded: STRING, (YYYY-MM-DD)
+  userRating: DECIMAL
 }
 ```
 

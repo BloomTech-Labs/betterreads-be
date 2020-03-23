@@ -78,7 +78,8 @@ function findByUserId(userId) {
 			"b.thumbnail",
 			"b.pageCount",
 			"ub.dateStarted",
-			"ub.dateEnded"
+			"ub.dateEnded",
+			"ub.userRating"
 		)
 }
 
@@ -101,6 +102,7 @@ function findDetailByUserId(userId, bookId) {
 			"ub.dateEnded",
 			"ub.dateAdded",
 			"ub.favorite",
+			"ub.userRating",
 			"b.title",
 			"b.authors",
 			"b.categories",

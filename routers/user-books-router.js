@@ -41,6 +41,7 @@ router.put("/:userId/library", (req, res) => {
   const bookId = req.body.bookId
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
+  const rating = req.body.userRating;
   const dateStarted = typeof(req.body.dateStarted) == typeof(String()) ? new Date(req.body.dateStarted) : null
   const dateEnded = typeof(req.body.dateEnded) == typeof(String()) ? new Date(req.body.dateEnded) : null
 
@@ -49,7 +50,8 @@ router.put("/:userId/library", (req, res) => {
       readingStatus: status, 
       favorite: favorite, 
       dateStarted: dateStarted,
-      dateEnded: dateEnded
+      dateEnded: dateEnded,
+      userRating: rating 
     }
   )
     .then(updated => {
@@ -104,6 +106,7 @@ router.post("/:userId/library", (req, res) => {
   const book = req.body.book;
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
+  const rating = req.body.userRating;
 
   if (book) {
     const googleId = book.googleId;
@@ -120,7 +123,7 @@ router.post("/:userId/library", (req, res) => {
                 // MARK: -- adding the book to our books db since it is not there
                 Books.add(book)
                   .then(book => {
-                    const newUserBookObject = helper.createUserBook(book, userId, favorite, status)
+                    const newUserBookObject = helper.createUserBook(book, userId, favorite, status,rating)
                     // MARK: -- adding book to our user's library
                     helper.addToUserBooks(req, res, UserBooks, newUserBookObject)
                   })
@@ -130,7 +133,7 @@ router.post("/:userId/library", (req, res) => {
                     });
                   });
               } else {
-                const userBookObject = helper.createUserBook(bk, userId, favorite, status)
+                const userBookObject = helper.createUserBook(bk, userId, favorite, status, rating)
                 // MARK: -- book exist in our books db, add the book to our user's library
                 helper.addToUserBooks(req, res, UserBooks, userBookObject)
               }
