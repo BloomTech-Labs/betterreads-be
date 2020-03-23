@@ -46,9 +46,9 @@ function findAllBooks(shelfId, userId) {
 			.select("s.shelfName")
 			.first()
 			.then(name => {
-				const ShelfName = Object.values(name)[0]
+				const shelfName = Object.values(name)[0]
 				return {
-					shelfId, ShelfName, books
+					shelfId, shelfName, books
 				}
 			})
 		})

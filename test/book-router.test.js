@@ -1,8 +1,13 @@
 const server = require("../api/server.js");
+const TestObject = require("./test-objects.js");
 const request = require("supertest");
 const db = require("../database/db-config.js");
-
 const knexCleaner = require('knex-cleaner');
+
+const bookObject = TestObject.bookObject;
+const otherBook = TestObject.otherBook;
+const badBookObject = TestObject.badBookObject;
+const promisedCookie = TestObject.promisedCookie;
 
 var options = {
 	mode: 'truncate',
@@ -11,64 +16,6 @@ var options = {
 };
 
 describe("book-router", function() {
-	const bookObject = {
-		googleId: "qwoldmcdfiom123103",
-		title: "Chantra Swandie",
-		authors: "McWorld",
-		publisher: "Penguin",
-		publishedDate: "2/21/2020",
-		description: "The end of the book",
-		isbn10: "12345678911234567891",
-		isbn13: "12345678911234567891234",
-		pageCount: 210,
-		categories: "swenad",
-		thumbnail: "image.png",
-		smallThumbnail: "small-img.png",
-		language: "english",
-		webReaderLink: "testLink",
-		textSnippet: "testSnippet",
-		isEbook: true,
-		averageRating: 4
-	};
-
-	const otherBook = {
-		googleId: "qwertyomsname",
-		title: "Lander McPherson",
-		authors: "Civil Mary",
-		publisher: "Top hat",
-		publishedDate: "4/2/1931",
-		description: "The begining of the book",
-		isbn10: "0293129582812931832914",
-		isbn13: "90w8q9weqw9eq0w9e0w9eq9",
-		pageCount: 100,
-		categories: "mapry",
-		thumbnail: "image.png",
-		smallThumbnail: "small-img.png",
-		language: "english",
-		webReaderLink: "testLink",
-		textSnippet: "testSnippet",
-		isEbook: false,
-		averageRating: 4
-	};
-
-	const badBookObject = {
-		type: "Movie",
-		content: "Im not a book"
-	};
-
-	// MARK: -- helper function to grab cookie
-	function promisedCookie(user) {
-		return new Promise((resolve, reject) => {
-			request(server)
-			.post("/api/auth/signin")
-			.send(user)
-			.end(function(err, res) {
-				if (err) { throw err; }
-				let signinCookie = res.headers["set-cookie"];
-				resolve(signinCookie);
-			});
-		});
-	}
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
@@ -96,19 +43,6 @@ describe("book-router", function() {
 					.expect(200)
 				return req;
 			})
-		});
-
-
-		it("GET JSON book object", function() {
-			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
-				const req = request(server)
-					.get("/api/books/1")
-					.set("cookie", cookie)
-					.then(res => {
-						expect(res.type).toMatch(/json/i);
-					});
-				return req;
-			});
 		});
 
 		it("Expect 401 with no authentication set in header", function() {

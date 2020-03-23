@@ -30,18 +30,7 @@ describe("auth-router", function() {
 	});
 
 	describe("api/auth/signup", function() {
-		it("register", function() {
-			return request(server)
-				.post("/api/auth/signup")
-				.send({
-					fullName: "Judith Lastname",
-					emailAddress: "testemail",
-					password: "testpassword"
-				})
-				.expect(201);
-		});
-
-		it("is a json object", function() {
+		it("succeeds and is a json object", function() {
 			return request(server)
 				.post("/api/auth/signup")
 				.send({ 
@@ -56,17 +45,7 @@ describe("auth-router", function() {
 	});
 
 	describe("api/auth/login", function() {
-		it("login", function() {
-			return request(server)
-				.post("/api/auth/signin")
-				.send({
-					emailAddress: "seedemail",
-					password: "seedpassword"
-				})
-				.expect(200);
-		});
-
-		it("is a json object", function() {
+		it("POST login success", function() {
 			return request(server)
 				.post("/api/auth/signin")
 				.send({ 
@@ -78,7 +57,7 @@ describe("auth-router", function() {
 				});
 		});
 
-		it("expect user", function() {
+		it("POST fake user", function() {
 			return request(server)
 				.post("/api/auth/signin")
 				.send({ emailAddress: "failseedemail", password: "failseedpassword" })
