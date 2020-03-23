@@ -66,7 +66,7 @@ describe("user-books-router", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
 					.post("/api/1/library")
-					.send({ book: otherBook, readingStatus: 2, favorite: true })
+					.send({ book: otherBook, readingStatus: 2, favorite: true, userRating: 5 })
 					.set("cookie", cookie)
 					.then(res => {
 						expect(res.body.bookId).toBe(2)
