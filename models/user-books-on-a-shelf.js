@@ -41,7 +41,6 @@ function findAllBooks(shelfId) {
 }
 
 
-
 function findById(id) {
 	return db('userBooksOnAShelf')
 		.where({ id })
