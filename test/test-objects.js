@@ -1,4 +1,20 @@
+const server = require("../api/server.js");
+const request = require("supertest");
 module.exports = {
+	// MARK: -- helper function to grab cookie
+	promisedCookie: function(user) {
+		return new Promise((resolve, reject) => {
+			request(server)
+			.post("/api/auth/signin")
+			.send(user)
+			.end(function(err, res) {
+				if (err) { throw err; }
+				let signinCookie = res.headers["set-cookie"];
+				resolve(signinCookie);
+			});
+		});
+	},
+
 	bookObject: {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",
@@ -39,7 +55,7 @@ module.exports = {
 		averageRating: 4
 	},
 
-	badBookObject : {
+	badBookObject: {
 		type: "Movie",
 		content: "Im not a book"
 	},
@@ -48,9 +64,15 @@ module.exports = {
 		shelfName: "Test shelf",
     	isPrivate: false
 	},
-	
+
+	shelfObj2: {
+        shelfName: " Test Shelf 1",
+        isPrivate: false
+    },
+
 	shelfWithBook: {
 	    bookId: 1,
     	shelfId: 1	
-	}
+	},
+
 };

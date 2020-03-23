@@ -7,6 +7,7 @@ const knexCleaner = require('knex-cleaner');
 const bookObject = TestObject.bookObject;
 const otherBook = TestObject.otherBook;
 const badBookObject = TestObject.badBookObject;
+const promisedCookie = TestObject.promisedCookie;
 
 var options = {
 	mode: 'truncate',
@@ -15,20 +16,6 @@ var options = {
 };
 
 describe("book-router", function() {
-
-	// MARK: -- helper function to grab cookie
-	function promisedCookie(user) {
-		return new Promise((resolve, reject) => {
-			request(server)
-			.post("/api/auth/signin")
-			.send(user)
-			.end(function(err, res) {
-				if (err) { throw err; }
-				let signinCookie = res.headers["set-cookie"];
-				resolve(signinCookie);
-			});
-		});
-	}
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
