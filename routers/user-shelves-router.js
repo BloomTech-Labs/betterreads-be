@@ -28,7 +28,7 @@ router.post("/user/:userId", (req, res) => {
 
 router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId;
-  helper.findIn(req, res, Shelves.findBy, userId);
+  helper.findIn(req, res, Shelves.findByUser, userId);
 });
 
 router.get("/:shelfId", (req, res) => {
