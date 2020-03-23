@@ -29,7 +29,9 @@ function findAllBooks(shelfId, userId) {
 		.where("ub.userId", userId)
 		.join('userShelves as s', 's.id', 'bs.shelfId')
 		.where({ shelfId: shelfId })
-		.distinct('bs.bookId', 
+		.distinct(
+			'bs.bookId',
+			'b.googleId', 
 			'b.title', 
 			'b.authors', 
 			'b.thumbnail', 
@@ -44,10 +46,8 @@ function findAllBooks(shelfId, userId) {
 			.select("s.shelfName")
 			.first()
 			.then(name => {
-				console.log(books, name)
 				const ShelfName = Object.values(name)[0]
 				return {
-
 					shelfId, ShelfName, books
 				}
 			})
