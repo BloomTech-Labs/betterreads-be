@@ -38,6 +38,7 @@ function findAllBooks(shelfId, userId) {
 			'b.smallThumbnail', 
 			'bs.shelfId', 
 			's.userId', 
+			"ub.userRating",
 			'ub.readingStatus',
 			'ub.favorite')
 		.then(books => {
