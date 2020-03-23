@@ -1,12 +1,13 @@
 module.exports = {
 
   // MARK: -- UserBooks helper (in routers)
-  createUserBook: function(book, userId, favorite, status) {
+  createUserBook: function(book, userId, favorite, status, rating) {
     return { 
       bookId: book.id,
       userId: userId,
       favorite: favorite,
-      readingStatus: status
+      readingStatus: status,
+      userRating: rating
     }
   },
  
