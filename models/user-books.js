@@ -76,7 +76,9 @@ function findByUserId(userId) {
 			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
-			"b.pageCount"
+			"b.pageCount",
+			"ub.dateStarted",
+			"ub.dateEnded"
 		)
 }
 
