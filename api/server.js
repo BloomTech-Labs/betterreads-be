@@ -24,6 +24,7 @@ const allUserData = require("../routers/all-user-data-router.js");
 
 // MARK: -- for data science
 const UserBooks = require("../models/user-books.js");
+const Users = require("../models/users.js");
 const helper = require("../routers/helpers.js");
 
 
@@ -59,15 +60,22 @@ server.use(
 	})
 );
 
-// MARK: -- passport
-server.use(passport.initialize());
-server.use(passport.session());
-
+// MARK: -- data science
 server.get(process.env.DATA_SCIENCE, (req, res) => {
 	const userId = req.params.userId;
 	return helper.findIn(req, res, UserBooks.findByUserId, userId, "userbooks")
 });
 
+server.get(process.env.DATA_SCIENCE_TOTAL, (req, res) => {
+	Users.total().then(total => res.status(200).json(total))
+		.catch(err => res.status(500).json({ message: "error retrieving data" }))
+})
+
+// MARK: -- passport
+server.use(passport.initialize());
+server.use(passport.session());
+
+// MARK: -- routers
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);

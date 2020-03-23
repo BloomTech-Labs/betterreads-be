@@ -170,9 +170,10 @@ router.get("/shelves/:shelfId", (req, res) => {
 
 router.get("/shelves/allbooks/:shelfId", (req, res) => {
   const shelfId = req.params.shelfId;
+  const userId = req.body.userId;
 
   if (shelfId) {
-    BooksOnShelf.findAllBooks(shelfId)
+    BooksOnShelf.findAllBooks(shelfId, userId)
       .then(book => res.status(200).json(book))
       .catch(err =>
         res
@@ -183,5 +184,15 @@ router.get("/shelves/allbooks/:shelfId", (req, res) => {
     res.status(404).json({ message: "no shelf id exist" });
   }
 });
+
+router.get("/user/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  BooksOnShelf.returnEveryShelfFrom(userId)
+    .then(shelves => {
+      res.status(200).json(shelves)
+    })
+    .catch(err => res.status(500).json({ message: "error getting all shelves" }))
+})
 
 module.exports = router;
