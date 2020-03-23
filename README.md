@@ -364,6 +364,8 @@ To get the server running locally:
 
 `findBy(filter)` -> Return all users matching filter
 
+`count()` -> Return total number of users
+
 <br>
 <br>
 <br>

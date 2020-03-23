@@ -1,8 +1,11 @@
 const db = require("../database/db-config.js");
+const UserShelves = require("./user-shelves.js");
 
 module.exports = {
 	findBook,
 	findAllBooks,
+	returnEveryShelfFrom,
+	findBooksIn,
 	addBooks,
 	update,
 	remove,
@@ -19,12 +22,22 @@ function findBook(shelfId, bookId) {
 		.select('bs.bookId', 'b.title','s.shelfName', 'bs.shelfId', 's.userId' )
 }
 
-function findAllBooks(shelfId) {
+function findAllBooks(shelfId, userId) {
 	return db('userBooksOnAShelf as bs')
 		.join('books as b', 'bs.bookId', 'b.id')
+		.join('userBooks as ub', 'ub.bookId', 'bs.bookId')
+		.where("ub.userId", userId)
 		.join('userShelves as s', 's.id', 'bs.shelfId')
 		.where({ shelfId: shelfId })
-		.select('bs.bookId', 'b.title', 'bs.shelfId', 's.userId' )
+		.distinct('bs.bookId', 
+			'b.title', 
+			'b.authors', 
+			'b.thumbnail', 
+			'b.smallThumbnail', 
+			'bs.shelfId', 
+			's.userId', 
+			'ub.readingStatus',
+			'ub.favorite')
 		.then(books => {
 			return db("userShelves as s")
 			 .where({ id: shelfId })
@@ -34,13 +47,28 @@ function findAllBooks(shelfId) {
 				console.log(books, name)
 				const ShelfName = Object.values(name)[0]
 				return {
-					ShelfName, books
+
+					shelfId, ShelfName, books
 				}
 			})
 		})
 }
 
+function returnEveryShelfFrom(userId) {
+	const shelfId = UserShelves.returnShelfId(userId)
+	return shelfId.map(object => {
+		return findAllBooks(object.id, userId)
+	})
+}
 
+
+function findBooksIn(shelfId) {
+	return db('userBooksOnAShelf as bs')
+		.join('books as b', 'bs.bookId', 'b.id')
+		.join('userShelves as s', 's.id', 'bs.shelfId')
+		.where({ shelfId: shelfId })
+		.select('bs.bookId', 'b.title', 'b.authors', 'b.thumbnail', 'b.smallThumbnail', 'bs.shelfId', 's.userId')
+}
 
 function findById(id) {
 	return db('userBooksOnAShelf')
@@ -48,7 +76,6 @@ function findById(id) {
 		.first()
 		.select("*");
 }
-
 
 async function addBooks(book) {
 	const [id] = await db("userBooksOnAShelf")
