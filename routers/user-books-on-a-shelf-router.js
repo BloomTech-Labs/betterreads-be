@@ -184,19 +184,12 @@ router.get("/shelves/allbooks/:shelfId", (req, res) => {
   }
 });
 
-router.get("/shelves/user/:userId", (req, res) => {
+router.get("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
 
-  UserShelves.findBy(userId)
+  BooksOnShelf.user(userId)
     .then(shelves => {
-      const results = [];
-
-      shelves.map(shelf => {
-        let booksonshelf = BooksOnShelf.findAllBooks(shelf.id)
-        results.push(booksonshelf)
-      });
-
-      res.status(200).json(results)
+      res.status(200).json(shelves)
     })
     .catch(err => res.status(500).json({ message: "error getting all shelves" }))
 })
