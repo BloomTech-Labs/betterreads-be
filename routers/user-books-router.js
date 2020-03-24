@@ -39,11 +39,16 @@ router.get("/:userId/library/:bookId", (req, res) => {
 router.put("/:userId/library", (req, res) => {
   const userId = req.params.userId
   const bookId = req.body.bookId
+
+  UserBooks.findDetailByUserId(userId, bookId)
+  .then(userBook => {
+    const dateEnd = userBook.dateEnded; 
+    const dateStart = userBook.dateStarted;
   const status = req.body.readingStatus;
   const favorite = req.body.favorite;
   const rating = req.body.userRating;
-  const dateStarted = typeof(req.body.dateStarted) == typeof(String()) ? new Date(req.body.dateStarted) : null
-  const dateEnded = typeof(req.body.dateEnded) == typeof(String()) ? new Date(req.body.dateEnded) : null
+  const dateStarted = typeof(req.body.dateStarted) == typeof(String()) ? new Date(req.body.dateStarted) : dateStart
+  const dateEnded = typeof(req.body.dateEnded) == typeof(String()) ? new Date(req.body.dateEnded) : dateEnd
 
   UserBooks.update(userId, bookId, 
     { 
@@ -64,6 +69,7 @@ router.put("/:userId/library", (req, res) => {
     .catch(err => {
       res.status(500).json(err)
     })
+  }).catch(err => res.status(500).json(err))
 });
 
 // MARK: -- DELETE
