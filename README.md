@@ -215,14 +215,14 @@ To get the server running locally:
 
 # Body Required 
 
--- DELETE `/api/shelves/:shelfId`
+-- DELETE `/api/booksonshelf/shelves/:shelfId`
 ```js
 {
   bookId: FOREIGN KEY from books
 }
 ```
 
--- POST `/api/shelves/:shelfId`
+-- POST `/api/booksonshelf/shelves/:shelfId`
 ```js
 {
   book: OBJECT,
@@ -231,7 +231,7 @@ To get the server running locally:
 }
 ```
 
--- PUT `/api/shelves/:shelfId`
+-- PUT `/api/booksonshelf/shelves/:shelfId`
 ```js
 {
   bookId: FOREIGN KEY from books,
