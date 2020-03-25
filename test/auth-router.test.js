@@ -1,8 +1,11 @@
 const server = require("../api/server.js");
 const request = require("supertest");
+const TestObject = require("./test-objects.js")
 const db = require("../database/db-config.js");
 
 const knexCleaner = require('knex-cleaner');
+const auth = TestObject.auth;
+const promisedCookie = TestObject.promisedCookie;
 
 var options = {
 	mode: 'truncate',
@@ -14,13 +17,12 @@ var options = {
 describe("auth-router", function() {
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
+		return auth("/api/auth/signup", 
+			{
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				password: "seedpassword"
-			});
+				password: "seedpassword" 
+			})
 	});
 
 	describe("test environment", function() {
@@ -31,24 +33,33 @@ describe("auth-router", function() {
 
 	describe("api/auth/signup", function() {
 		it("succeeds and is a json object", function() {
-			return request(server)
-				.post("/api/auth/signup")
-				.send({ 
+			return auth("/api/auth/signup", 
+				{ 
 					fullName: "Person Lastname",
 					emailAddress: "testemail3", 
 					password: "testpassword" 
 				})
 				.then(res => {
 					expect(res.body.user.emailAddress).toBe("testemail3");
+			});
+		});
+
+		it("fails on signup", function() {
+			return auth("/api/auth/signup",
+				{
+					fullName: "nada",
+					password: "ok",
+				})
+				.then(res => {
+					expect(res.body.message).toBe("error registering user");
 				});
 		});
 	});
 
-	describe("api/auth/login", function() {
-		it("POST login success", function() {
-			return request(server)
-				.post("/api/auth/signin")
-				.send({ 
+	describe("api/auth/signin", function() {
+		it("POST signin success", function() {
+			return auth("/api/auth/signin",
+				{ 
 					emailAddress: "seedemail", 
 					password: "seedpassword" 
 				})
@@ -58,12 +69,36 @@ describe("auth-router", function() {
 		});
 
 		it("POST fake user", function() {
-			return request(server)
-				.post("/api/auth/signin")
-				.send({ emailAddress: "failseedemail", password: "failseedpassword" })
+			return auth("/api/auth/signin",
+				{ 
+					emailAddress: "failseedemail", 
+					password: "failseedpassword" 
+				})
 				.then(res => {
 					expect(res.body.message).toBe("invalid credentials");
 				});
+		});
+
+		it("POST return error", function() {
+			return auth("/api/auth/signin",
+				{})
+				.then(res => {
+					expect(res.status).toBe(500);
+				});
+		});
+	});
+
+	describe("api/auth/signout", function() {
+
+		it("signout success", function () {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword"  })
+			.then(cookie => {
+				return request(server)
+					.get("/api/auth/signout")
+					.then(res => {
+						expect(res.body.message).toBe("successfully signed out")
+					});
+			});
 		});
 	});
 });

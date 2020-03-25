@@ -7,6 +7,8 @@ const knexCleaner = require('knex-cleaner');
 const shelfObj = TestObject.shelfObj;
 const shelfObj2 = TestObject.shelfObj2;
 const bookObject = TestObject.bookObject;
+const auth = TestObject.auth;
+const setCookie = TestObject.setCookie;
 const promisedCookie = TestObject.promisedCookie;
 
 var options = {
@@ -21,19 +23,10 @@ describe("user-shelves-router", function() {
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
-				fullName: "Seeder Apple",
-				emailAddress: "seedemail",
-				password: "seedpassword"
-			}).then(res => {
-				const cookie = res.headers["set-cookie"]
-				return request(server)
-					.post("/api/shelves/user/1")
-					.send(shelfObj)
-					.set("cookie", cookie)
-			})
+		return auth("/api/auth/signup", { 
+            fullName: "Seeder Apple", emailAddress: "seedemail", password: "seedpassword" 
+        })
+        .then(res => { return setCookie(res, "/api/shelves/user/1", shelfObj) });
     });
     
     describe("POST user shelves user Id", function() {

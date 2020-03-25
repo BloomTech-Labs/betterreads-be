@@ -13,18 +13,14 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
-
 const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
 const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
-
-
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
 	let user = request.body;
 	const hash = bcrypt.hashSync(user.password, 10);
 	user.password = hash;
-
 	User.add(user)
 		.then(res => {
 			request.session.user = res[0];
@@ -32,18 +28,13 @@ router.post("/signup", (request, response) => {
 			response.status(201).json({
 				message: "successfully registered user",
 				user: userObject(user)
-
 			});
 		})
-		.catch(err => {
-			console.log(err);
-			response.status(500).json({ message: "error registering user" });
-		});
+		.catch(err => response.status(500).json({ message: "error registering user" }));
 });
 
 router.post("/signin", (request, response) => {
 	const { emailAddress, password } = request.body;
-
 	User.findBy({ emailAddress })
 		.then(res => {
 			if (res && bcrypt.compareSync(password, res.password)) {
@@ -57,26 +48,21 @@ router.post("/signin", (request, response) => {
 				response.status(500).json({ message: "invalid credentials" });
 			}
 		})
-		.catch(err => {
-			console.log(err);
-			response.status(500).json({ message: "error logging in user" });
-		});
+		.catch(err => response.status(500).json({ message: "error logging in user" }));
 });
 
 // MARK: -- google
 router.get(
 	"/google",
-	passport.authenticate("google", {
-		scope: ["profile", "email"],
+	passport.authenticate("google", { 
+		scope: ["profile", "email"], 
 		prompt: "select_account"
 	})
 );
 
 router.get(
 	"/google/redirect",
-	passport.authenticate("google", {
-		failureRedirect: API_FAILURE
-	}),
+	passport.authenticate("google", { failureRedirect: API_FAILURE }),
 	(request, response) => {
 		request.session.user = request.user;
 		response.redirect(API_SUCCESS);
@@ -86,16 +72,12 @@ router.get(
 // MARK: -- facebook
 router.get(
 	"/facebook",
-	passport.authenticate("facebook", {
-		scope: ["email"]
-	})
+	passport.authenticate("facebook", { scope: ["email"] })
 );
 
 router.get(
 	"/facebook/redirect",
-	passport.authenticate("facebook", {
-		failureRedirect: API_FAILURE
-	}),
+	passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
 	(request, response) => {
 		request.session.user = request.user;
 		response.redirect(API_SUCCESS);
@@ -113,18 +95,15 @@ router.get("/success", (request, response) => {
 // MARK: -- common
 router.get("/signout", (request, response) => {
 	request.logout();
-
 	if (request.session) {
 		request.session.destroy(err => {
 			if (err) {
-				response
-					.status(500)
-					.json({ message: "error destroying session" });
+				response.status(500)
+				.json({ message: "error destroying session" });
 			} else {
-				response
-					.status(200)
-					.clearCookie("bibble")
-					.json({ message: "successfully signed out" });
+				response.status(200)
+				.clearCookie("bibble")
+				.json({ message: "successfully signed out" });
 			}
 		});
 	} else {

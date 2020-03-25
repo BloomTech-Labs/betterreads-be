@@ -6,6 +6,8 @@ const knexCleaner = require('knex-cleaner');
 
 const bookObject = TestObject.bookObject;
 const otherBook = TestObject.otherBook;
+const auth = TestObject.auth;
+const setCookie = TestObject.setCookie;
 const promisedCookie = TestObject.promisedCookie;
 
 var options = {
@@ -19,19 +21,10 @@ describe("user-books-router", function() {
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
-				fullName: "Seeder Apple",
-				emailAddress: "seedemail",
-				password: "seedpassword"
-			}).then(res => {
-				const cookie = res.headers["set-cookie"]
-				return request(server)
-					.post('/api/1/library')
-					.send({ book: bookObject, readingStatus: 2 })
-					.set("cookie", cookie)
-			})
+		return auth("/api/auth/signup", { 
+            fullName: "Seeder Apple", emailAddress: "seedemail", password: "seedpassword" 
+        })
+        .then(res => { return setCookie(res, "/api/1/library/", { book: bookObject, readingStatus: 2 }) });
 	});
 
 	describe("GET user library", function() {
