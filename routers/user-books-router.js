@@ -16,7 +16,7 @@ router.get("/:userId/library", (req, res) => {
 // MARK: -- List favorite
 router.get("/:userId/library/favorites", (req, res) => {
   const userId = req.params.userId;
-  helper.findIn(req, res, UserBooks.findByIdFilter, userId)
+  helper.findIn(req, res, UserBooks.findFavorites, userId)
 });
 
 // MARK: -- GET SINGLE BOOK
