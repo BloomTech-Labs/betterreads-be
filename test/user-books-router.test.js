@@ -6,6 +6,8 @@ const knexCleaner = require('knex-cleaner');
 
 const bookObject = TestObject.bookObject;
 const otherBook = TestObject.otherBook;
+const auth = TestObject.auth;
+const setCookie = TestObject.setCookie;
 const promisedCookie = TestObject.promisedCookie;
 
 var options = {
@@ -19,19 +21,10 @@ describe("user-books-router", function() {
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
-				fullName: "Seeder Apple",
-				emailAddress: "seedemail",
-				password: "seedpassword"
-			}).then(res => {
-				const cookie = res.headers["set-cookie"]
-				return request(server)
-					.post('/api/1/library')
-					.send({ book: bookObject, readingStatus: 2 })
-					.set("cookie", cookie)
-			})
+		return auth("/api/auth/signup", { 
+            fullName: "Seeder Apple", emailAddress: "seedemail", password: "seedpassword" 
+        })
+        .then(res => { return setCookie(res, "/api/1/library/", { book: bookObject, readingStatus: 2 }) });
 	});
 
 	describe("GET user library", function() {
@@ -58,10 +51,33 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("GET favorites from user library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/favorites")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(200);
+					});
+				return req;
+			});
+		});
+
+		it("GET non-existent book", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/library/100000202002")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("error in returning data");
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("POST user library", function() {
-
 		it("POST new book in user library and book library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
@@ -74,10 +90,22 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("POST book with nothing", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/1/library")
+					.send({})
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("Please provide a book")
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("PUT user library", function() {
-
 		it("PUT favorite and reading status on userbooks", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
@@ -90,7 +118,6 @@ describe("user-books-router", function() {
 				return req;
 			});
 		})
-
 	});
 
 	describe("DELETE userbook", function() {
@@ -107,7 +134,5 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
-		
 	});
-
 });
