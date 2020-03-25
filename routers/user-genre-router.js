@@ -76,7 +76,7 @@ router.delete("/:userId", (req, res) => {
         if (genre) {
             Genre.remove(userId)
                 .then(userGenre => {
-                    res.status(201).json({
+                    res.status(200).json({
                         message: "User genre Deleted",
                         userGenreId: userGenre
                     });

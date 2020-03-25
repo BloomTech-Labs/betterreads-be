@@ -51,6 +51,30 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("GET favorites from user library", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/favorites")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(200);
+					});
+				return req;
+			});
+		});
+
+		it("GET non-existent book", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/1/library/100000202002")
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("userbook: does not exist");
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("POST user library", function() {
