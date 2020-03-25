@@ -102,9 +102,8 @@ router.get("/shelves/:shelfId", (req, res) => {
 
 router.get("/shelves/allbooks/:shelfId", (req, res) => {
   const shelfId = req.params.shelfId;
-  const userId = req.body.userId;
   if (shelfId) {
-    BooksOnShelf.findAllBooks(shelfId, userId)
+    BooksOnShelf.findAllBooks(shelfId)
       .then(book => res.status(200).json(book))
       .catch(err => res.status(500).json({ message: "error in getting books from the shelf" }));
   } else {

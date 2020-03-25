@@ -248,9 +248,6 @@ To get the server running locally:
 
 -- GET `/api/booksonshelf/shelves/allbooks/:shelfId`
 ```js
-{
-  userId: FOREIGN KEY from users
-}
 ```
 
 -- GET `/api/booksonshelf/shelves/user/:userId`

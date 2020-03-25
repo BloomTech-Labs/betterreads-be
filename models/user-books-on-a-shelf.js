@@ -22,13 +22,12 @@ function findBook(shelfId, bookId) {
 		.select('bs.bookId', 'b.title','s.shelfName', 'bs.shelfId', 's.userId' )
 }
 
-function findAllBooks(shelfId, userId) {
+function findAllBooks(shelfId) {
 	return db('userBooksOnAShelf as bs')
 		.join('books as b', 'bs.bookId', 'b.id')
 		.join('userBooks as ub', 'ub.bookId', 'bs.bookId')
-		.where("ub.userId", userId)
+		.where("bs.shelfId", shelfId)
 		.join('userShelves as s', 's.id', 'bs.shelfId')
-		.where({ shelfId: shelfId })
 		.distinct(
 			'bs.bookId',
 			'b.googleId', 
@@ -54,7 +53,6 @@ function findAllBooks(shelfId, userId) {
 			})
 		})
 }
-
 function returnEveryShelfFrom(userId) {
 	const shelfId = UserShelves.returnShelfId(userId)
 	return shelfId.map(object => {
