@@ -16,4 +16,22 @@ describe("server", function() {
 				});
 		});
 	});
+
+	describe("GET for data science", function() {
+		it("should return 200", function() {
+			return request(server)
+				.get("/api/ds/1")
+				.then(res => {
+					expect(res.status).toBe(200);
+				});
+		});
+
+		it("return 500", function() {
+			return request(server)
+				.get("/api/dstotal")
+				.then(res => {
+					expect(res.status).toBe(200)
+				})
+		})
+	})
 });
