@@ -40,7 +40,9 @@ module.exports = {
             const bookObj = { bookId: bkId, shelfId: shelfId }
             Model.addBooks(bookObj)
                  .then(book => res.status(200).json({ book, message: "book added to user-shelf" }))
-                 .catch(err => res.status(500).json({ message: "error in adding book to shelf. Book may already exist on shelf." }))
+                 .catch(err => res.status(500).json({ 
+                    message: "error in adding book to shelf. Book may already exist on shelf." }
+                  ))
           } else {
             res.status(500).json({ message: "book id and shelf id undefined"})
           }

@@ -70,7 +70,7 @@ describe("user-books-router", function() {
 					.get("/api/1/library/100000202002")
 					.set("cookie", cookie)
 					.then(res => {
-						expect(res.body.message).toBe("userbook: does not exist");
+						expect(res.body.message).toBe("error in returning data");
 					});
 				return req;
 			});
@@ -78,7 +78,6 @@ describe("user-books-router", function() {
 	});
 
 	describe("POST user library", function() {
-
 		it("POST new book in user library and book library", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
@@ -91,10 +90,22 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
+
+		it("POST book with nothing", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.post("/api/1/library")
+					.send({})
+					.set("cookie", cookie)
+					.then(res => {
+						expect(res.body.message).toBe("Please provide a book")
+					});
+				return req;
+			});
+		});
 	});
 
 	describe("PUT user library", function() {
-
 		it("PUT favorite and reading status on userbooks", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)
@@ -107,7 +118,6 @@ describe("user-books-router", function() {
 				return req;
 			});
 		})
-
 	});
 
 	describe("DELETE userbook", function() {
@@ -124,7 +134,5 @@ describe("user-books-router", function() {
 				return req;
 			});
 		});
-		
 	});
-
 });
