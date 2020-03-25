@@ -112,7 +112,8 @@ router.post("/:userId/library", (req, res) => {
                 const newUserBookObject = helper.createUserBook(book, userId, favorite, status,rating)
                 // MARK: -- adding book to our user's library
                 helper.addToUserBooks(req, res, UserBooks, newUserBookObject)
-              }).catch(err => res.status(500).json({ message: "Book not added to book db" }));
+              }).catch(err => 
+                res.status(500).json({ message: "Book not added to book db" }));
             } else {
               const userBookObject = helper.createUserBook(bk, userId, favorite, status, rating)
               // MARK: -- book exist in our books db, add the book to our user's library
