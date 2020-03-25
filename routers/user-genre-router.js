@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Genre = require("../models/user-genre");
 
+// MARK: -- needs to be refactored
+
 router.get("/:userId", (req, res) => {
     const userId = req.params.userId;
     Genre.findByUserId(userId)

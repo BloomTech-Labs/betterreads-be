@@ -2,7 +2,7 @@ const helper = require("./helpers.js");
 const router = require("express").Router();
 const UserBooks = require("../models/user-books.js");
 const Books = require("../models/books.js");
-const BooksOnAShelf = require("../models/user-books-on-a-shelf")
+const BooksOnAShelf = require("../models/user-books-on-a-shelf");
 
 
 // MARK: -- GET
@@ -63,6 +63,7 @@ router.put("/:userId/library", (req, res) => {
         res.status(201).json(updated)
       }
     }).catch(err => res.status(500).json(err))
+  });
 });
 
 // MARK: -- DELETE

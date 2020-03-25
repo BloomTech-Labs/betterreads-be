@@ -82,7 +82,6 @@ server.use("/api", restricted, userBooksRouter);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 
-server.use("/api/userData", restricted, allUserData);
 
 
 server.get("/", (request, response) =>

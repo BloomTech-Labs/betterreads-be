@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Books = require("../models/books.js");
 
-
 router.get("/", (req, res) => {
 	Books.getAll()
 		.then(book =>
