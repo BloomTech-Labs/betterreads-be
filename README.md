@@ -205,7 +205,7 @@ To get the server running locally:
 # User's book on a shelf
 
 | Method | Endpoint                                                      | Access Control | Description                                   |
-| ------ | ------------------------------------------------------------- | -------------------------------------------------------------- |
+| ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
 | DELETE | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book id                                |
 | POST   | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
 | PUT    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
