@@ -79,8 +79,10 @@ function findByUserId(userId) {
 			"b.pageCount",
 			"ub.dateStarted",
 			"ub.dateEnded",
+			"ub.dateAdded",
 			"ub.userRating"
 		)
+		.orderBy("ub.dateAdded", "desc")
 }
 
 function findDetailByUserId(userId, bookId) {
