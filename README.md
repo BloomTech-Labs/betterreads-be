@@ -211,7 +211,7 @@ To get the server running locally:
 | PUT    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
 | GET    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book                                   |
 | GET    | `/api/booksonshelf/user/:userId/shelves/:shelfId/allbooks`    | all users      | Returns all books on one user shelf           |
-| GET    | `/api/booksonshelf/user/:userId`                              | all users      | Returns all user's shelves with the books     |
+| GET    | `/api/booksonshelf/user/:userId/shelves/allbooks`             | all users      | Returns all user's shelves with the books     |
 
 # Body Required 
 
@@ -246,12 +246,6 @@ To get the server running locally:
 }
 ```
 
--- GET `/api/booksonshelf/shelves/user/:userId`
-```js
-{
-  userId: FOREIGN KEY from users
-}
-```
 
 
 # Onboarding

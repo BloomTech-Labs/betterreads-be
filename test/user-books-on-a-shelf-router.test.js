@@ -60,10 +60,10 @@ describe("user-books-on-a-shelf", function() {
             });
         });
 
-        it("GET /booksonshelf/user/:userId", function() {
+        it("GET /booksonshelf/user/:userId/shelves/allbooks", function() {
             return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
                 const req = request(server)
-                    .get("/api/booksonshelf/user/1")
+                    .get("/api/booksonshelf/user/1/shelves/allbooks")
                     .set("cookie", cookie)
                     .then(res => {
                         expect(res.body[0].shelfName).toBe('Test shelf');
