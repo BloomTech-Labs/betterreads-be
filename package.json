@@ -52,6 +52,7 @@
 			"!**/coverage/**",
 			"!**/database/migrations/**",
 			"!**/database/seeds/**",
+			"!**/models/all-user-data.js",
 			"!**/config/**",
 			"!**/index.js"
 		]
