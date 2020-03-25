@@ -100,9 +100,9 @@ router.get("/shelves/:shelfId", (req, res) => {
   }
 });
 
-router.get("/shelves/allbooks/:shelfId", (req, res) => {
+router.get("/user/:userId/shelves/:shelfId/allbooks", (req, res) => {
   const shelfId = req.params.shelfId;
-  const userId = req.body.userId;
+  const userId = req.params.userId;
   if (shelfId) {
     BooksOnShelf.findAllBooks(shelfId, userId)
       .then(book => res.status(200).json(book))
