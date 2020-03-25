@@ -15,6 +15,26 @@ module.exports = {
 		});
 	},
 
+ 	auth: function(url, object) {
+		return request(server)
+			.post(url)
+			.send(object)
+	},
+
+	setCookie: function (res, url, object) {
+		const cookie = res.headers["set-cookie"]
+		return request(server)
+			.post(url)
+			.send(object)
+			.set("cookie", cookie)
+	},
+
+	send: function (res, url, object) {
+		return request(server)
+			.post(url)
+			.send(object)
+	},
+
 	bookObject: {
 		googleId: "qwoldmcdfiom123103",
 		title: "Chantra Swandie",

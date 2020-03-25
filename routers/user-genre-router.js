@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Genre = require("../models/user-genre");
 
+// MARK: -- needs to be refactored
+
 router.get("/:userId", (req, res) => {
     const userId = req.params.userId;
     Genre.findByUserId(userId)
@@ -76,7 +78,7 @@ router.delete("/:userId", (req, res) => {
         if (genre) {
             Genre.remove(userId)
                 .then(userGenre => {
-                    res.status(201).json({
+                    res.status(200).json({
                         message: "User genre Deleted",
                         userGenreId: userGenre
                     });

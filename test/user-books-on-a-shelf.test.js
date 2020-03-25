@@ -6,6 +6,9 @@ const knexCleaner = require('knex-cleaner');
 
 const shelfObj = TestObject.shelfObj;
 const bookObject = TestObject.bookObject;
+const auth = TestObject.auth;
+const setCookie = TestObject.setCookie;
+const send = TestObject.send;
 const promisedCookie = TestObject.promisedCookie;
 
 var options = {
@@ -19,25 +22,13 @@ describe("user-books-on-a-shelf", function() {
 
 	beforeAll(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
-				fullName: "Seeder Apple",
-				emailAddress: "seedemail",
-				password: "seedpassword"
-			}).then(res => {
-				const cookie = res.headers["set-cookie"]
-                return request(server)
-                    .post('/api/shelves/user/1')
-                    .send(shelfObj)
-                    .set("cookie", cookie)
-                    .then(res => {
-                        return request(server)
-                            .post('/api/booksonshelf/shelves/1')
-                            .send({ book: bookObject, readingStatus: 2 })
-                            .set("cookie", cookie)                             
-					   })
-			     })
+        return auth("/api/auth/signup", { 
+            fullName: "Seeder Apple", emailAddress: "seedemail", password: "seedpassword" 
+        })
+        .then(res => { return setCookie(res, "/api/shelves/user/1", shelfObj)
+            .then(res => { return send(res, "/api/booksonshelf/shelves/1", { book: bookObject, readingStatus: 2 })
+            });
+        });
 	});
     
     describe("GET user books on shelf user shelfId", function() {

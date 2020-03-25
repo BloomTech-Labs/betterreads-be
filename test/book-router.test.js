@@ -7,6 +7,8 @@ const knexCleaner = require('knex-cleaner');
 const bookObject = TestObject.bookObject;
 const otherBook = TestObject.otherBook;
 const badBookObject = TestObject.badBookObject;
+const auth = TestObject.auth;
+const setCookie = TestObject.setCookie;
 const promisedCookie = TestObject.promisedCookie;
 
 var options = {
@@ -19,22 +21,27 @@ describe("book-router", function() {
 
 	beforeEach(async function() {
 		await knexCleaner.clean(db, options)
-		return request(server)
-			.post("/api/auth/signup")
-			.send({
+		return auth("/api/auth/signup", 
+			{
 				fullName: "Seeder Apple",
 				emailAddress: "seedemail",
-				password: "seedpassword"
+				password: "seedpassword" 
 			}).then(res => {
-				const cookie = res.headers["set-cookie"]
-				return request(server)
-					.post("/api/books")
-					.send(bookObject)
-					.set("cookie", cookie)
-			})
+				return setCookie(res, "/api/books", bookObject)
+			});
 	});
 
 	describe("GET api/books/1", function() {
+
+		it("GET all books", function() {
+			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
+				const req = request(server)
+					.get("/api/books/")
+					.set("cookie", cookie)
+					.expect(200)
+			})
+		})
+
 		it("GET book success status", function() {
 			return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
 				const req = request(server)

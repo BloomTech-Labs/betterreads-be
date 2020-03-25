@@ -68,7 +68,6 @@ router.delete("/:shelfId", (req, res) => {
   Shelves.findBy(id).then(shelf => {
     if (shelf.length > 0) {
       const id = shelf[0].shelfId;
-
       Shelves.remove(id)
         .then(deletedShelf => {
           res.status(200).json(deletedShelf);

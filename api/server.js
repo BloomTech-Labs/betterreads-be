@@ -20,7 +20,6 @@ const userBooksRouter = require("../routers/user-books-router.js");
 const userShelvesRouter = require ("../routers/user-shelves-router.js")
 const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
 const userGenre = require ("../routers/user-genre-router.js");
-const allUserData = require("../routers/all-user-data-router.js");
 
 // MARK: -- for data science
 const UserBooks = require("../models/user-books.js");
@@ -82,7 +81,6 @@ server.use("/api", restricted, userBooksRouter);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 
-server.use("/api/userData", restricted, allUserData);
 
 
 server.get("/", (request, response) =>
