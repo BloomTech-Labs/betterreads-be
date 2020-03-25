@@ -112,7 +112,7 @@ router.get("/user/:userId/shelves/:shelfId/allbooks", (req, res) => {
   }
 });
 
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId/shelves/allbooks", async (req, res) => {
   const userId = req.params.userId;
   BooksOnShelf.returnEveryShelfFrom(userId)
     .then(shelves => res.status(200).json(shelves))
