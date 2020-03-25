@@ -20,7 +20,6 @@ const userBooksRouter = require("../routers/user-books-router.js");
 const userShelvesRouter = require ("../routers/user-shelves-router.js")
 const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
 const userGenre = require ("../routers/user-genre-router.js");
-const allUserData = require("../routers/all-user-data-router.js");
 
 // MARK: -- for data science
 const UserBooks = require("../models/user-books.js");
