@@ -204,14 +204,14 @@ To get the server running locally:
 
 # User's book on a shelf
 
-| Method | Endpoint                                     | Access Control | Description                                   |
-| ------ | -------------------------------------------- | -------------- | --------------------------------------------- |
-| DELETE | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book id                                |
-| POST   | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
-| PUT    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return shelf object with book object in shelf |
-| GET    | `/api/booksonshelf/shelves/:shelfId`         | all users      | Return book                                   |
-| GET    | `/api/booksonshelf/shelves/allbooks/:shelfId`| all users      | Returns all books on one user shelf           |
-| GET    | `/api/booksonshelf/user/:userId`             | all users      | Returns all user's shelves with the books     |
+| Method | Endpoint                                                      | Access Control | Description                                   |
+| ------ | ------------------------------------------------------------- | -------------------------------------------------------------- |
+| DELETE | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book id                                |
+| POST   | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
+| PUT    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
+| GET    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book                                   |
+| GET    | `/api/booksonshelf/user/:userId/shelves/:shelfId/allbooks`    | all users      | Returns all books on one user shelf           |
+| GET    | `/api/booksonshelf/user/:userId`                              | all users      | Returns all user's shelves with the books     |
 
 # Body Required 
 
@@ -243,13 +243,6 @@ To get the server running locally:
 ```js
 {
   bookId: FOREIGN KEY from books
-}
-```
-
--- GET `/api/booksonshelf/shelves/allbooks/:shelfId`
-```js
-{
-  userId: FOREIGN KEY from users
 }
 ```
 
