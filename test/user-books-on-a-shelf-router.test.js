@@ -46,11 +46,10 @@ describe("user-books-on-a-shelf", function() {
 			});
         });
 
-        it("GET /booksonshelf/shelves/allbooks/:shelfId", function() {
+        it("GET /booksonshelf/shelves/user/:userId/shelves/:shelfId/allbooks", function() {
             return promisedCookie({ emailAddress: "seedemail", password: "seedpassword" }).then(cookie => {
                 const req = request(server)
-                    .get("/api/booksonshelf/shelves/allbooks/1")
-                    .send({ userId: 1 })
+                    .get("/api/booksonshelf/user/1/shelves/1/allbooks")
                     .set("cookie", cookie)
                     .then(res => {
                         expect(res.status).toBe(200);
