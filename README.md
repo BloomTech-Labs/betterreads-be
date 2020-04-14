@@ -63,7 +63,7 @@ To get the server running locally:
 }
 ```
 # Returns
-```js
+```json
 {
   message: "successfully registered user",
   user: {
