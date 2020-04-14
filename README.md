@@ -58,6 +58,7 @@ To get the server running locally:
 
 ```js
 {  
+  fullName: STRING,
   emailAddress: STRING, 
   password: STRING 
 }
