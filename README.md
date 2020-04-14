@@ -57,10 +57,23 @@ To get the server running locally:
 # Body Required
 
 ```js
-{ 
-  fullName: STRING, 
+{  
   emailAddress: STRING, 
   password: STRING 
+}
+```
+# Returns
+```js
+{
+  message: "successfully registered user",
+  user: {
+    id:  {user id},
+    fullName: {user full name},
+    emailAddress: {user email address},
+    image: {user image in blob form},
+    googleID: {user Google ID},
+    facebookID: {user Facebook ID}
+  }
 }
 ```
 
@@ -76,7 +89,21 @@ To get the server running locally:
   password: STRING
 }
 ```
-
+# Returns
+```js
+{
+  message: "successfully logged in",
+  token: {json web token},
+  user: {
+  	  id:  {user id},
+	  fullName: {user full name},
+	  emailAddress: {user email address},
+	  image: {user image in blob form},
+	  googleID: {user Google ID},
+	  facebookID: {user Facebook ID}
+	}
+}
+```
 #### Protected Routes
 
 ## Onboarding process
