@@ -3,6 +3,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
+const jwt = require("jsonwebtoken");
 
 const userObject = (user) => ({
 	id: user.id,
@@ -12,6 +13,24 @@ const userObject = (user) => ({
 	googleID: user.googleID,
 	facebookID: user.facebookID
 });
+
+function tokenGenerator(user){
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        role: user.role || "user",
+        fullName: user.fullName,
+        emailAddress: user.emailAddress,
+        image: user.image,
+        googleID: user.googleID,
+        facebookID: user.facebookID
+    }
+    const secret = "This is the most secretest secret to ever be secretly secret....... secret."
+    const options = {
+        expiresIn: "24h"
+    }
+    return jwt.sign(payload, secret, options)
+}
 
 const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
 const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
@@ -23,8 +42,6 @@ router.post("/signup", (request, response) => {
 	user.password = hash;
 	User.add(user)
 		.then(res => {
-			request.session.user = res[0];
-			const user = request.session.user;
 			response.status(201).json({
 				message: "successfully registered user",
 				user: userObject(user)
@@ -38,12 +55,13 @@ router.post("/signin", (request, response) => {
 	User.findBy({ emailAddress })
 		.then(res => {
 			if (res && bcrypt.compareSync(password, res.password)) {
-				request.session.user = res;
-				const user = request.session.user;
+                console.log(bcrypt.compareSync(password, res.password));
+                token = tokenGenerator(res);
 				response.status(200).json({
-					message: "successfully logged in",
-					user: userObject(user)
-				});
+                    message: "successfully logged in",
+                    token,
+					user: userObject(res)
+                });
 			} else {
 				response.status(500).json({ message: "invalid credentials" });
 			}
@@ -92,23 +110,23 @@ router.get("/success", (request, response) => {
 	});
 });
 
-// MARK: -- common
-router.get("/signout", (request, response) => {
-	request.logout();
-	if (request.session) {
-		request.session.destroy(err => {
-			if (err) {
-				response.status(500)
-				.json({ message: "error destroying session" });
-			} else {
-				response.status(200)
-				.clearCookie("bibble")
-				.json({ message: "successfully signed out" });
-			}
-		});
-	} else {
-		response.status(204).json({ message: "session does not exist" });
-	}
-});
+// // MARK: -- common
+// router.get("/signout", (request, response) => {
+// 	request.logout();
+// 	if (request.session) {
+// 		request.session.destroy(err => {
+// 			if (err) {
+// 				response.status(500)
+// 				.json({ message: "error destroying session" });
+// 			} else {
+// 				response.status(200)
+// 				.clearCookie("bibble")
+// 				.json({ message: "successfully signed out" });
+// 			}
+// 		});
+// 	} else {
+// 		response.status(204).json({ message: "session does not exist" });
+// 	}
+// });
 
 module.exports = router;

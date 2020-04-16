@@ -8,9 +8,7 @@ module.exports = {
 	facebook: {
 		clientID: process.env.FACEBOOK_CLIENT_ID,
 		clientSecret: process.env.FACEBOOK_CLIENT_SECRET
-	},
-	session: {
-		sessionName: process.env.SESSION_NAME,
-		sessionSecret: process.env.SESSION_SECRET
-	}
+    },
+    jwtSecret: process.env.JWT_SECRET || "This is the most secretest secret to ever be secretly secret....... secret."
+   
 };

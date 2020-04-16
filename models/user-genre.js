@@ -5,7 +5,7 @@ module.exports = {
     findById,
 	add,
 	update,
-	remove
+    remove
 };
 
 
@@ -16,25 +16,24 @@ function findByUserId(userId) {
 }
 
 
-function findById(id) {
-	return db("userGenre").where({ id });
+function findById(genreId) {
+	return db("userGenre").where({ genreId });
 }
-async function add(genre) {
-	const [id] = await db("userGenre")
-		.insert(genre)
-		.returning("id");
-	return findById(id);
-}
-
-
-  function update(updatedGenre, userId) {
-	return db("userGenre")
-	.update(updatedGenre)
-	.where("userId", userId)
+function add(genre) {
+    return db("userGenre")
+        .insert(genre)
+        .returning("*")
 }
 
-function remove(userId) {
-	return db("userGenre")
-        .where("userId", userId)
+
+  function update(updatedGenre, userId, genreId) {
+    return db("userGenre")
+    .update(updatedGenre)
+    .where({userId} && {genreId})
+}
+
+function remove(userId, genreId) {
+    return db("userGenre")
+        .where({userId} && {genreId})
 		.del();
 }
