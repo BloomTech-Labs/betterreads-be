@@ -57,10 +57,24 @@ To get the server running locally:
 # Body Required
 
 ```js
-{ 
-  fullName: STRING, 
+{  
+  fullName: STRING,
   emailAddress: STRING, 
   password: STRING 
+}
+```
+# Returns
+```json
+{
+  "message": "successfully registered user",
+  "user": "{
+    id:  {user id},
+    fullName: {user full name},
+    emailAddress: {user email address},
+    image: {user image in blob form},
+    googleID: {user Google ID},
+    facebookID: {user Facebook ID}
+  }"
 }
 ```
 
@@ -76,22 +90,75 @@ To get the server running locally:
   password: STRING
 }
 ```
+# Returns
+```js
+{
+  "message": "successfully logged in",
+  "token": "{json web token}",
+  "user": "{
+  	  id:  {user id},
+	  fullName: {user full name},
+	  emailAddress: {user email address},
+	  image: {user image in blob form},
+	  googleID: {user Google ID},
+	  facebookID: {user Facebook ID}
+	}"
+}
+```
+### Authentication has been updated from sessions to more secure JSON web tokens. Here is what you need to do to ustilize them
+## Set up axioswithauth()
+	- create a file called axiosWithAuth
+	- within this file, write the following function
+	```js
+	  const axiosWithAuth = () => {
+	  const token = localStorage.getItem("token")
+	  	return axios.create({
+			baseURL: "https://api.readrr.app/",
+			headers: { authorization: token }
+		})	
+	  }
+	  ```
+## Use Local Storage
+	- hit the sign in endpoint to get a token for the user
+	- store the token in local storage with localStorage.setItem("token", `${res.data.token}`
 
 #### Protected Routes
 
-## Onboarding process
+## User Genres
 
 | Method | Endpoint              | Access Control | Description                              |
 | ------ | --------------------- | -------------- | ---------------------------------------- |
-| POST   | `/api/:userId/genres` | all users      | Returns genre info for registered users. |
+| POST   | `/api/genre` 	 | all users      | Returns genre info for registered users. |
 
 # Body Required
 
 ```js
 {
-	genre: STRING;
+	genre: STRING,
+	userId: NUMBER
 }
 ```
+
+# Returned
+
+```json
+{
+	"message": "genre added successfully",
+	"userGenre": "{userGenre}"
+}
+```
+
+| Method |           Endpoint           | Access Control |             Description                  |
+| ------ | -----------------------------| -------------- | ---------------------------------------- |
+|  PUT   | `/api/genre/:userId/:genreId`|    all users   |        Returns updated genre info        |
+
+# Body Required
+
+```json
+{
+	"message": "genre updated successfully",
+	"userGenre": "{userGenre}"
+}
 
 # Search Google Books, Search in our Books Table, and Post to our Books Table
 
@@ -245,17 +312,6 @@ To get the server running locally:
   bookId: FOREIGN KEY from books
 }
 ```
-
-
-
-# Onboarding
-
-| Method | Endpoint             | Access Control | Description        |
-| ------ | -------------------- | -------------- | ------------------ |
-| GET    | `/api/genre/:userId` | all users      | Returns No Content |
-| POST   | `/api/genre`         | all users      | Returns Genre id   |
-| PUT    | `/api/genre`         | all users      | Returns No Content |
-| DELETE | `/api/genre/:userId` | all users      | Returns Genre id   |
 
 # Data Model
 
