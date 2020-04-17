@@ -2,28 +2,23 @@ const helper = require("./helpers.js");
 const router = require("express").Router();
 const Shelves = require("../models/user-shelves.js");
 
-router.post("/user/:userId", (req, res) => {
+router.post("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
-  const shelfName = req.body.shelfName;
-  const isPrivate = req.body.isPrivate;
-
-  const userShelfObj = {
-    userId: userId,
-    shelfName: shelfName,
-    isPrivate: isPrivate
-  };
-  
-  Shelves.add(userShelfObj)
-    .then(userShelf => {
-      if (userShelf == undefined) {
-        res.status(400).json({ message: "userShelf: does not exist" });
-      } else {
-        res.status(200).json(userShelf);
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "error in returning data" });
-    });
+  const { shelfName, isPrivate } = req.body;
+  const userShelfObj = { userId, shelfName, isPrivate };
+  console.log(userShelfObj)
+  const shelves = await Shelves.findByUser(userId);
+  if (shelves.map(shelf => shelf.shelfName === shelfName).includes(true)){
+        res.status(400).json({ message: "shelf already exists" });
+    } else {
+        Shelves.add(userShelfObj)
+        .then(userShelf => {
+            res.status(201).json(userShelf[0]);
+        }) 
+        .catch(({ name, message, stack}) => {
+            res.status(500).json({ error: "error adding shelf", name, message, stack });
+        });
+    };
 });
 
 router.get("/user/:userId", (req, res) => {

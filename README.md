@@ -64,17 +64,17 @@ To get the server running locally:
 }
 ```
 # Returns
-```json
+```js
 {
-  "message": "successfully registered user",
-  "user": "{
+  message: "successfully registered user",
+  user: {
     id:  {user id},
     fullName: {user full name},
     emailAddress: {user email address},
     image: {user image in blob form},
     googleID: {user Google ID},
     facebookID: {user Facebook ID}
-  }"
+  }
 }
 ```
 
@@ -93,23 +93,23 @@ To get the server running locally:
 # Returns
 ```js
 {
-  "message": "successfully logged in",
-  "token": "{json web token}",
-  "user": "{
+  message: "successfully logged in",
+  token: {json web token},
+  user: {
   	  id:  {user id},
 	  fullName: {user full name},
 	  emailAddress: {user email address},
 	  image: {user image in blob form},
 	  googleID: {user Google ID},
 	  facebookID: {user Facebook ID}
-	}"
+	}
 }
 ```
 ### Authentication has been updated from sessions to more secure JSON web tokens. Here is what you need to do to ustilize them
 ## Set up axioswithauth()
 	- create a file called axiosWithAuth
-	- within this file, write the following function
-	```js
+	- within this file, write the following function  
+```js
 	  const axiosWithAuth = () => {
 	  const token = localStorage.getItem("token")
 	  	return axios.create({
@@ -117,10 +117,10 @@ To get the server running locally:
 			headers: { authorization: token }
 		})	
 	  }
-	  ```
+```
 ## Use Local Storage
-	- hit the sign in endpoint to get a token for the user
-	- store the token in local storage with localStorage.setItem("token", `${res.data.token}`
+- hit the sign in endpoint to get a token for the user
+- store the token in local storage with localStorage.setItem("token", `${res.data.token}`)
 
 #### Protected Routes
 
@@ -135,16 +135,16 @@ To get the server running locally:
 ```js
 {
 	genre: STRING,
-	userId: NUMBER
+	userId: INTEGER
 }
 ```
 
 # Returned
 
-```json
+```js
 {
-	"message": "genre added successfully",
-	"userGenre": "{userGenre}"
+	message: "genre added successfully",
+	genre: { genre }
 }
 ```
 
@@ -154,11 +154,20 @@ To get the server running locally:
 
 # Body Required
 
-```json
+```js
 {
-	"message": "genre updated successfully",
-	"userGenre": "{userGenre}"
+	userId: INTEGER,
+	genreName: { genre }
 }
+```
+# Returned
+```js
+{
+    "message": "genre updated successfully",
+    updatedGenre: { updatedGenre }
+}
+```
+
 
 # Search Google Books, Search in our Books Table, and Post to our Books Table
 
@@ -196,35 +205,46 @@ To get the server running locally:
 
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
-| GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| GET    | `/api/:userId/library/:id`       | all users           | Returns a single book                                     |
-| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
+| GET    | `/api/:userId/library`           | all users           | Returns all books of user by the requested id                             |
+| GET    | `/api/:userId/library/:id`       | all users           | Returns a single book by a requested id                                    |
+| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of a user by the requested id                    |
+
+
+
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | PUT    | `/api/:userId/library`           | all users           | Returns updated                                           |
-| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
-| POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
-
-# Body Required 
-
--- PUT `/api/:userId/library`
+# Body (some optional, some required)
 ```js
 {
-  bookId: FOREIGN KEY from books,
-  readingStatus: INTEGER,
-  favorite: BOOLEAN,
-  dateStarted: STRING, (YYYY-MM-DD)
-  dateEnded: STRING, (YYYY-MM-DD)
-  userRating: DECIMAL
+  bookId: "INTEGER Foreign key, from books (required)",
+  readingStatus: "INTEGER optional, if not updating, set it to whatever it was set to or null",
+  favorite: "optional, can be null",
+  dateStarted: "optional, can be null otherwise STRING MM/DD/YYYY"
+  dateEnded: "optional, can be null otherwise STRING MM/DD/YYYY"
+  userRating: "optional, can be null otherwise DECIMAL"
 }
 ```
+```
+Returns the body of the request with a the primary key (integer) for the book in the table, a userId (integer) and a date added (standard date format). 
+```
 
--- DELETE `/api/:userId/library`
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
+| DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+
+# Body Required
 ```js
 {
   bookId: FOREIGN KEY from books
 }
 ```
 
--- POST `/api/:userId/library`
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
+| POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
+
+# Body Required
 ```js
 {
   book: OBJECT,
@@ -233,20 +253,59 @@ To get the server running locally:
 }
 ```
 
+# Returns
+```js
+    {
+        id: "primary key",
+        bookId: "id of the added book",
+        userId: "id of the user to whom's library the book was added",
+        readingStatus: "reading status of the added book",
+        dateStarted: "date the book was started, will always be null immediately after a post",
+        dateEnded: "date the book was ended, will always be empty immediately after a post",
+        dateAdded: "date the book was added, defaults to the exact time of the post request",
+        favorite: "favorite status of the added book",
+        userRating: "average user rating of the added book, pulled for the GoogleBooks api",
+        googleId: "google id of the added book, pulled from the GoogleBooks api",
+        title: "title of the added book",
+        authors: "authors of the added book",
+        publisher: "publisher of the added book",
+        publishedDate: "publish date of the added book",
+        description: "description of the added book, pulled from the GoogleBooks api",
+        isbn10: "ISBN number of the added book, pulled from the GoogleBooks api",
+        isbn13: "another ISBN, pulled from the GoogleBooks api",
+        pageCount: "page count of the added book, pulled form the GoogleBooks api",
+        categories: "categories for the added book, pulled from the GoogleBooks api",
+        thumbnail: "thumbnail for the added book, pulled from the GoogleBooks api",
+        smallThumbnail: "small thumbnail of the added book, pulled form the GoogleBooks api",
+        language: "language of the added book, pulled from the GoogleBooks api",
+        webReaderLink: "web reader link for the added book, pulled from the GoogleBooks api",
+        textSnippet: "a snippet fo text from the added book, pulled form the GoogleBooks api",
+        isEbook: "boolean reflecting whether the added book is in ebook form, pulled from the GoogleBooks api",
+        averageRating: "average rating of the added book, pulled from the GoogleBooks api"
+    }
+```
 
 # User's shelves
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
 | GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
+| DELETE | `/api/shelves/:shelfId`         | all users      | Return deleted shelf id                       |
+| POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
+# Body Required for POST
+
+```js
+{
+  shelfName: STRING,
+  isPrivate: BOOLEAN
+}
+```
+| Method | Endpoint                        | Access Control | Description                                   |
+| ------ | ------------------------------- | -------------- | --------------------------------------------- |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
-| DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
 
-# Body Required 
-
--- POST `/api/shelves/user/:userId`
+# Body Required
 ```js
 {
   shelfName: STRING,
@@ -254,22 +313,7 @@ To get the server running locally:
 }
 ```
 
--- GET `/api/shelves/:shelfId`
-```js
-{
-  bookId: FOREIGN KEY from books
-}
-```
-
--- PUT `/api/shelves/:shelfId`
-```js
-{
-  shelfName: STRING,
-  isPrivate: BOOLEAN
-}
-```
-
-# User's book on a shelf
+# User's books on a shelf
 
 | Method | Endpoint                                                      | Access Control | Description                                   |
 | ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
