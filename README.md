@@ -356,6 +356,11 @@ Returns the body of the request with a the primary key (integer) for the book in
   bookId: FOREIGN KEY from books
 }
 ```
+# Get Recommendations by User ID
+
+|   Method   |  Endpoint | Access Control | Description |
+|------------|-----------|----------------|-------------|
+|   GET      | /api/:useId/recommendations| All Users | Returns all books for the user with the requested ID |
 
 # Data Model
 

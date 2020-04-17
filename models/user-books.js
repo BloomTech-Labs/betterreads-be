@@ -118,8 +118,8 @@ function findDetailByUserId(userId, bookId) {
 			"b.webReaderLink",
 			"b.isEbook",
 			"b.averageRating"
-		);
-}
+        );
+    };
 
 function find(userId, bookId) {
 	return db("userBooks")
