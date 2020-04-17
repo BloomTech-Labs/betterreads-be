@@ -7,7 +7,7 @@ module.exports = {
       userId,
       favorite,
       readingStatus: status,
-      userRating: rating
+      // userRating: rating
     }
   },
   
