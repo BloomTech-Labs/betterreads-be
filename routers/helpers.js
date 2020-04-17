@@ -4,12 +4,14 @@ module.exports = {
   createUserBook: function(book, userId, favorite, status, rating) {
     return { 
       bookId: book.id,
-      userId: userId,
-      favorite: favorite,
+      userId,
+      favorite,
       readingStatus: status,
       userRating: rating
     }
   },
+  
+  
  
   // MARK: -- UserShelves & UserBooks helper (in routers)
   findIn: function(req, res, Action, param, where) {
