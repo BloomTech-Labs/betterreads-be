@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
                     res.status(201).json({ message: "genre added successfully", genre})
                 })
                 .catch(({ name, message, stack}) => {
-                    res.status(400).json({ message: "failed to add user genre", name, message, stack });
+                    res.status(400).json({ failed: "failed to add user genre", name, message, stack });
                 });
         } else {
             res.status(400).json({

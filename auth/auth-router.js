@@ -71,43 +71,57 @@ router.post("/signin", (request, response) => {
 
 // MARK: -- google
 router.get(
-	"/google",
-	passport.authenticate("google", { 
-		scope: ["profile", "email"], 
-		prompt: "select_account"
-	})
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  })
 );
 
 router.get(
-	"/google/redirect",
-	passport.authenticate("google", { failureRedirect: API_FAILURE }),
-	(request, response) => {
-		request.session.user = request.user;
-		response.redirect(API_SUCCESS);
-	}
+  "/google/redirect",
+  passport.authenticate("google", { failureRedirect: API_FAILURE }),
+  (request, response) => {
+    request.session.user = request.user;
+    response.redirect(API_SUCCESS);
+  }
 );
 
 // MARK: -- facebook
 router.get(
-	"/facebook",
-	passport.authenticate("facebook", { scope: ["email"] })
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
 );
 
 router.get(
-	"/facebook/redirect",
-	passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
-	(request, response) => {
-		request.session.user = request.user;
-		response.redirect(API_SUCCESS);
-	}
+  "/facebook/redirect",
+  passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
+  (request, response) => {
+    request.session.user = request.user;
+    response.redirect(API_SUCCESS);
+  }
+);
+
+router.get(
+  "/okta",
+  passport.authenticate("okta", { scope: ["openid", "email", "profile"] })
+);
+
+router.get(
+  "/okta/redirect",
+  passport.authenticate("okta", { failureRedirect: API_FAILURE }),
+  (request, response) => {
+    request.session.user = request.user;
+    response.redirect(API_SUCCESS);
+  }
 );
 
 // MARK: -- social media only
 router.get("/success", (request, response) => {
-	response.status(200).json({
-		message: "successfully fetched user object",
-		user: request.session.user
-	});
+  response.status(200).json({
+    message: "successfully fetched user object",
+    user: request.session.user,
+  });
 });
 
 // // MARK: -- common
