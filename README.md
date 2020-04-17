@@ -220,8 +220,8 @@ To get the server running locally:
   bookId: "INTEGER Foreign key, from books (required)",
   readingStatus: "INTEGER optional, if not updating, set it to whatever it was set to or null",
   favorite: "optional, can be null",
-  dateStarted: "optional, can be null otherwise STRING MM/DD/YYYY"
-  dateEnded: "optional, can be null otherwise STRING MM/DD/YYYY"
+  dateStarted: "optional, can be null otherwise STRING MM/DD/YYYY",
+  dateEnded: "optional, can be null otherwise STRING MM/DD/YYYY",
   userRating: "optional, can be null otherwise DECIMAL"
 }
 ```
@@ -236,7 +236,7 @@ Returns the body of the request with a the primary key (integer) for the book in
 # Body Required
 ```js
 {
-  bookId: FOREIGN KEY from books
+  bookId: "FOREIGN KEY from books"
 }
 ```
 
@@ -247,7 +247,7 @@ Returns the body of the request with a the primary key (integer) for the book in
 # Body Required
 ```js
 {
-  book: OBJECT,
+  book: { book },
   readingStatus: INTEGER,
   favorite: BOOLEAN
 }
