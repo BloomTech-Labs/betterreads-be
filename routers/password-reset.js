@@ -5,7 +5,7 @@ const User = require("../models/users");
 const bcrypt = require("bcryptjs")
 
 const jwtSecret = require("../config/secrets");                                         
-const passwordResetLink = "http://localhost:3000";
+const passwordResetLink = process.env.PASSWORD_RESET_LINK;
 const authorize = require("../auth/authPasswordResetToken")
 
 function tokenGenerator(user){

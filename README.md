@@ -118,6 +118,45 @@ To get the server running locally:
 		})	
 	  }
 ```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST | /api/auth/reset/requestreset/ | all users | Returns a token |
+
+# Required Body
+```json
+    {
+        "email": "user email"
+    }
+```
+
+# Returns
+```json
+    {
+        message: "Request received, a link has been sent to the requested email",
+        "token": "{ user password reset token }"
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST | /api/auth/reset/ | all users | Updates user password with the requested password |
+
+# Body Requires
+```json
+    {
+        "token": "{ user password reset token}",
+        "password": "{ user requested password }"
+    }
+```
+
+# Returns
+```json
+    {
+        "message": "Successfully updated user info"
+    }
+```
+
 ## Use Local Storage
 - hit the sign in endpoint to get a token for the user
 - store the token in local storage with localStorage.setItem("token", `${res.data.token}`)
