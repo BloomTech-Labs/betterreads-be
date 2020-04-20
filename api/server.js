@@ -77,7 +77,7 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 // MARK: -- routers
-server.use("/api/reset", passwordReset);
+server.use("/api/auth/reset", passwordReset);
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
