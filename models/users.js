@@ -3,7 +3,8 @@ const db = require("../database/db-config.js");
 module.exports = {
 	add,
 	findBy,
-	total
+    total,
+    edit
 };
 
 function add(user) {
@@ -20,4 +21,10 @@ function findBy(filter) {
 
 function total() {
 	return db("users").count("id")
+}
+
+function edit(param, filter){
+    return db("users")
+        .where(filter)
+        .update(param)
 }
