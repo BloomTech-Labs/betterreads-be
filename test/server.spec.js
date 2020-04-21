@@ -8,6 +8,11 @@ describe("server.js", () => {
           
           expect(response.status).toBe(200);
       });
+      it("returns json", async () => {
+          const response = await request(server).get("/");
+          
+          expect(response.type).toMatch(/json/i);
+      })
   });  
 });
 
