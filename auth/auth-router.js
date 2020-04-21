@@ -63,7 +63,7 @@ router.post("/signin", (request, response) => {
 					user: userObject(res)
                 });
 			} else {
-				response.status(500).json({ message: "invalid credentials" });
+				response.status(400).json({ message: "invalid credentials" });
 			}
 		})
 		.catch(({ name, message, stack }) => response.status(500).json({ error: "error logging in user", name, message, stack }));

@@ -36,13 +36,13 @@ module.exports = {
     Model.findBook(shelfId, bkId)
       .then(bookonshelf => {
         if (bookonshelf.length > 0) {
-          res.status(500).json({ message: "book is already in user shelf" });
+          res.status(400).json({ message: "book is already in user shelf" });
         } else {
           if ((bkId, shelfId)) {
             const bookObj = { bookId: bkId, shelfId: shelfId }
             Model.addBooks(bookObj)
                  .then(book => res.status(200).json({ book, message: "book added to user-shelf" }))
-                 .catch(({ name, message, stack }) => res.status(500).json({ 
+                 .catch(({ name, message, stack }) => res.status(400).json({ 
                     error: "error in adding book to shelf. Book may already exist on shelf.", name, message, stack }
                   ))
           } else {
