@@ -69,7 +69,7 @@ server.get(process.env.DATA_SCIENCE || "/api/ds/:userId", (req, res) => {
 
 server.get(process.env.DATA_SCIENCE_TOTAL || "/api/dstotal", (req, res) => {
 	Users.total().then(total => res.status(200).json(total))
-		.catch(err => res.status(500).json({ message: "error retrieving data" }))
+		.catch(({ name, message, stack }) => res.status(500).json({ error: "error retrieving data", name, message, stack }))
 })
 
 // MARK: -- passport

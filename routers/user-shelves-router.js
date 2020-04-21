@@ -48,8 +48,8 @@ router.put("/:shelfId", (req, res) => {
         .then(updatedShelf => {
           res.status(200).json(updatedShelf);
         })
-        .catch(err => {
-          res.status(500).json({ message: "shelf not updated" });
+        .catch(({ name, message, stack }) => {
+          res.status(500).json({ "error": "shelf not updated", name, message, stack });
         });
     } else {
       res.status(404).json({ message: "userShelf: does not exist" });
@@ -66,8 +66,8 @@ router.delete("/:shelfId", (req, res) => {
         .then(deletedShelf => {
           res.status(200).json(deletedShelf);
         })
-        .catch(err => {
-          res.status(500).json({ message: "Could not remove shelf" });
+        .catch(({ name, message, stack }) => {
+          res.status(500).json({ message: "Could not remove shelf", name, message, stack });
         });
     } else {
       res.status(404).json({ message: "userShelf: does not exist" });
