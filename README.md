@@ -35,7 +35,6 @@ To get the server running locally:
 8.  knex migrate:up --env=testing
 9.  knex seed:run --env=testing --specific=002-user-shelves.js
 10.  knex migrate:up --env=testing
-11. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
 
 ### Express
 
@@ -395,11 +394,6 @@ Returns the body of the request with a the primary key (integer) for the book in
   bookId: FOREIGN KEY from books
 }
 ```
-# Get Recommendations by User ID
-
-|   Method   |  Endpoint | Access Control | Description |
-|------------|-----------|----------------|-------------|
-|   GET      | /api/:useId/recommendations| All Users | Returns all books for the user with the requested ID |
 
 # Data Model
 
