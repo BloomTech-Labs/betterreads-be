@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 			book == undefined ? res.status(404).json({ message: "No books here" })
 							  : res.status(200).json(book)
 		)
-		.catch(err => res.status(500).json({ message: "Book not found" }));
+		.catch(({ name, message, stack }) => res.status(500).json({ error: "Book not found", name, message, stack }));
 });
 
 router.get("/:bookId", (req, res) => {
@@ -17,7 +17,7 @@ router.get("/:bookId", (req, res) => {
 			book == undefined ? res.status(404).json({ message: "No books here" })
 							  : res.status(200).json(book)
 		)
-		.catch(err => res.status(500).json({ message: "Book not found" }));
+		.catch(({ name, message, stack }) => res.status(500).json({ error: "Book not found", name, message, stack }));
 });
 
 router.post("/", (req, res) => {
@@ -29,12 +29,12 @@ router.post("/", (req, res) => {
 			if (bk == undefined) {
 				Books.add(book)
 					.then(book => res.status(201).json({ message: "Added book to our api", book: book }))
-					.catch(err => res.status(500).json({ message: "Book not added" }));
+					.catch(({ name, message, stack }) => res.status(500).json({ message: "Book not added", name, message, stack }));
 			} else {
 				res.status(200).json(bk);
 			}
 		})
-		.catch(err => res.status(500).json({ message: "Error, something went wrong" }));
+		.catch(({ name, message, stack }) => res.status(500).json({ error: "Error, something went wrong", name, message, stack }));
 	} else {
 		res.status(400).json({ message: "Please provide a book" });
 	}

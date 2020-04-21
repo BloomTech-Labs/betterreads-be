@@ -47,7 +47,7 @@ router.post("/signup", (request, response) => {
 				user: userObject(user)
 			});
 		})
-		.catch(err => response.status(500).json({ message: "error registering user" }));
+		.catch(({ name, message, stack }) => response.status(500).json({ error: "error registering user", name, message, stack }));
 });
 
 router.post("/signin", (request, response) => {
@@ -66,7 +66,7 @@ router.post("/signin", (request, response) => {
 				response.status(500).json({ message: "invalid credentials" });
 			}
 		})
-		.catch(err => response.status(500).json({ message: "error logging in user" }));
+		.catch(({ name, message, stack }) => response.status(500).json({ error: "error logging in user", name, message, stack }));
 });
 
 // MARK: -- google

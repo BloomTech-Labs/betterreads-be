@@ -13,8 +13,8 @@ router.get("/:userId", (req, res) => {
                 res.status(200).json(genres);
             }
         })
-        .catch(err => {
-            res.status(500).json({ message: "error in returning data" });
+        .catch(({ name, message, stack }) => {
+            res.status(500).json({ error: "error in returning data", name, message, stack });
         });
 });
 
@@ -55,9 +55,9 @@ router.put("/:userId/:genreId", (req, res) => {
                 .then(genre => {
                     res.status(201).json({ message: "genre updated successfully", updatedGenre})
                     })
-                .catch(err => {
+                .catch(({ name, message, stack }) => {
                     res.status(400).json({
-                        message: "failed to update user genre"
+                        error: "failed to update user genre", name, message, stack
                     });
                 });
             } else {
@@ -79,9 +79,9 @@ router.delete("/:userId/:genreId", (req, res) => {
                         genreName: genre.genreName
                     });
                 })
-                .catch(err => {
+                .catch(({ name, message, stack }) => {
                     res.status(400).json({
-                        message: "failed to delete user genre"
+                        error: "failed to delete user genre", name, message, stack
                     });
                 });
         } else {
