@@ -22,7 +22,6 @@ function tokenGenerator(user){
 router.post("/requestreset", (req, res) => {
     const user = { email: req.body.email };
     const token = tokenGenerator(user);
-    console.log("this is the user email", user.email)
     
     const data = {
     	from: 'Readrr Password Reset Team <betterreadslabs21@gmail.com>',

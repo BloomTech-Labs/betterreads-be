@@ -120,7 +120,7 @@ To get the server running locally:
 
 | Method | Endpoint           | Access Control | Description                      |
 | ------ | ------------------ | -------------- | -------------------------------- |
-| POST | /api/auth/reset/requestreset/ | all users | Returns a token |
+| POST | `/api/auth/reset/requestreset/` | all users | Returns a token |
 
 # Required Body
 ```json
@@ -139,7 +139,7 @@ To get the server running locally:
 
 | Method | Endpoint           | Access Control | Description                      |
 | ------ | ------------------ | -------------- | -------------------------------- |
-| POST | /api/auth/reset/ | all users | Updates user password with the requested password |
+| POST | `/api/auth/reset/` | all users | Updates user password with the requested password |
 
 # Body Requires
 ```json
@@ -393,6 +393,19 @@ Returns the body of the request with a the primary key (integer) for the book in
 {
   bookId: FOREIGN KEY from books
 }
+```
+
+## Recommendations
+| Method | Endpoint                                                      | Access Control | Description                                   |
+| ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
+| GET | `/api/` | all users | Returns recommendations based on the requested user's library |
+
+# Returns
+```json
+    {
+        "message": "recommendations retrieved successfully",
+        "recommendations": [ googleId, googleId,... ]
+    }
 ```
 
 # Data Model

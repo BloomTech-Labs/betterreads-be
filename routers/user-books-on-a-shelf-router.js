@@ -25,8 +25,8 @@ router.post("/shelves/:shelfId", (req, res) => {
               UserBooks.add(newUserBookObject).then(added => {
                 const bookId = added.bookId;
                 helper.addToUserShelf(req, res, BooksOnShelf, shelfId, bookId);
-              }).catch(err => res.status(500).json({ message: "could not add book to user library" }));
-            }).catch(err => res.status(500).json({ message: "could not add book to all books" }));
+              }).catch(({ nam3e, message, stack }) => res.status(500).json({ message: "could not add book to user library", name, message, stack }));
+            }).catch(({ name, message, stack }) => res.status(500).json({ error: "could not add book to all books", name, message, stack }));
         } else {
             UserBooks.isBookInUserBooks(userId, foundbook.googleId)
               .first()
@@ -101,12 +101,13 @@ router.get("/shelves/:shelfId", (req, res) => {
 });
 
 router.get("/user/:userId/shelves/:shelfId/allbooks", (req, res) => {
-  const shelfId = req.params.shelfId;
-  const userId = req.params.userId;
+  const { shelfId, userId } = req.params;
   if (shelfId) {
     BooksOnShelf.findAllBooks(shelfId, userId)
-      .then(book => res.status(200).json(book))
-      .catch(err => res.status(500).json({ message: "error in getting books from the shelf" }));
+      .then(books => {
+          res.status(200).json(books);
+      })
+      .catch(({ name, message, stack }) => res.status(500).json({ error: "error in getting books from the shelf", name, message, stack }));
   } else {
     res.status(404).json({ message: "no shelf id exist" });
   }
