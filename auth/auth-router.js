@@ -4,6 +4,7 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
 const jwt = require("jsonwebtoken");
+const restricted = require("./restricted-middleware");
 
 const userObject = (user) => ({
 	id: user.id,
@@ -80,9 +81,9 @@ router.get(
 
 router.get(
   "/google/redirect",
-  passport.authenticate("google", { failureRedirect: API_FAILURE }),
+  passport.authenticate("google", { failureRedirect: API_FAILURE }), 
+  restricted,
   (request, response) => {
-    request.session.user = request.user;
     response.redirect(API_SUCCESS);
   }
 );
@@ -95,34 +96,32 @@ router.get(
 
 router.get(
   "/facebook/redirect",
-  passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
+  passport.authenticate("facebook", { failureRedirect: API_FAILURE }), 
+  restricted,
   (request, response) => {
-    request.session.user = request.user;
     response.redirect(API_SUCCESS);
   }
 );
 
-router.get(
-  "/okta",
-  passport.authenticate("okta", { scope: ["openid", "email", "profile"] })
-);
+// router.get(
+//   "/okta",
+//   passport.authenticate("okta", { scope: ["openid", "email", "profile"] })
+// );
 
-router.get(
-  "/okta/redirect",
-  passport.authenticate("okta", { failureRedirect: API_FAILURE }),
-  (request, response) => {
-    request.session.user = request.user;
-    response.redirect(API_SUCCESS);
-  }
-);
+// router.get(
+//   "/okta/redirect",
+//   passport.authenticate("okta", { failureRedirect: API_FAILURE }),
+//   (request, response) => {
+//     response.redirect(API_SUCCESS);
+//   }
+// );
 
 // MARK: -- social media only
-router.get("/success", (request, response) => {
-  response.status(200).json({
-    message: "successfully fetched user object",
-    user: request.session.user,
-  });
-});
+// router.get("/success", (request, response) => {
+//   response.status(200).json({
+//     message: "successfully fetched user object",
+//   });
+// });
 
 // // MARK: -- common
 // router.get("/signout", (request, response) => {
