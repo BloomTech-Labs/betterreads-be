@@ -40,6 +40,12 @@
               # An environment variable, the value is a GitHub repo secret
               CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
               NODE_ENV: ${{ secrets.NODE_ENV }}
+              FACEBOOK_CLIENT_ID: testing
+              FACEBOOK_CLIENT_SECRET: testing
+              FACEBOOK_CALLBACK: https://www.google.com
+              GOOGLE_CLIENT_ID: testing
+              GOOGLE_CLIENT_SECRET: testing
+              GOOGLE_CALLBACK: https://www.google.com 
             with:
               # Run our `coverage` command from our `package.json`
               coverageCommand: npm run coverage
