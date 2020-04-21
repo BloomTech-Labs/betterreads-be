@@ -31,7 +31,7 @@ router.get("/:userId/library/:bookId", (req, res) => {
         res.status(200).json(userbook);
       }
     })
-    .catch(err => res.status(500).json({ message: "error in returning data" }));
+    .catch(({ name, message, stack }) => res.status(500).json({ error: "error in returning data", name, message, stack }));
 });
 
 // MARK: -- PUT
@@ -62,7 +62,7 @@ router.put("/:userId/library", (req, res) => {
       } else {
         res.status(201).json(updated)
       }
-    }).catch(err => res.status(500).json(err))
+    }).catch(({ name, message, stack }) => res.status(500).json({ name, message, stack }))
   });
 });
 
@@ -84,10 +84,10 @@ router.delete("/:userId/library", (req, res) => {
           } else {
             res.status(204).json({message: "book deleted from user library"})
           }
-        }).catch(err => res.status(404).json({message: "error removing book from shelf"}))
+        }).catch(({ name, message, stack }) => res.status(404).json({ error: "error removing book from shelf", name, message, stack }))
       } 
     }
-    }).catch(err => res.status(500).json({ message: "error in removing data" }));
+    }).catch(({ name, message, stack }) => res.status(500).json({ error: "error in removing data", name, message, stack }));
 });
 
 // MARK: -- POST
@@ -112,7 +112,7 @@ router.post("/:userId/library", (req, res) => {
                 const newUserBookObject = helper.createUserBook(book, userId, favorite, status,rating)
                 // MARK: -- adding book to our user's library
                 helper.addToUserBooks(req, res, UserBooks, newUserBookObject)
-              }).catch(err => res.status(500).json({ message: "Book not added to book db" }));
+              }).catch(({ name, message, stack }) => res.status(500).json({ message: "Book not added to book db", name, message, stack }));
             } else {
               const userBookObject = helper.createUserBook(bk, userId, favorite, status, rating)
               // MARK: -- book exist in our books db, add the book to our user's library
@@ -123,7 +123,7 @@ router.post("/:userId/library", (req, res) => {
           // MARK: -- user already has the book in their user library
           res.status(200).json({ message: "Book already exist in your library" });
         }
-      }).catch(nothere => res.status(500).json({ message: "Error in userbook posting" }));
+      }).catch(({ name, message, stack }) => res.status(500).json({ error: "Error in userbook posting", name, message, stack }));
   } else {
     // MARK: -- book did not have information provided
     res.status(400).json({ message: "Please provide a book" });

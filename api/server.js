@@ -20,6 +20,8 @@ const userBooksRouter = require("../routers/user-books-router.js");
 const userShelvesRouter = require ("../routers/user-shelves-router.js")
 const userBooksOnShelfRouter = require ("../routers/user-books-on-a-shelf-router.js");
 const userGenre = require ("../routers/user-genre-router.js");
+const recommendations = require("../routers/recommendations-router");
+const passwordReset = require("../routers/password-reset");
 
 // MARK: -- for data science
 const UserBooks = require("../models/user-books.js");
@@ -67,7 +69,7 @@ server.get(process.env.DATA_SCIENCE || "/api/ds/:userId", (req, res) => {
 
 server.get(process.env.DATA_SCIENCE_TOTAL || "/api/dstotal", (req, res) => {
 	Users.total().then(total => res.status(200).json(total))
-		.catch(err => res.status(500).json({ message: "error retrieving data" }))
+		.catch(({ name, message, stack }) => res.status(500).json({ error: "error retrieving data", name, message, stack }))
 })
 
 // MARK: -- passport
@@ -75,9 +77,11 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 // MARK: -- routers
+server.use("/api/auth/reset", passwordReset);
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
+server.use("/api", restricted, recommendations);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 

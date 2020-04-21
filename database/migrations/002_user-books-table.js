@@ -22,7 +22,8 @@ exports.up = function(knex) {
 		tbl.datetime("dateStarted");
 		tbl.datetime("dateEnded");
 		tbl.timestamp("dateAdded", 20).defaultTo(knex.fn.now());
-		tbl.boolean("favorite").defaultTo(false);
+        tbl.boolean("favorite").defaultTo(false);
+        tbl.decimal("userRating");
 	});
 };
 
