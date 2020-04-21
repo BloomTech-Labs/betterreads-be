@@ -51,10 +51,11 @@ passport.use(
 				existingUser => {
 					if (existingUser) {
                         console.log(existingUser);
-                        const token = tokenGenerator(existingUser);
+                        const token = tokenGenerator("this is existingUser", existingUser);
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
+                            console.log("this is newUser", newUser)
                             const token = tokenGenerator(newUser[0])
 							done(null, newUser[0]);
 						});
@@ -83,10 +84,12 @@ passport.use(
 			User.findBy({ emailAddress: userProfile.emailAddress }).then(
 				existingUser => {
 					if (existingUser) {
+                        console.log("this is existing user", existingUser)
                         const token = tokenGenerator(existingUser);
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
+                            console.log("this is newUser", newUser);
                             const token = tokenGenerator(newUser[0]);
 							done(null, token);
 						});
