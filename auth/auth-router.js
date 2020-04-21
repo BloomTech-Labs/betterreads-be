@@ -55,7 +55,7 @@ router.post("/signin", (request, response) => {
 	User.findBy({ emailAddress })
 		.then(res => {
 			if (res && bcrypt.compareSync(password, res.password)) {
-                console.log(bcrypt.compareSync(password, res.password));
+                bcrypt.compareSync(password, res.password);
                 token = tokenGenerator(res);
 				response.status(200).json({
                     message: "successfully logged in",

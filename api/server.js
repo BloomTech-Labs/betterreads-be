@@ -81,10 +81,10 @@ server.use("/api/auth/reset", passwordReset);
 server.use("/api/auth", authRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
+server.use("/api", restricted, recommendations);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre); 
-server.use("/api", restricted, recommendations);
 
 
 server.get("/", (request, response) =>

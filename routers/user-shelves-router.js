@@ -6,7 +6,6 @@ router.post("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
   const { shelfName, isPrivate } = req.body;
   const userShelfObj = { userId, shelfName, isPrivate };
-  console.log(userShelfObj)
   const shelves = await Shelves.findByUser(userId);
   if (shelves.map(shelf => shelf.shelfName === shelfName).includes(true)){
         res.status(400).json({ message: "shelf already exists" });
