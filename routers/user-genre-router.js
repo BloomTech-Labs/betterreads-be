@@ -6,90 +6,86 @@ const Genre = require("../models/user-genre");
 router.get("/:userId", (req, res) => {
     const userId = req.params.userId;
     Genre.findByUserId(userId)
-        .then(userGenre => {
-            if (!userGenre[0]) {
-                res.status(400).json({ message: "Genre not found for User" });
+        .then(genres => {
+            if (genres.length < 1) {
+                res.status(400).json({ message: "Genres not found for User" });
             } else {
-                res.status(200).json(userGenre[0]);
+                res.status(200).json(genres);
             }
         })
-        .catch(err => {
-            res.status(500).json({ message: "error in returning data" });
+        .catch(({ name, message, stack }) => {
+            res.status(500).json({ error: "error in returning data", name, message, stack });
         });
 });
 
 router.post("/", (req, res) => {
-    const userId = req.body.userId;
-    const genreName = req.body.genreName;
-    const userGenreObj = {
-        userId: userId,
-        genreName: genreName
-    };
-    Genre.findByUserId(userId).then(genre => {
-        if (!genre[0]) {
+    const { userId, genreName } = req.body 
+    const userGenreObj = { userId, genreName }
+    Genre.findByUserId(userId).then(genres => {
+        const genre = genres.filter(genre => genre.genreName === genreName)
+        if (!genres.map(genre => genre.genreName).includes(genreName)) {
             Genre.add(userGenreObj)
                 .then(userGenre => {
-                    res.status(201).json(userGenre);
+                    const genre = userGenre[0]
+                    res.status(201).json({ message: "genre added successfully", genre})
                 })
-                .catch(err => {
-                    res.status(500).json({
-                        message: "failed to add user genre"
-                    });
+                .catch(({ name, message, stack}) => {
+                    res.status(400).json({ failed: "failed to add user genre", name, message, stack });
                 });
         } else {
-            res.status(500).json({
+            res.status(400).json({
                 message:
-                    "userGenre Tbl already exist make Put request to update existing Tbl"
+                   "genre already exists for the user" 
             });
         }
     });
 });
 
-router.put("/", (req, res) => {
-    const userId = req.body.userId;
-    const updatedGenreName = req.body;
-
-    Genre.findByUserId(userId).then(genre => {
-        const genreUserId = genre[0].userId;
-
-        if (genreUserId) {
-            Genre.update(updatedGenreName, genreUserId)
-                .then(userGenre => {
-                    res.status(201).json({
-                        message: "User genre Update Successful",
-                        userGenreId: userGenre
-                    });
-                })
-                .catch(err => {
-                    res.status(500).json({
-                        message: "failed to update user genre"
+router.put("/:userId/:genreId", (req, res) => {
+    const userId = req.params.userId;
+    const updatedGenreName = req.body.genreName;
+    const genreId = req.params.genreId;
+    
+    Genre.findByUserId(userId).then(genres => {
+        const userGenreArray = genres.filter(genre => genre.genreId == genreId);
+        const userGenre = userGenreArray[0];
+        if (userGenre) {
+            const updatedGenre = { ...userGenre, genreName: updatedGenreName }
+            Genre.update(updatedGenre, userId, genreId)
+                .then(genre => {
+                    res.status(201).json({ message: "genre updated successfully", updatedGenre})
+                    })
+                .catch(({ name, message, stack }) => {
+                    res.status(400).json({
+                        error: "failed to update user genre", name, message, stack
                     });
                 });
-        } else {
-            res.status(500).json({ message: "userGenre not found" });
+            } else {
+            res.status(404).json({ message: "userGenre not found" });
         }
     });
 });
 
-router.delete("/:userId", (req, res) => {
+router.delete("/:userId/:genreId", (req, res) => {
     const userId = req.params.userId;
-
-    Genre.findByUserId(userId).then(genre => {
-        if (genre) {
-            Genre.remove(userId)
-                .then(userGenre => {
+    const genreId = req.params.genreId;
+    Genre.findByUserId(userId).then(genres => {
+        if (genres.map(genre => genre.genreId == genreId).includes(true)) {
+            Genre.remove(userId, genreId)
+                .then(genre => {
                     res.status(200).json({
-                        message: "User genre Deleted",
-                        userGenreId: userGenre
+                        message: "genre deleted successfully",
+                        genreId: genre.genreId,
+                        genreName: genre.genreName
                     });
                 })
-                .catch(err => {
-                    res.status(500).json({
-                        message: "failed to delete user genre"
+                .catch(({ name, message, stack }) => {
+                    res.status(400).json({
+                        error: "failed to delete user genre", name, message, stack
                     });
                 });
         } else {
-            res.status(500).json({ message: "userGenre not found" });
+            res.status(404).json({ message: "genre not found" });
         }
     });
 });

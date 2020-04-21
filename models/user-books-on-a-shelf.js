@@ -28,7 +28,7 @@ function findAllBooks(shelfId, userId) {
 		.join('userBooks as ub', 'ub.bookId', 'bs.bookId')
 		.where("ub.userId", userId)
 		.join('userShelves as s', 's.id', 'bs.shelfId')
-		.where({ shelfId: shelfId })
+		.where({ shelfId })
 		.distinct(
 			'bs.bookId',
 			'b.googleId', 
@@ -38,8 +38,8 @@ function findAllBooks(shelfId, userId) {
 			'b.smallThumbnail', 
 			'bs.shelfId', 
 			's.userId',
-			"s.shelfName", 
-			"ub.userRating",
+			's.shelfName', 
+			'ub.userRating',
 			'ub.readingStatus',
 			'ub.favorite')
 		.then(books => {

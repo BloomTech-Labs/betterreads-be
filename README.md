@@ -35,7 +35,6 @@ To get the server running locally:
 8.  knex migrate:up --env=testing
 9.  knex seed:run --env=testing --specific=002-user-shelves.js
 10.  knex migrate:up --env=testing
-11. knex seed:run --env=testing --specific=003-user-books-on-a-shelf.js
 
 ### Express
 
@@ -57,10 +56,24 @@ To get the server running locally:
 # Body Required
 
 ```js
-{ 
-  fullName: STRING, 
+{  
+  fullName: STRING,
   emailAddress: STRING, 
   password: STRING 
+}
+```
+# Returns
+```js
+{
+  message: "successfully registered user",
+  user: {
+    id:  {user id},
+    fullName: {user full name},
+    emailAddress: {user email address},
+    image: {user image in blob form},
+    googleID: {user Google ID},
+    facebookID: {user Facebook ID}
+  }
 }
 ```
 
@@ -76,22 +89,123 @@ To get the server running locally:
   password: STRING
 }
 ```
+# Returns
+```js
+{
+  message: "successfully logged in",
+  token: {json web token},
+  user: {
+  	  id:  {user id},
+	  fullName: {user full name},
+	  emailAddress: {user email address},
+	  image: {user image in blob form},
+	  googleID: {user Google ID},
+	  facebookID: {user Facebook ID}
+	}
+}
+```
+### Authentication has been updated from sessions to more secure JSON web tokens. Here is what you need to do to ustilize them
+## Set up axioswithauth()
+	- create a file called axiosWithAuth
+	- within this file, write the following function  
+```js
+	  const axiosWithAuth = () => {
+	  const token = localStorage.getItem("token")
+	  	return axios.create({
+			baseURL: "https://api.readrr.app/",
+			headers: { authorization: token }
+		})	
+	  }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST | `/api/auth/reset/requestreset/` | all users | Returns a token |
+
+# Required Body
+```json
+    {
+        "email": "user email"
+    }
+```
+
+# Returns
+```json
+    {
+        message: "Request received, a link has been sent to the requested email",
+        "token": "{ user password reset token }"
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST | `/api/auth/reset/` | all users | Updates user password with the requested password |
+
+# Body Requires
+```json
+    {
+        "token": "{ user password reset token}",
+        "password": "{ user requested password }"
+    }
+```
+
+# Returns
+```json
+    {
+        "message": "Successfully updated user info"
+    }
+```
+
+## Use Local Storage
+- hit the sign in endpoint to get a token for the user
+- store the token in local storage with localStorage.setItem("token", `${res.data.token}`)
 
 #### Protected Routes
 
-## Onboarding process
+## User Genres
 
 | Method | Endpoint              | Access Control | Description                              |
 | ------ | --------------------- | -------------- | ---------------------------------------- |
-| POST   | `/api/:userId/genres` | all users      | Returns genre info for registered users. |
+| POST   | `/api/genre` 	 | all users      | Returns genre info for registered users. |
 
 # Body Required
 
 ```js
 {
-	genre: STRING;
+	genre: STRING,
+	userId: INTEGER
 }
 ```
+
+# Returned
+
+```js
+{
+	message: "genre added successfully",
+	genre: { genre }
+}
+```
+
+| Method |           Endpoint           | Access Control |             Description                  |
+| ------ | -----------------------------| -------------- | ---------------------------------------- |
+|  PUT   | `/api/genre/:userId/:genreId`|    all users   |        Returns updated genre info        |
+
+# Body Required
+
+```js
+{
+	userId: INTEGER,
+	genreName: { genre }
+}
+```
+# Returned
+```js
+{
+    "message": "genre updated successfully",
+    updatedGenre: { updatedGenre }
+}
+```
+
 
 # Search Google Books, Search in our Books Table, and Post to our Books Table
 
@@ -129,57 +243,107 @@ To get the server running locally:
 
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
-| GET    | `/api/:userId/library`           | all users           | Returns all books of the user                             |
-| GET    | `/api/:userId/library/:id`       | all users           | Returns a single book                                     |
-| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of the user                    |
+| GET    | `/api/:userId/library`           | all users           | Returns all books of user by the requested id                             |
+| GET    | `/api/:userId/library/:id`       | all users           | Returns a single book by a requested id                                    |
+| GET    | `/api/:userId/library/favorites` | all users           | Returns all favorite books of a user by the requested id                    |
+
+
+
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | PUT    | `/api/:userId/library`           | all users           | Returns updated                                           |
+# Body (some optional, some required)
+```js
+{
+  bookId: "INTEGER Foreign key, from books (required)",
+  readingStatus: "INTEGER optional, if not updating, set it to whatever it was set to or null",
+  favorite: "optional, can be null",
+  dateStarted: "optional, can be null otherwise STRING MM/DD/YYYY",
+  dateEnded: "optional, can be null otherwise STRING MM/DD/YYYY",
+  userRating: "optional, can be null otherwise DECIMAL"
+}
+```
+```
+Returns the body of the request with a the primary key (integer) for the book in the table, a userId (integer) and a date added (standard date format). 
+```
+
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | DELETE | `/api/:userId/library`           | all users           | Returns No Content                                        |
+
+# Body Required
+```js
+{
+  bookId: "FOREIGN KEY from books"
+}
+```
+
+| Method | Endpoint                         | Access Control      | Description                                               |
+| ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
 | POST   | `/api/:userId/library`           | all users           | Return added book object                                  |
 
-# Body Required 
-
--- PUT `/api/:userId/library`
+# Body Required
 ```js
 {
-  bookId: FOREIGN KEY from books,
-  readingStatus: INTEGER,
-  favorite: BOOLEAN,
-  dateStarted: STRING, (YYYY-MM-DD)
-  dateEnded: STRING, (YYYY-MM-DD)
-  userRating: DECIMAL
-}
-```
-
--- DELETE `/api/:userId/library`
-```js
-{
-  bookId: FOREIGN KEY from books
-}
-```
-
--- POST `/api/:userId/library`
-```js
-{
-  book: OBJECT,
+  book: { book },
   readingStatus: INTEGER,
   favorite: BOOLEAN
 }
 ```
 
+# Returns
+```js
+    {
+        id: "primary key",
+        bookId: "id of the added book",
+        userId: "id of the user to whom's library the book was added",
+        readingStatus: "reading status of the added book",
+        dateStarted: "date the book was started, will always be null immediately after a post",
+        dateEnded: "date the book was ended, will always be empty immediately after a post",
+        dateAdded: "date the book was added, defaults to the exact time of the post request",
+        favorite: "favorite status of the added book",
+        userRating: "average user rating of the added book, pulled for the GoogleBooks api",
+        googleId: "google id of the added book, pulled from the GoogleBooks api",
+        title: "title of the added book",
+        authors: "authors of the added book",
+        publisher: "publisher of the added book",
+        publishedDate: "publish date of the added book",
+        description: "description of the added book, pulled from the GoogleBooks api",
+        isbn10: "ISBN number of the added book, pulled from the GoogleBooks api",
+        isbn13: "another ISBN, pulled from the GoogleBooks api",
+        pageCount: "page count of the added book, pulled form the GoogleBooks api",
+        categories: "categories for the added book, pulled from the GoogleBooks api",
+        thumbnail: "thumbnail for the added book, pulled from the GoogleBooks api",
+        smallThumbnail: "small thumbnail of the added book, pulled form the GoogleBooks api",
+        language: "language of the added book, pulled from the GoogleBooks api",
+        webReaderLink: "web reader link for the added book, pulled from the GoogleBooks api",
+        textSnippet: "a snippet fo text from the added book, pulled form the GoogleBooks api",
+        isEbook: "boolean reflecting whether the added book is in ebook form, pulled from the GoogleBooks api",
+        averageRating: "average rating of the added book, pulled from the GoogleBooks api"
+    }
+```
 
 # User's shelves
 
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
-| POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
 | GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
 | GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
+| DELETE | `/api/shelves/:shelfId`         | all users      | Return deleted shelf id                       |
+| POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
+# Body Required for POST
+
+```js
+{
+  shelfName: STRING,
+  isPrivate: BOOLEAN
+}
+```
+| Method | Endpoint                        | Access Control | Description                                   |
+| ------ | ------------------------------- | -------------- | --------------------------------------------- |
 | PUT    | `/api/shelves/:shelfId`         | all users      | Return changed shelf                          |
-| DELETE | `/api/shelves/:shelfId`         | all users      | Return shelf id                               |
 
-# Body Required 
-
--- POST `/api/shelves/user/:userId`
+# Body Required
 ```js
 {
   shelfName: STRING,
@@ -187,22 +351,7 @@ To get the server running locally:
 }
 ```
 
--- GET `/api/shelves/:shelfId`
-```js
-{
-  bookId: FOREIGN KEY from books
-}
-```
-
--- PUT `/api/shelves/:shelfId`
-```js
-{
-  shelfName: STRING,
-  isPrivate: BOOLEAN
-}
-```
-
-# User's book on a shelf
+# User's books on a shelf
 
 | Method | Endpoint                                                      | Access Control | Description                                   |
 | ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
@@ -246,16 +395,18 @@ To get the server running locally:
 }
 ```
 
+## Recommendations
+| Method | Endpoint                                                      | Access Control | Description                                   |
+| ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
+| GET | `/api/` | all users | Returns recommendations based on the requested user's library |
 
-
-# Onboarding
-
-| Method | Endpoint             | Access Control | Description        |
-| ------ | -------------------- | -------------- | ------------------ |
-| GET    | `/api/genre/:userId` | all users      | Returns No Content |
-| POST   | `/api/genre`         | all users      | Returns Genre id   |
-| PUT    | `/api/genre`         | all users      | Returns No Content |
-| DELETE | `/api/genre/:userId` | all users      | Returns Genre id   |
+# Returns
+```json
+    {
+        "message": "recommendations retrieved successfully",
+        "recommendations": [ googleId, googleId,... ]
+    }
+```
 
 # Data Model
 
