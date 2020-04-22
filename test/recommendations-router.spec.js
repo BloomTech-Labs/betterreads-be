@@ -11,7 +11,7 @@ describe("GET to /api/:userId/recommendations", () => {
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("recommendations retrieved successfully");
         expect(response.body.recommendations).not.toBe(undefined);
-        expect(Object.keys(response.body.recommendations[0])[0]).toMatch("googleId");
+        expect(Object.keys(response.body.recommendations.recommendations[0])[6]).toMatch("id");
         expect(response.body.recommendations).toHaveLength(5);
     });
 });
