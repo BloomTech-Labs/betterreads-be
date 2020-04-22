@@ -4,8 +4,6 @@
     # What conditions trigger the workflow
     #  In this case, all pushes and pull requests
     on: 
-      commit_comment:
-        branches: [ getting-code-climate-to-work ]
       push:
         branches: [ master ]
       pull_request:
