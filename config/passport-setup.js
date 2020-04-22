@@ -51,11 +51,13 @@ passport.use(
 				existingUser => {
 					if (existingUser) {
                         console.log(existingUser);
-                        const token = tokenGenerator("this is existingUser", existingUser);
+                        const token = tokenGenerator("this is existingUser: ", existingUser);
+                        console.log("this is the token: ", token);
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
-                            console.log("this is newUser", newUser)
+                            console.log("this is newUser: ", newUser);
+                            console.log("this is the token : ", token);
                             const token = tokenGenerator(newUser[0])
 							done(null, newUser[0]);
 						});
@@ -86,11 +88,13 @@ passport.use(
 					if (existingUser) {
                         console.log("this is existing user", existingUser)
                         const token = tokenGenerator(existingUser);
+                        console.log("this is the token: ", token)
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
-                            console.log("this is newUser", newUser);
+                            console.log("this is newUser: ", newUser);
                             const token = tokenGenerator(newUser[0]);
+                            console.log("this is the token: ", token)
 							done(null, token);
 						});
 					}
