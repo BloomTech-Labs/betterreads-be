@@ -24,7 +24,7 @@ const randomPageNum = async () => {
     return float;
 }
 
-describe("GET to /api/books", () => {
+{(describe("GET to /api/books", () => {
 
     it("returns 200 ok and an array of books", async () => {
         
@@ -76,3 +76,4 @@ describe("POST to /api/books", () => {
             expect(response.status).toBe(201);
     });
 });
+)}
