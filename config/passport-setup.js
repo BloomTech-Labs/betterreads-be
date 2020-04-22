@@ -37,7 +37,7 @@ passport.use(
 	new GoogleStrategy({ 
 			clientID: process.env.GOOGLE_CLIENT_ID, 
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-			callbackURL: process.env.GOOGLE_CALLBACK || "http://localhost:5000/api/auth/google/redirect"
+			callbackURL: process.env.GOOGLE_CALLBACK || "https://api.readrr.app/api/auth/google/redirect"
 		},
 		(accessToken, refreshToken, profile, done) => {
 			const userProfile = {
