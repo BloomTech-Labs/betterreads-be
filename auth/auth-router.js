@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
 const jwt = require("jsonwebtoken");
 const restricted = require("./restricted-middleware");
+const tokenGenerator = require("./tokenGenerator");
 
 const userObject = (user) => ({
 	id: user.id,
@@ -15,39 +16,25 @@ const userObject = (user) => ({
 	facebookID: user.facebookID
 });
 
-function tokenGenerator(user){
-    const payload = {
-        subject: user.id,
-        username: user.username,
-        role: user.role || "user",
-        fullName: user.fullName,
-        emailAddress: user.emailAddress,
-        image: user.image,
-        googleID: user.googleID,
-        facebookID: user.facebookID
-    }
-    const secret = "This is the most secretest secret to ever be secretly secret....... secret."
-    const options = {
-        expiresIn: "24h"
-    }
-    return jwt.sign(payload, secret, options)
-}
+
 
 const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
 const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
-	let user = request.body;
-	const hash = bcrypt.hashSync(user.password, 10);
+    const user = request.body;
+	const hash = bcrypt.hashSync(request.body.password, 10);
 	user.password = hash;
 	User.add(user)
 		.then(res => {
+            const token = tokenGenerator(user);
 			response.status(201).json({
 				message: "successfully registered user",
-				user: userObject(user)
+                user: userObject(user),
+                token
 			});
-		})
+        })
 		.catch(({ name, message, stack }) => response.status(500).json({ error: "error registering user", name, message, stack }));
 });
 
