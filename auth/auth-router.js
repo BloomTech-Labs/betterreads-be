@@ -6,6 +6,7 @@ const User = require("../models/users.js");
 const jwt = require("jsonwebtoken");
 const restricted = require("./restricted-middleware");
 const tokenGenerator = require("./tokenGenerator");
+const socialMediaTokenGenerator = require("./socialMediaTokenGenerator");
 
 const userObject = (user) => ({
 	id: user.id,
@@ -70,9 +71,10 @@ router.get(
   "/google/redirect",
   passport.authenticate("google", { failureRedirect: API_FAILURE }), 
   restricted,
-  (request, response) => {
-    response.redirect(API_SUCCESS);
-  }
+  socialMediaTokenGenerator,
+//   (request, response) => {
+//     response.redirect(API_SUCCESS);
+//   }
 );
 
 // MARK: -- facebook
@@ -85,9 +87,10 @@ router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { failureRedirect: API_FAILURE }), 
   restricted,
-  (request, response) => {
-    response.redirect(API_SUCCESS);
-  }
+  socialMediaTokenGenerator
+//   (request, response) => {
+//     response.redirect(API_SUCCESS);
+//   }
 );
 
 // router.get(

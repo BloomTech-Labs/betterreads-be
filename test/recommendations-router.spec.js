@@ -13,8 +13,9 @@ describe("recommendations-router.js", () => {
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("recommendations retrieved successfully");
             expect(response.body.recommendations).not.toBe(undefined);
-            expect(Object.keys(response.body.recommendations.recommendations[0])[5]).toInclude("id");
-            expect(response.body.recommendations).toHaveLength(5);
+            const key = Object.keys(response.body.recommendations.recommendations[0]);
+            expect(key[4]).toContain("id")
+            expect(response.body.recommendations.recommendations).toHaveLength(5);
         });
     });
 });
