@@ -5,7 +5,6 @@ const server = require("../api/server");
 const token = async () => {
     const response = await request(server).post("/api/auth/reset/requestreset")
         .send({ "email": `${ process.env.TEST_EMAIL }` });
-        console.log("response form tokenb request", response.body.token)
     return(response.body.token);    
 }
 
@@ -26,7 +25,6 @@ describe("password-reset.js", () => {
         it("returns 201 created and a message", async () => {
             const response = await request(server).post("/api/auth/reset/")
                 .send({ token: `${ await token() }`, "password": "test password reset" });
-            console.log("this is the token for password reset", await token())
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("Successfully updated user info");
         });

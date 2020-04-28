@@ -251,16 +251,16 @@ To get the server running locally:
 
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
-| PUT    | `/api/:userId/library`           | all users           | Returns updated                                           |
-# Body (some optional, some required)
-```js
+| Patch    | `/api/:userId/library`           | all users           | updates an aspect of a requested user book, returns updated book                                          |
+# Body (some optional, must send at least one option besides bookId)
+```json
 {
-  bookId: "INTEGER Foreign key, from books (required)",
-  readingStatus: "INTEGER optional, if not updating, set it to whatever it was set to or null",
-  favorite: "optional, can be null",
-  dateStarted: "optional, can be null otherwise STRING MM/DD/YYYY",
-  dateEnded: "optional, can be null otherwise STRING MM/DD/YYYY",
-  userRating: "optional, can be null otherwise DECIMAL"
+  "bookId": "INTEGER Foreign key, from books (required)",
+  "readingStatus": "INTEGER optional",
+  "favorite": "BOOLEAN optional",
+  "dateStarted": "STRING MM/DD/YYYY optional",
+  "dateEnded": "STRING MM/DD/YYYY optional",
+  "userRating": "DECIMAL optional"
 }
 ```
 ```
@@ -328,7 +328,7 @@ Returns the body of the request with a the primary key (integer) for the book in
 | Method | Endpoint                        | Access Control | Description                                   |
 | ------ | ------------------------------- | -------------- | --------------------------------------------- |
 | GET    | `/api/shelves/user/:userId`     | all users      | Returns all user's shelves                    |
-| GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf               |
+| GET    | `/api/shelves/:shelfId`         | all users      | Returns a user's selected shelf, containing all of the books on that shelf               |
 | DELETE | `/api/shelves/:shelfId`         | all users      | Return deleted shelf id                       |
 | POST   | `/api/shelves/user/:userId`     | all users      | Returns an empty shelf                        |
 # Body Required for POST
@@ -355,11 +355,10 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 | Method | Endpoint                                                      | Access Control | Description                                   |
 | ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
-| DELETE | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book id                                |
-| POST   | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
-| PUT    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return shelf object with book object in shelf |
-| GET    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Return book                                   |
-| GET    | `/api/booksonshelf/user/:userId/shelves/:shelfId/allbooks`    | all users      | Returns all books on one user shelf           |
+| DELETE | `/api/booksonshelf/shelves/:shelfId/:bookId`                          | all users      | Returns deleted book id                                |
+| POST   | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Returns shelf object with book object in shelf |
+| PUT    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Returns updated shelf id and the book id newly associated with it |
+| GET    | `/api/booksonshelf/shelves/:shelfId`                          | all users      | Returns all books on a requested shelf    |
 | GET    | `/api/booksonshelf/user/:userId/shelves/allbooks`             | all users      | Returns all user's shelves with the books     |
 
 # Body Required 
@@ -374,9 +373,10 @@ Returns the body of the request with a the primary key (integer) for the book in
 -- POST `/api/booksonshelf/shelves/:shelfId`
 ```js
 {
-  book: OBJECT,
+  book: { book },
   readingStatus: INTEGER,
-  favorite: BOOLEAN
+  favorite: BOOLEAN,
+  userRating: DECIMAL
 }
 ```
 

@@ -36,7 +36,7 @@ router.get("/:userId/library/:bookId", (req, res) => {
 
 // MARK: -- PUT
 // MARK: -- PUT in list page, for when searching and/or in user library,
-router.put("/:userId/library", (req, res) => {
+router.patch("/:userId/library", (req, res) => {
   const userId = req.params.userId
   const bookId = req.body.bookId
 
@@ -60,7 +60,7 @@ router.put("/:userId/library", (req, res) => {
       if(updated == undefined) { 
         res.status(400).json({ message: "cannot update book, not found in library" })
       } else {
-        res.status(201).json(updated)
+        res.status(201).json({ message: "user book updated successfully" })
       }
     }).catch(({ name, message, stack }) => res.status(500).json({ name, message, stack }))
   });
@@ -80,9 +80,9 @@ router.delete("/:userId/library", (req, res) => {
       } else {
         BooksOnAShelf.removeAll(bookId, userId).then(removed => {
           if (removed.length > 0){
-            res.status(204).json({message: "book deleted from user shelf and library"})
+            res.status(200).json({message: "book deleted from user library"})
           } else {
-            res.status(204).json({message: "book deleted from user library"})
+            res.status(200).json({message: "book deleted from user library"})
           }
         }).catch(({ name, message, stack }) => res.status(404).json({ error: "error removing book from shelf", name, message, stack }))
       } 
@@ -121,7 +121,7 @@ router.post("/:userId/library", (req, res) => {
           });
         } else {
           // MARK: -- user already has the book in their user library
-          res.status(200).json({ message: "Book already exist in your library" });
+          res.status(400).json({ message: "Book already exists in user library" });
         }
       }).catch(({ name, message, stack }) => res.status(500).json({ error: "Error in userbook posting", name, message, stack }));
   } else {
