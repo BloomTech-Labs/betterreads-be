@@ -9,7 +9,7 @@ describe("user-genre-router.js", () => {
         it("returns 201 created and the created genre", async () => {
             const rand = await Math.random().toFixed(3);
             const response = await request(server).post("/api/genre")
-            .send({ "genreName": `test genre ${ rand }`, "userId": 1 })
+            .send({ "genreName": `test genre ${ rand }`, "userId": 20 })
             .set({ authorization: await getToken() });
             
             expect(response.status).toBe(201);
@@ -32,10 +32,9 @@ describe("user-genre-router.js", () => {
             const res = await request(server).get("/api/genre/20").set({ authorization: await getToken() });
             const genres = res.body 
             const last = genres[genres.length - 1];
-            const newToken = await getToken();
             const response = await request(server).put(`/api/genre/20/${ last.id }`)
                 .send({ "genreName": "test of put" })
-                .set({ authorization: `${ token }` });
+                .set({ authorization: `${ await getToken() }` });
                 
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("genre updated successfully");
@@ -44,11 +43,12 @@ describe("user-genre-router.js", () => {
     
     describe("DELETE to /api/genre/:userId/:genreId", () => {
         it("Returns 200 ok and a message", async () => {
-            const token = await getToken();
-            const res = await request(server).get("/api/genre/20").set({ authorization: await getToken() });
+            const res = await request(server).get("/api/genre/20")
+                .set({ authorization: await getToken() });
             const genres = res.body 
             const last = genres[genres.length - 1];
-            const response = await request(server).delete(`/api/genre/20/${ last.id }`).set({ authorization: token });
+            const response = await request(server).delete(`/api/genre/20/${ last.id }`)
+                .set({ authorization: await getToken() });
             
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("genre deleted successfully");    
