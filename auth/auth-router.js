@@ -64,13 +64,12 @@ router.get(
   passport.authenticate("google", {
     scope: ["profile", "email"],
     prompt: "select_account",
-  })
+  });
 );
 
 router.get(
   "/google/redirect",
   passport.authenticate("google", { failureRedirect: API_FAILURE }), 
-  restricted,
   socialMediaTokenGenerator,
 //   (request, response) => {
 //     response.redirect(API_SUCCESS);
@@ -86,7 +85,6 @@ router.get(
 router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { failureRedirect: API_FAILURE }), 
-  restricted,
   socialMediaTokenGenerator
 //   (request, response) => {
 //     response.redirect(API_SUCCESS);

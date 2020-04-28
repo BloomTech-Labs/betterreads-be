@@ -18,5 +18,5 @@ module.exports = function tokenGenerator(req, res){
         expiresIn: "24h"
     }
     // return jwt.sign(payload, secret, options)
-    res.redirect("http://localhost:3000?token=" + jwt.sign(payload, secret, options));
+    res.redirect(`${ process.env.SM_REDIRECT }?token=` + jwt.sign(payload, secret, options));
 };
