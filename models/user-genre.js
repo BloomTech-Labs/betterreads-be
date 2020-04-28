@@ -29,11 +29,11 @@ function add(genre) {
   function update(updatedGenre, userId, genreId) {
     return db("userGenre")
     .update(updatedGenre)
-    .where({userId} && {genreId})
+    .where({ userId } && { id:genreId })
 }
 
 function remove(userId, genreId) {
     return db("userGenre")
-        .where({userId} && {genreId})
+        .where({ userId } && { id: genreId})
 		.del();
 }

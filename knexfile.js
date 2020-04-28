@@ -5,7 +5,8 @@ const connect = (database_name) => ({
 	host: process.env.HOST,
 	user: process.env.DB_USER,
 	password: process.env.PASSWORD,
-	database: database_name
+    database: database_name,
+    pool: { min: 0, max: 100 }
 })
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
 		connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
-			max: 10
+			max: 100
 		},
 		migrations: {
 			tableName: "./database/migrations"

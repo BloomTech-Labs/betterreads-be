@@ -31,7 +31,7 @@ router.post("/", (req, res) => {
 					.then(book => res.status(201).json({ message: "Added book to our api", book: book }))
 					.catch(({ name, message, stack }) => res.status(500).json({ message: "Book not added", name, message, stack }));
 			} else {
-				res.status(200).json(bk);
+				res.status(400).json({ error: "Book already exists" });
 			}
 		})
 		.catch(({ name, message, stack }) => res.status(500).json({ error: "Error, something went wrong", name, message, stack }));

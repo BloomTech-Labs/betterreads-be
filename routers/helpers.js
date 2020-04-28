@@ -27,7 +27,7 @@ module.exports = {
   // MARK: -- UserBooks helper (in routers)
   addToUserBooks: async function(req, res, Model, userbookObject) {
     await Model.add(userbookObject)
-      .then(added => res.status(201).json(added) )
+      .then(added => res.status(201).json({ message: "book added successfully to user library", added }) )
       .catch(({ name, message, stack }) => res.status(500).json({ error: "Error in posting userbook", name, message, stack } ) )
   },
 
@@ -41,7 +41,7 @@ module.exports = {
           if ((bkId, shelfId)) {
             const bookObj = { bookId: bkId, shelfId: shelfId }
             Model.addBooks(bookObj)
-                 .then(book => res.status(200).json({ book, message: "book added to user-shelf" }))
+                 .then(book => res.status(201).json({ book, message: "book successfully added to user shelf" }))
                  .catch(({ name, message, stack }) => res.status(400).json({ 
                     error: "error in adding book to shelf. Book may already exist on shelf.", name, message, stack }
                   ))

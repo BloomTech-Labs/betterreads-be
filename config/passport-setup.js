@@ -5,24 +5,8 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/users");
+const tokenGenerator = require("../auth/tokenGenerator");
 
-function tokenGenerator(user){
-    const payload = {
-        subject: user.id,
-        username: user.username,
-        role: user.role || "user",
-        fullName: user.fullName,
-        emailAddress: user.emailAddress,
-        image: user.image,
-        googleID: user.googleID,
-        facebookID: user.facebookID
-    }
-    const secret = "This is the most secretest secret to ever be secretly secret....... secret."
-    const options = {
-        expiresIn: "24h"
-    }
-    return jwt.sign(payload, secret, options)
-}
 passport.serializeUser((user, done) => {
 	done(null, user.id);
 });
@@ -37,7 +21,9 @@ passport.use(
 	new GoogleStrategy({ 
 			clientID: process.env.GOOGLE_CLIENT_ID, 
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-			callbackURL: process.env.GOOGLE_CALLBACK || "http://localhost:5000/api/auth/google/redirect"
+            callbackURL: 
+            // process.env.GOOGLE_CALLBACK || 
+             "https://api.readrr.app/api/auth/google/redirect"
 		},
 		(accessToken, refreshToken, profile, done) => {
 			const userProfile = {
@@ -51,10 +37,13 @@ passport.use(
 				existingUser => {
 					if (existingUser) {
                         console.log(existingUser);
-                        const token = tokenGenerator(existingUser);
+                        const token = tokenGenerator("this is existingUser: ", existingUser);
+                        console.log("this is the token: ", token);
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
+                            console.log("this is newUser: ", newUser);
+                            console.log("this is the token : ", token);
                             const token = tokenGenerator(newUser[0])
 							done(null, newUser[0]);
 						});
@@ -67,7 +56,7 @@ passport.use(
 
 passport.use(
 	new FacebookStrategy({
-			clientID: process.env.FACEBOOK_CLIENT_ID,
+			 clientID: process.env.FACEBOOK_CLIENT_ID,
 			clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 			callbackURL: process.env.FACEBOOK_CALLBACK || "https://api.readrr.app/api/auth/facebook/redirect",
 			profileFields: ["id", "displayName", "photos", "email"]
@@ -83,11 +72,15 @@ passport.use(
 			User.findBy({ emailAddress: userProfile.emailAddress }).then(
 				existingUser => {
 					if (existingUser) {
+                        console.log("this is existing user", existingUser)
                         const token = tokenGenerator(existingUser);
+                        console.log("this is the token: ", token)
 						done(null, token);
 					} else {
 						User.add(userProfile).then(newUser => {
+                            console.log("this is newUser: ", newUser);
                             const token = tokenGenerator(newUser[0]);
+                            console.log("this is the token: ", token)
 							done(null, token);
 						});
 					}
