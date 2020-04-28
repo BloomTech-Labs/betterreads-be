@@ -31,22 +31,24 @@ router.get("/:shelfId", (req, res) => {
 });
 
 router.put("/:shelfId", (req, res) => {
-  const shelfId = req.params.shelfId;
-  const shelfName = req.body.shelfName;
-  const isPrivate = req.body.isPrivate;
-
-  const updatedShelfobj = {
-    id: Number(shelfId),
-    shelfName: shelfName,
-    isPrivate: isPrivate
-  };
+    const shelfId = req.params.shelfId;
+    const shelfName = req.body.shelfName;
+    const isPrivate = req.body.isPrivate;
+    
+    const updatedShelfobj = {
+        id: Number(shelfId),
+        shelfName: shelfName,
+        isPrivate: isPrivate
+    };
 
   Shelves.findBy(shelfId).then(shelf => {
     if (shelf.length > 0) {
       const shelfId = shelf[0].shelfId;
       Shelves.update(updatedShelfobj, shelfId)
         .then(updatedShelf => {
-          res.status(200).json(updatedShelf);
+            if(updatedShelf){
+                res.status(201).json({ message: "updated successfully"});
+            } else { res.status(500).json({ error: "error updating" }) }
         })
         .catch(({ name, message, stack }) => {
           res.status(500).json({ "error": "shelf not updated", name, message, stack });
@@ -64,7 +66,7 @@ router.delete("/:shelfId", (req, res) => {
       const id = shelf[0].shelfId;
       Shelves.remove(id)
         .then(deletedShelf => {
-          res.status(200).json(deletedShelf);
+          res.status(200).json({ message: "shelf deleted successfully" });
         })
         .catch(({ name, message, stack }) => {
           res.status(500).json({ message: "Could not remove shelf", name, message, stack });

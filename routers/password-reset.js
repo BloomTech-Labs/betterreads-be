@@ -3,21 +3,10 @@ const jwt = require("jsonwebtoken");
 const mailgun = require("mailgun-js")({ apiKey: process.env.MAILGUN_API_KEY, domain: "sandbox106f22b1455342c49b08c0b8f06b9251.mailgun.org" });
 const User = require("../models/users");
 const bcrypt = require("bcryptjs")
-
-const jwtSecret = require("../config/secrets");                                         
+                                        
 const passwordResetLink = process.env.PASSWORD_RESET_LINK;
-const authorize = require("../auth/authPasswordResetToken")
-
-function tokenGenerator(user){
-    const payload = {
-        email: user.email,
-    }
-    const secret = jwtSecret.jwtSecret2
-    const options = {
-        expiresIn: "15m"
-    }
-    return jwt.sign(payload, secret, options)
-}
+const authorize = require("../auth/authPasswordResetToken");
+const tokenGenerator = require("./passwordResetTokenGenerator");
 
 router.post("/requestreset", (req, res) => {
     const user = { email: req.body.email };

@@ -6,12 +6,19 @@ module.exports = {
 	returnShelfId,
 	add,
 	update,
-	remove
+    remove,
+    // findShelfWBooks
 };
 
 function findBy(id) {
 	return db("userShelves").where({ id }).select("id as shelfId", "userId", "shelfName", "isPrivate");
 }
+
+// function findShelfWBooks(shelfId){
+//     return db.from("userShelves")
+//         .innerJoin("userBooks", "userShelves.userId", "userBooks.userId")
+//         .where("userShelves.id", shelfId)
+// }
 
 function findByUser(id) {
 	return db("userShelves").where({ userId: id }).select("id as shelfId", "userId", "shelfName", "isPrivate");

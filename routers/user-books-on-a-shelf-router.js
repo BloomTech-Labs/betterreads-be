@@ -53,12 +53,12 @@ router.post("/shelves/:shelfId", (req, res) => {
   }).catch(({ name, message, stack }) => res.status(404).json({ error: "could not find shelf", name, message, stack }));
 });
 
-router.delete("/shelves/:shelfId", (req, res) => {
+router.delete("/shelves/:shelfId/:bookId", (req, res) => {
   const shelfId = req.params.shelfId;
-  const bookId = req.body.bookId;
+  const bookId = req.params.bookId;
   if ((bookId, shelfId)) {
     BooksOnShelf.remove(bookId, shelfId)
-      .then(deleted => res.status(200).json({ message: "book removed from shelf", deleted: deleted }))
+      .then(deleted => res.status(200).json({ message: "book removed from shelf" }))
       .catch(({ name, message, stack }) => res.status(500).json({ error: "error in removing book from shelf", name, message, stack }));
   } else {
     res.status(400).json({ message: "Could not delete book on shelf" });
@@ -74,7 +74,7 @@ router.put("/shelves/:shelfId", (req, res) => {
     BooksOnShelf.update(bookId, shelfId, newShelfId)
       .then(updated => {
         if (updated[0].id) {
-          res.status(200).json({ message: "book moved to new shelf", ShelfId: updated });
+          res.status(200).json({ message: "book moved to new shelf", newShelfId: updated[0].shelfId });
         } else {
           res.status(500).json({ message: "check bookId, shelfId and newShelfId" });
         }
@@ -90,23 +90,9 @@ router.put("/shelves/:shelfId", (req, res) => {
 
 router.get("/shelves/:shelfId", (req, res) => {
   const shelfId = req.params.shelfId;
-  const bookId = req.body.bookId;
   if (shelfId) {
-    BooksOnShelf.findBook(shelfId, bookId)
-      .then(book => res.status(200).json(book))
-      .catch(({ name, message, stack }) => res.status(404).json({ error: "error in getting books from the shelf", anem, message, stack }));
-  } else {
-    res.status(404).json({ message: "no shelf id exist" });
-  }
-});
-
-router.get("/user/:userId/shelves/:shelfId/allbooks", (req, res) => {
-  const { shelfId, userId } = req.params;
-  if (shelfId) {
-    BooksOnShelf.findAllBooks(shelfId, userId)
-      .then(books => {
-          res.status(200).json(books);
-      })
+    BooksOnShelf.findBooksIn(shelfId)
+      .then(books => res.status(200).json(books))
       .catch(({ name, message, stack }) => res.status(404).json({ error: "error in getting books from the shelf", name, message, stack }));
   } else {
     res.status(404).json({ message: "no shelf id exist" });

@@ -47,7 +47,7 @@ router.put("/:userId/:genreId", (req, res) => {
     const genreId = req.params.genreId;
     
     Genre.findByUserId(userId).then(genres => {
-        const userGenreArray = genres.filter(genre => genre.genreId == genreId);
+        const userGenreArray = genres.filter(genre => genre.id == genreId);
         const userGenre = userGenreArray[0];
         if (userGenre) {
             const updatedGenre = { ...userGenre, genreName: updatedGenreName }
@@ -70,7 +70,7 @@ router.delete("/:userId/:genreId", (req, res) => {
     const userId = req.params.userId;
     const genreId = req.params.genreId;
     Genre.findByUserId(userId).then(genres => {
-        if (genres.map(genre => genre.genreId == genreId).includes(true)) {
+        if (genres.map(genre => genre.id == genreId).includes(true)) {
             Genre.remove(userId, genreId)
                 .then(genre => {
                     res.status(200).json({
@@ -89,5 +89,4 @@ router.delete("/:userId/:genreId", (req, res) => {
         }
     });
 });
-
 module.exports = router;
