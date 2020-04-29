@@ -8,86 +8,83 @@ const User = require("../models/users");
 const tokenGenerator = require("../auth/tokenGenerator");
 
 passport.serializeUser((user, done) => {
-	done(null, user.id);
+  console.log("user: ", user);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-	User.findBy({ id: id }).then(user => {
-		done(null, user);
-	});
+  User.findBy({ id: id }).then((user) => {
+    done(null, user);
+  });
 });
 
 passport.use(
-	new GoogleStrategy({ 
-			clientID: process.env.GOOGLE_CLIENT_ID, 
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-            callbackURL: 
-            // process.env.GOOGLE_CALLBACK || 
-             "https://api.readrr.app/api/auth/google/redirect"
-		},
-		(accessToken, refreshToken, profile, done) => {
-			const userProfile = {
-				fullName: profile.displayName,
-				emailAddress: profile.emails[0].value,
-				image: profile.photos[0].value,
-				googleID: profile.id
-			};
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL:
+        process.env.GOOGLE_CALLBACK ||
+        "https://api.readrr.app/api/auth/google/redirect",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const userProfile = {
+        fullName: profile.displayName,
+        emailAddress: profile.emails[0].value,
+        image: profile.photos[0].value,
+        googleID: profile.id,
+      };
 
-			User.findBy({ emailAddress: userProfile.emailAddress }).then(
-				existingUser => {
-					if (existingUser) {
-                        console.log(existingUser);
-                        const token = tokenGenerator("this is existingUser: ", existingUser);
-                        console.log("this is the token: ", token);
-						done(null, token);
-					} else {
-						User.add(userProfile).then(newUser => {
-                            console.log("this is newUser: ", newUser);
-                            console.log("this is the token : ", token);
-                            const token = tokenGenerator(newUser[0])
-							done(null, newUser[0]);
-						});
-					}
-				}
-			);
-		}
-	)
+      User.findBy({ emailAddress: userProfile.emailAddress }).then(
+        (existingUser) => {
+          if (existingUser) {
+            const token = tokenGenerator(existingUser);
+            done(null, existingUser);
+          } else {
+            User.add(userProfile).then((newUser) => {
+              const token = tokenGenerator(newUser[0]);
+              done(null, newUser[0]);
+            });
+          }
+        }
+      );
+    }
+  )
 );
 
 passport.use(
-	new FacebookStrategy({
-			 clientID: process.env.FACEBOOK_CLIENT_ID,
-			clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-			callbackURL: process.env.FACEBOOK_CALLBACK || "https://api.readrr.app/api/auth/facebook/redirect",
-			profileFields: ["id", "displayName", "photos", "email"]
-		},
-		(accessToken, refreshToken, profile, done) => {
-            const userProfile = {
-				fullName: profile.displayName,
-				emailAddress: profile.emails[0].value,
-				image: profile.photos[0].value,
-				facebookID: profile.id
-			};
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL:
+        process.env.FACEBOOK_CALLBACK ||
+        "https://api.readrr.app/api/auth/facebook/redirect",
+      profileFields: ["id", "displayName", "photos", "email"],
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const userProfile = {
+        fullName: profile.displayName,
+        emailAddress: profile.emails[0].value,
+        image: profile.photos[0].value,
+        facebookID: profile.id,
+      };
 
-			User.findBy({ emailAddress: userProfile.emailAddress }).then(
-				existingUser => {
-					if (existingUser) {
-                        console.log("this is existing user", existingUser)
-                        const token = tokenGenerator(existingUser);
-                        console.log("this is the token: ", token)
-						done(null, token);
-					} else {
-						User.add(userProfile).then(newUser => {
-                            console.log("this is newUser: ", newUser);
-                            const token = tokenGenerator(newUser[0]);
-                            console.log("this is the token: ", token)
-							done(null, token);
-						});
-					}
-				}
-			);
-		}
-	)
+      User.findBy({ emailAddress: userProfile.emailAddress }).then(
+        (existingUser) => {
+          if (existingUser) {
+            const token = tokenGenerator(existingUser);
+            done(null, existingUser);
+          } else {
+            User.add(userProfile).then((newUser) => {
+              const token = tokenGenerator(newUser[0]);
+              done(null, newUser[0]);
+            });
+          }
+        }
+      );
+    }
+  )
 );
 //Unneeded extra work, no more secure than previous methods
 // passport.use(

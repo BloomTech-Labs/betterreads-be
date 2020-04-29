@@ -9,53 +9,59 @@ const tokenGenerator = require("./tokenGenerator");
 const socialMediaTokenGenerator = require("./socialMediaTokenGenerator");
 
 const userObject = (user) => ({
-	id: user.id,
-	fullName: user.fullName,
-	emailAddress: user.emailAddress,
-	image: user.image,
-	googleID: user.googleID,
-	facebookID: user.facebookID
+  id: user.id,
+  fullName: user.fullName,
+  emailAddress: user.emailAddress,
+  image: user.image,
+  googleID: user.googleID,
+  facebookID: user.facebookID,
 });
 
-
-
-const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure"
-const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success"
+const API_FAILURE = process.env.FAIL_URL || "http://localhost:3000/failure";
+const API_SUCCESS = process.env.SUCCESS_URL || "http://localhost:3000/success";
 
 // MARK: -- local
 router.post("/signup", (request, response) => {
-    const user = request.body;
-	const hash = bcrypt.hashSync(request.body.password, 10);
-	user.password = hash;
-	User.add(user)
-		.then(res => {
-            const token = tokenGenerator(user);
-			response.status(201).json({
-				message: "successfully registered user",
-                user: userObject(user),
-                token
-			});
-        })
-		.catch(({ name, message, stack }) => response.status(500).json({ error: "error registering user", name, message, stack }));
+  const user = request.body;
+  const hash = bcrypt.hashSync(request.body.password, 10);
+  user.password = hash;
+  User.add(user)
+    .then((res) => {
+      const token = tokenGenerator(user);
+      response.status(201).json({
+        message: "successfully registered user",
+        user: userObject(user),
+        token,
+      });
+    })
+    .catch(({ name, message, stack }) =>
+      response
+        .status(500)
+        .json({ error: "error registering user", name, message, stack })
+    );
 });
 
 router.post("/signin", (request, response) => {
-	const { emailAddress, password } = request.body;
-	User.findBy({ emailAddress })
-		.then(res => {
-			if (res && bcrypt.compareSync(password, res.password)) {
-                bcrypt.compareSync(password, res.password);
-                token = tokenGenerator(res);
-				response.status(200).json({
-                    message: "successfully logged in",
-                    token,
-					user: userObject(res)
-                });
-			} else {
-				response.status(400).json({ message: "invalid credentials" });
-			}
-		})
-		.catch(({ name, message, stack }) => response.status(500).json({ error: "error logging in user", name, message, stack }));
+  const { emailAddress, password } = request.body;
+  User.findBy({ emailAddress })
+    .then((res) => {
+      if (res && bcrypt.compareSync(password, res.password)) {
+        bcrypt.compareSync(password, res.password);
+        token = tokenGenerator(res);
+        response.status(200).json({
+          message: "successfully logged in",
+          token,
+          user: userObject(res),
+        });
+      } else {
+        response.status(400).json({ message: "invalid credentials" });
+      }
+    })
+    .catch(({ name, message, stack }) =>
+      response
+        .status(500)
+        .json({ error: "error logging in user", name, message, stack })
+    );
 });
 
 // MARK: -- google
@@ -69,12 +75,11 @@ router.get(
 
 router.get(
   "/google/redirect",
-  passport.authenticate("google", { failureRedirect: API_FAILURE }), 
-  restricted,
-  socialMediaTokenGenerator,
-//   (request, response) => {
-//     response.redirect(API_SUCCESS);
-//   }
+  passport.authenticate("google", { failureRedirect: API_FAILURE }),
+  socialMediaTokenGenerator
+  //   (request, response) => {
+  //     response.redirect(API_SUCCESS);
+  //   }
 );
 
 // MARK: -- facebook
@@ -85,12 +90,11 @@ router.get(
 
 router.get(
   "/facebook/redirect",
-  passport.authenticate("facebook", { failureRedirect: API_FAILURE }), 
-  restricted,
+  passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
   socialMediaTokenGenerator
-//   (request, response) => {
-//     response.redirect(API_SUCCESS);
-//   }
+  //   (request, response) => {
+  //     response.redirect(API_SUCCESS);
+  //   }
 );
 
 // router.get(
