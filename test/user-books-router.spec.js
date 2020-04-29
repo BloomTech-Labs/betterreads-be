@@ -57,7 +57,7 @@ describe("user-books-router.js", () => {
                 .send({ 
                     "book": 
                     {
-                        "id": await Math.random().toFixed(0) * 100 ,
+                        "id": await Math.random().toFixed(0) * 100,
                         "googleId": `${ await Math.random().toFixed(4) }`,
                         "title": "test",
                         "authors": "test",

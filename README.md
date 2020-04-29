@@ -398,13 +398,30 @@ Returns the body of the request with a the primary key (integer) for the book in
 ## Recommendations
 | Method | Endpoint                                                      | Access Control | Description                                   |
 | ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
-| GET | `/api/` | all users | Returns recommendations based on the requested user's library |
+| GET | `/api/:userId/recommendations` | all users | Returns recommendations based on the requested user's library |
 
 # Returns
 ```json
     {
         "message": "recommendations retrieved successfully",
-        "recommendations": [ googleId, googleId,... ]
+        "recommendations": { recommendations }
+    }
+```
+| Method | Endpoint                                                      | Access Control | Description                                   |
+| ------ | ------------------------------------------------------------- | -------------- | --------------------------------------------- |
+| POST | `/api/:userId/recommendations` | all users | Returns recommendations based on the requested books
+
+## Requires
+```json
+    {
+        "books": [ array of books ]
+    }
+```
+# Returns
+```json
+    {
+        "message": "recommendations retrieved successfully",
+        "recommendations": { recommendations }
     }
 ```
 
