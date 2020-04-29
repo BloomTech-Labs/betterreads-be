@@ -1,45 +1,74 @@
 # The name of the workflow
-    name: build
-    
-    # What conditions trigger the workflow
-    #  In this case, all pushes and pull requests
-    on: 
-      push:
-        branches: [ master ]
-      pull_request:
-        branches: [ master ]
-    
-    # The jobs that will be run, usually in parallel
-    jobs:
-      # A job to generate and publish code coverage
-      coverage:
-        # A more descriptive name of the job
-        name: Test and publish test coverage
-    
-        # The OS on which the job will run
-        runs-on: ubuntu-latest
-    
-        # The steps for the job, executed in sequence
-        steps:
-          
-          # A GitHub action for checking out the current branch
-          - uses: actions/checkout@master
-    
-          # A GitHub action to setup Node.js
-          - uses: actions/setup-node@master
-            with:
-              node-version: "12"
-    
-          # Run the NPM install command before proceeding
-          - run: npm install
-    
-          # A GitHub action for running tests and publishing coverage
-          - uses: paambaati/codeclimate-action@v2.4.0
-            env:
-    
-              # An environment variable, the value is a GitHub repo secret
-              CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
-              NODE_ENV: ${{ secrets.NODE_ENV }}
-            with:
-              # Run our `coverage` command from our `package.json`
-              coverageCommand: npm run coverage
+name: build
+
+# What conditions trigger the workflow
+#  In this case, all pushes and pull requests
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+# The jobs that will be run, usually in parallel
+jobs:
+  # A job to generate and publish code coverage
+  coverage:
+    # A more descriptive name of the job
+    name: Test and publish test coverage
+
+    # The OS on which the job will run
+    runs-on: ubuntu-latest
+
+    # The steps for the job, executed in sequence
+    steps:
+      # A GitHub action for checking out the current branch
+      - uses: actions/checkout@master
+
+      # A GitHub action to setup Node.js
+      - uses: actions/setup-node@master
+        with:
+          node-version: "12"
+
+      # Run the NPM install command before proceeding
+      - run: npm install
+
+      # A GitHub action for running tests and publishing coverage
+      - uses: paambaati/codeclimate-action@v2.4.0
+        env:
+          # An environment variable, the value is a GitHub repo secret
+          CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          DB_ENV: ${{ secrets.DB_ENV }}
+          HOST: ${{ secrets.HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          DB: ${{ secrets.DB }}
+          TEST_DB: ${{ secrets.TEST_DB }}
+          SESSION_NAME: ${{ secrets.NODE_ENV }}
+          SESSION_SECRET: ${{ secrets.NODE_ENV }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          FACEBOOK_CLIENT_ID: ${{ secrets.FACEBOOK_CLIENT_ID }}
+          FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          FAIL_URL: ${{ secrets.FAIL_URL }}
+          SUCCESS_URL: ${{ secrets.SUCCESS_URL }}
+          GOOGLE_CALLBACK: ${{ secrets.GOOGLE_CALLBACK }}
+          FACEBOOK_CALLBACK: ${{ secrets.FACEBOOK_CALLBACK }}
+          RDS_HOSTNAME: ${{ secrets.HOST }}
+          DATA_SCIENCE: ${{ secrets.DATA_SCIENCE }}
+          DATE_SCIENCE_TOTAL: ${{ secrets.DATE_SCIENCE_TOTAL }}
+          HOST_URL: ${{ secrets.HOST_URL }}
+          ORG_URL: ${{ secrets.ORG_URL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REGISTRATION_TOKEN: ${{ secrets.REGISTRATION_TOKEN }}
+          USER_PROFILE_TOKEN: ${{ secrets.USER_PROFILE_TOKEN }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          PASSWORD_RESET_LINK: ${{ secrets.PASSWORD_RESET_LINK }}
+          SM_REDIRECT: ${{ secrets.SM_REDIRECT }}
+        with:
+          # Run our `coverage` command from our `package.json`
+          coverageCommand: npm run coverage
