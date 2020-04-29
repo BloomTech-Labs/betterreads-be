@@ -72,7 +72,7 @@ function findByUserId(userId) {
 			"b.googleId",
 			"b.title",
 			"b.authors",
-			"ub.readingStatus",
+			// "ub.readingStatus",
 			"ub.favorite",
 			"b.categories",
 			"b.thumbnail",
