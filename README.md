@@ -693,3 +693,5 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See 📱💻🖱[Frontend Documentation](https://github.com/Lambda-School-Labs/betterreads-frontend) for details on the frontend of our project.
 See 🔬⚗️🧪[Data Science Documentation](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
+
+This is a placeholder edit, in order to merge with master and trigger a coverage test.
