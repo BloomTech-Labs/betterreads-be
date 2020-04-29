@@ -29,7 +29,7 @@ function findByUser(id) {
 }
 
 function returnShelfId(userId) {
-  return db("userShelves").where({ userId }).select("id");
+  return db("userShelves").where({ userId: userId }).select("id");
 }
 
 async function add(shelf) {

@@ -38,7 +38,7 @@ function findAllBooks(shelfId, userId) {
       "bs.shelfId",
       "s.userId",
       "s.shelfName",
-      // "ub.userRating",
+      "ub.userRating",
       "ub.readingStatus",
       "ub.favorite"
     )
