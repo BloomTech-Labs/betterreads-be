@@ -25,9 +25,11 @@ router.post("/signup", (request, response) => {
   const user = request.body;
   const hash = bcrypt.hashSync(request.body.password, 10);
   user.password = hash;
+  console.log(user)
   User.add(user)
-    .then((res) => {
-      const token = tokenGenerator(user);
+    .then(([res]) => {
+        console.log(res)
+      const token = tokenGenerator(res);
       response.status(201).json({
         message: "successfully registered user",
         user: userObject(user),
@@ -45,6 +47,7 @@ router.post("/signin", (request, response) => {
   const { emailAddress, password } = request.body;
   User.findBy({ emailAddress })
     .then((res) => {
+        console.log(res)
       if (res && bcrypt.compareSync(password, res.password)) {
         bcrypt.compareSync(password, res.password);
         token = tokenGenerator(res);

@@ -43,23 +43,23 @@ var corsOptions = {
 }
 server.use(cors(corsOptions));
 
-// MARK: -- session and cookie configuration
-server.use(
-	session({
-		name: process.env.SESSION_NAME,
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		cookie: {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 7,
-			secure: false
-		},
-		store: new knexSessionStore({
-			knex: config
-		})
-	})
-);
+// // MARK: -- session and cookie configuration
+// server.use(
+// 	session({
+// 		name: process.env.SESSION_NAME,
+// 		secret: process.env.SESSION_SECRET,
+// 		resave: false,
+// 		saveUninitialized: false,
+// 		cookie: {
+// 			httpOnly: true,
+// 			maxAge: 1000 * 60 * 60 * 24 * 7,
+// 			secure: false
+// 		},
+// 		store: new knexSessionStore({
+// 			knex: config
+// 		})
+// 	})
+// );
 
 // MARK: -- data science
 server.get(process.env.DATA_SCIENCE || "/api/ds/:userId", (req, res) => {
