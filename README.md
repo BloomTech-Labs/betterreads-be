@@ -251,16 +251,16 @@ To get the server running locally:
 
 | Method | Endpoint                         | Access Control      | Description                                               |
 | ------ | -------------------------------- | ------------------- | --------------------------------------------------------- |
-| Patch    | `/api/:userId/library`           | all users           | updates an aspect of a requested user book, returns updated book                                          |
-# Body (some optional, must send at least one option besides bookId)
+| PUT    | `/api/:userId/library`           | all users           | updates an aspect of a requested user book, returns updated book                                          |
+# Body (All required)
 ```json
 {
-  "bookId": "INTEGER Foreign key, from books (required)",
-  "readingStatus": "INTEGER optional",
-  "favorite": "BOOLEAN optional",
-  "dateStarted": "STRING MM/DD/YYYY optional",
-  "dateEnded": "STRING MM/DD/YYYY optional",
-  "userRating": "DECIMAL optional"
+  "bookId": "INTEGER Foreign key, from books",
+  "readingStatus": "INTEGER",
+  "favorite": "BOOLEAN",
+  "dateStarted": "STRING MM/DD/YYYY",
+  "dateEnded": "STRING MM/DD/YYYY",
+  "userRating": "DECIMAL"
 }
 ```
 ```

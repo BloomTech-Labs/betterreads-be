@@ -36,7 +36,7 @@ router.get("/:userId/library/:bookId", (req, res) => {
 
 // MARK: -- PUT
 // MARK: -- PUT in list page, for when searching and/or in user library,
-router.patch("/:userId/library", (req, res) => {
+router.put("/:userId/library", (req, res) => {
   const userId = req.params.userId
   const bookId = req.body.bookId
 
