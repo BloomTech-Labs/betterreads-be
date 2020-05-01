@@ -120,7 +120,7 @@ To get the server running locally:
 
 | Method | Endpoint           | Access Control | Description                      |
 | ------ | ------------------ | -------------- | -------------------------------- |
-| POST | `/api/auth/reset/requestreset/` | all users | Returns a token |
+| POST | `/api/auth/reset/requestreset/` | all users | Returns a message and sends an email to the user (if the user exists) which has a url containing a token needed for the second endpoint. |
 
 # Required Body
 ```json
@@ -133,7 +133,6 @@ To get the server running locally:
 ```json
     {
         message: "Request received, a link has been sent to the requested email",
-        "token": "{ user password reset token }"
     }
 ```
 
@@ -144,7 +143,7 @@ To get the server running locally:
 # Body Requires
 ```json
     {
-        "token": "{ user password reset token}",
+        "token": "{ user password reset token from url in sent email}",
         "password": "{ user requested password }"
     }
 ```
