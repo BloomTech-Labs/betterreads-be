@@ -10,7 +10,7 @@ describe("user-books-on-a-shelf-router.js", () => {
             const response = await request(server).post("/api/booksonshelf/shelves/20")
                 .set({ authorization: await getToken() })
                 .send({ "book":  
-                {
+                    {
                     "id": 2,
                     "googleId": "-12.4797",
                     "title": "Computer",
@@ -29,7 +29,7 @@ describe("user-books-on-a-shelf-router.js", () => {
                     "textSnippet": "Corrupti qui magnam culpa.\nMinima beatae alias ipsam consequatur quaerat magni officiis ea ut.\nTempora quo est ratione fuga voluptas officiis numquam.\nMollitia id est reiciendis similique molestiae.\nNon quibusdam esse voluptas consequatur et nesciunt.",
                     "isEbook": false,
                     "averageRating": "3.00"
-                  },
+                    },
                     "readingStatus": 0,
                     "favorite": false,
                     "userRating": "3.50"
