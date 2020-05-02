@@ -25,10 +25,8 @@ router.post("/signup", (request, response) => {
   const user = request.body;
   const hash = bcrypt.hashSync(request.body.password, 10);
   user.password = hash;
-  console.log(user)
   User.add(user)
     .then(([res]) => {
-        console.log(res)
       const token = tokenGenerator(res);
       response.status(201).json({
         message: "successfully registered user",
@@ -36,18 +34,19 @@ router.post("/signup", (request, response) => {
         token,
       });
     })
-    .catch(({ name, message, stack }) =>
-      response
-        .status(500)
-        .json({ error: "error registering user", name, message, stack })
-    );
+    .catch(({ name, message, stack }) => {
+    if(message.includes("duplicate key")){
+        response.status(400).json({ error: "User already exists", name, message, stack })
+    } else {
+        response.status(500).json({ error: "error registering user", name, message, stack })
+    };
+    });
 });
 
 router.post("/signin", (request, response) => {
   const { emailAddress, password } = request.body;
   User.findBy({ emailAddress })
     .then((res) => {
-        console.log(res)
       if (res && bcrypt.compareSync(password, res.password)) {
         bcrypt.compareSync(password, res.password);
         token = tokenGenerator(res);
@@ -58,13 +57,11 @@ router.post("/signin", (request, response) => {
         });
       } else {
         response.status(400).json({ message: "invalid credentials" });
-      }
+      };
     })
-    .catch(({ name, message, stack }) =>
-      response
-        .status(500)
-        .json({ error: "error logging in user", name, message, stack })
-    );
+    .catch(({ name, message, stack }) => {
+      response.status(500).json({ error: "error logging in user", name, message, stack })
+    });
 });
 
 // MARK: -- google
@@ -80,9 +77,6 @@ router.get(
   "/google/redirect",
   passport.authenticate("google", { failureRedirect: API_FAILURE }),
   socialMediaTokenGenerator
-  //   (request, response) => {
-  //     response.redirect(API_SUCCESS);
-  //   }
 );
 
 // MARK: -- facebook
@@ -95,48 +89,6 @@ router.get(
   "/facebook/redirect",
   passport.authenticate("facebook", { failureRedirect: API_FAILURE }),
   socialMediaTokenGenerator
-  //   (request, response) => {
-  //     response.redirect(API_SUCCESS);
-  //   }
 );
-
-// router.get(
-//   "/okta",
-//   passport.authenticate("okta", { scope: ["openid", "email", "profile"] })
-// );
-
-// router.get(
-//   "/okta/redirect",
-//   passport.authenticate("okta", { failureRedirect: API_FAILURE }),
-//   (request, response) => {
-//     response.redirect(API_SUCCESS);
-//   }
-// );
-
-// MARK: -- social media only
-// router.get("/success", (request, response) => {
-//   response.status(200).json({
-//     message: "successfully fetched user object",
-//   });
-// });
-
-// // MARK: -- common
-// router.get("/signout", (request, response) => {
-// 	request.logout();
-// 	if (request.session) {
-// 		request.session.destroy(err => {
-// 			if (err) {
-// 				response.status(500)
-// 				.json({ message: "error destroying session" });
-// 			} else {
-// 				response.status(200)
-// 				.clearCookie("bibble")
-// 				.json({ message: "successfully signed out" });
-// 			}
-// 		});
-// 	} else {
-// 		response.status(204).json({ message: "session does not exist" });
-// 	}
-// });
 
 module.exports = router;

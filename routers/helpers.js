@@ -14,7 +14,6 @@ module.exports = {
   findIn: function (req, res, Action, param, where) {
     Action(param)
       .then((variable) => {
-        // console.log(variable);
         if (variable == undefined) {
           res.status(400).json({ message: `${where}: does not exist` });
         } else {
