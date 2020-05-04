@@ -95,7 +95,6 @@ router.get("/shelves/:shelfId", (req, res) => {
 // Attempts to fix sending a response before array is completely built
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const asyncForEach = async (info, callback) => {
-    console.log("For Each:  ", info.array);
     for (let i = 0; i < info.array.length; i++) {
         await callback(info.array[i], i, info.array);
     }
@@ -106,7 +105,6 @@ const asyncForEach = async (info, callback) => {
 const iterate = async (info) => {
     const temp = [];
     await asyncForEach(info, async (test) => {
-    console.log(test);
     await wait(10);
     BooksOnShelf.findAllBooks(test.id, info.user).then((books) => temp.push(books));
     await wait(10);
@@ -120,7 +118,6 @@ router.get("/user/:userId/shelves/allbooks", async (request, response) => {
     BooksOnShelf.returnEveryShelfFrom(userId)
         .then((shelves) => {
             iterate({ array: shelves, user: userId }).then((res) => {
-            console.log(res);
             response.status(200).json(res);
             });
         })

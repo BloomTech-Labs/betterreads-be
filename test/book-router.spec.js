@@ -2,68 +2,84 @@ const request = require("supertest");
 
 const server = require("../api/server");
 const books = require("../models/books");
-const getToken = require("./getToken");
 
-const randomGoogleId = async () => {
-    const num = await Math.random()
-    const float = await num.toFixed(3);
+const randomGoogleId =  () => {
+    const num =  Math.random()
+    const float =  num.toFixed(3);
     return float;
     
 }
 
-const randomTitle = async () => {
-    const num = await Math.random()
-    const float = await num.toFixed(5);
+const randomTitle =  () => {
+    const num =  Math.random()
+    const float =  num.toFixed(5);
     return float;
     
 }
 
-const randomPageNum = async () => {
-    const num = await Math.random();
-    const float = await num.toFixed(0);
+const randomPageNum =  () => {
+    const num =  Math.random();
+    const float =  num.toFixed(0);
     return float;
 }
+let token;
 
 describe("book-router.js", () => {
-    
+    beforeEach((done) => {
+        return request(server)
+            .post("/api/auth/signin")
+            .send({ "emailAddress": "test", "password": "test" })
+            .end((err, response) => {
+                token = response.body.token;
+                console.log(err);
+                done();
+            });
+    });
 describe("GET to /api/books", () => {
-
         it("returns 200 ok and an array of books", async () => {
-            
-            const response = await request(server).get("/api/books").set({ authorization: `${ await getToken() }` });
-            
-            expect(response.body).not.toBe(undefined);
-            expect(response.status).toBe(200);
-            
+            return request(server)
+                .get("/api/books")
+                .set({ authorization: token })
+                .then(response => {
+                    expect(response.body).not.toBe(undefined);
+                    expect(response.status).toBe(200);
+                })
+                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
     describe("GET to /api/books/:bookId", () => {
         it("returns status 200 and a single book", async () => {
-            const response = await request(server).get("/api/books/1").set({ authorization: `${ await getToken() }` });
-            
-            expect(response.body).not.toBe(undefined);
-            expect(response.body.id).not.toBe(undefined);
-            expect(response.body.id).toBe(1);
+            return request(server)
+                .get("/api/books/1")
+                .set({ authorization: token })
+                .then(response => {
+                    expect(response.body).not.toBe(undefined);
+                    expect(response.body.id).not.toBe(undefined);
+                    expect(response.body.id).toBe(1);
+                })
+                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
     describe("POST to /api/books", () => {
-        afterEach(async () => {
-            await books.del({ authors: "test" });
+        afterEach( () => {
+             books.del({ authors: "test" });
         })
         it("returns status 201 and a message", async () => {
-            const response = await request(server).post("/api/books").set({ authorization: `${ await getToken() }`})
+            return request(server)
+                .post("/api/books")
+                .set({ authorization: token })
                 .send({ 
-                    "googleId": `-99.${ await randomGoogleId() }`,
-                    "title": `test${ await randomTitle() }`,
+                    "googleId": `-99.${  randomGoogleId() }`,
+                    "title": `test${  randomTitle() }`,
                     "authors": "test",
                     "publisher": "test",
                     "publishedDate": "test",
                     "description": "test",
                     "isbn10": "test",
                     "isbn13": "test",
-                    "pageCount": await randomPageNum(),
+                    "pageCount":  randomPageNum(),
                     "categories": "test",
                     "thumbnail": "test",
                     "smallThumbnail": "test",
@@ -72,10 +88,12 @@ describe("GET to /api/books", () => {
                     "textSnippet": "test",
                     "isEbook": false,
                     "averageRating": "3.00"
-                });
-            
-                expect(response.body.message).toBe("Added book to our api");
-                expect(response.status).toBe(201);
+                })
+                .then(response => {
+                    expect(response.body.message).toBe("Added book to our api");
+                    expect(response.status).toBe(201);
+                })
+                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 });
