@@ -1,28 +1,42 @@
 const request = require("supertest");
 
 const server = require("../api/server");
-const getToken = require("./getToken");
+let token;
 
 describe("recommendations-router.js", () => {
-
+    
+    beforeEach((done) => {
+        return request(server)
+            .post("/api/auth/signin")
+            .send({ "emailAddress": "test", "password": "test" })
+            .end((err, response) => {
+                token = response.body.token;
+                console.log(err);
+                done();
+            });
+    });
     describe("GET to /api/:userId/recommendations", () => {
         it("returns 200 ok, a message and an array of google IDs", async () => {
-            const response = await request(server).get("/api/2/recommendations")
-                .set({ authorization: `${ await getToken() }` });
-                
-            expect(response.status).toBe(200);
-            expect(response.body.message).toBe("recommendations retrieved successfully");
-            expect(response.body.recommendations).not.toBe(undefined);
-            const key = Object.keys(response.body.recommendations.recommendations[0]);
-            expect(key[4]).toContain("googleId")
-            expect(response.body["recommendations"]["recommendations"]).toHaveLength(5);
-        }, 60000);
+            return request(server)
+                .get("/api/2/recommendations")
+                .set({ authorization: `${ token }` })
+                .then(response => {
+                    expect(response.status).toBe(200);
+                    expect(response.body.message).toBe("recommendations retrieved successfully");
+                    expect(response.body.recommendations).not.toBe(undefined);
+                    const key = Object.keys(response.body.recommendations.recommendations[0]);
+                    expect(key[4]).toContain("googleId");
+                    expect(response.body["recommendations"]["recommendations"]).toHaveLength(5);
+                })
+                .catch(({ name, message, stack }) => console.log(name, message, stack));
+            }, 60000);
     });
     
     describe("POST to /api/:userId/recommendations", () => {
         it("returns 200 ok and an array of books", async () => {
-            const response = await request(server).post("/api/20/recommendations")
-                .set({ authorization: await getToken() })
+            return request(server)
+                .post("/api/20/recommendations")
+                .set({ authorization: token })
                 .send({
                     "books":
                     [
@@ -42,11 +56,14 @@ describe("recommendations-router.js", () => {
                         "dateAdded": "2020-04-28T17:34:08.718Z",
                         "userRating": "3.50"
                         }
-                    ]});
-                
-                expect(response.status).toBe(200);
-                expect(response.body["message"]).toBe("recommendations retrieved successfully");
-                expect(response.body["recommendations"]["recommendations"]).not.toHaveLength(0);
+                    ]
+                })
+                .then(response => {
+                    expect(response.status).toBe(200);
+                    expect(response.body["message"]).toBe("recommendations retrieved successfully");
+                    expect(response.body["recommendations"]["recommendations"]).not.toHaveLength(0);
+                })
+                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 });
