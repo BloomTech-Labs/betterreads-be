@@ -1,14 +1,12 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-// const OktaStrategy = require("passport-okta-oauth").Strategy;
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/users");
 const tokenGenerator = require("../auth/tokenGenerator");
 
 passport.serializeUser((user, done) => {
-  console.log("user: ", user);
   done(null, user.id);
 });
 
@@ -80,25 +78,9 @@ passport.use(
               const token = tokenGenerator(newUser[0]);
               done(null, newUser[0]);
             });
-          }
+          };
         }
-      );
+      )
     }
   )
 );
-//Unneeded extra work, no more secure than previous methods
-// passport.use(
-//     new OktaStrategy(
-//       {
-//         audience: "OKTA_DOMAIN_HERE",
-//         clientID: "OKTA_CLIENT_ID_HERE",
-//         clientSecret: "OKTA_CLIENT_SECRET_HERE1",
-//         scope: ["openid", "email", "profile"],
-//         response_type: "code",
-//         callbackURL: "OKTA_LOGIN_REDIRECT_HERE",
-//       },
-//       (accessToken, refreshToken, profile, done) => {
-//         console.log(profile);
-//       }
-//     )
-//   );

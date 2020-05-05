@@ -56,7 +56,7 @@ describe("user-books-router.js", () => {
             const response = await request(server).post("/api/1/library")
                 .send({ 
                     "book": 
-                    {
+                        {
                         "id": await Math.random().toFixed(0) * 100,
                         "googleId": `${ await Math.random().toFixed(4) }`,
                         "title": "test",
@@ -75,7 +75,7 @@ describe("user-books-router.js", () => {
                         "textSnippet": "Quas sint et qui cum similique et. Fuga voluptas aut et repellat architecto perspiciatis nemo. Enim quis velit possimus consequatur. Minima dolores quam expedita aperiam quia labore illo ab ullam. Dolores sed quas iure eligendi nisi molestiae est.",
                         "isEbook": false,
                         "averageRating": "3.00"
-                    }, 
+                        }, 
                     "readingStatus": 0,
                     "favorite": true,
                     "userRating": "3.50" 

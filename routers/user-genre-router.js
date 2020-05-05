@@ -9,18 +9,15 @@ router.get("/:userId", (req, res) => {
         .then(genres => {
             if (genres.length < 1) {
                 res.status(400).json({ message: "Genres not found for User" });
-            } else {
-                res.status(200).json(genres);
-            }
+            } else { res.status(200).json(genres) }
         })
-        .catch(({ name, message, stack }) => {
-            res.status(500).json({ error: "error in returning data", name, message, stack });
-        });
+        .catch(({ name, message, stack }) => { res.status(500).json({ error: "error in returning data", name, message, stack })});
 });
 
 router.post("/", (req, res) => {
     const { userId, genreName } = req.body 
     const userGenreObj = { userId, genreName }
+    
     Genre.findByUserId(userId).then(genres => {
         const genre = genres.filter(genre => genre.genreName === genreName)
         if (!genres.map(genre => genre.genreName).includes(genreName)) {
@@ -29,15 +26,8 @@ router.post("/", (req, res) => {
                     const genre = userGenre[0]
                     res.status(201).json({ message: "genre added successfully", genre})
                 })
-                .catch(({ name, message, stack}) => {
-                    res.status(400).json({ failed: "failed to add user genre", name, message, stack });
-                });
-        } else {
-            res.status(400).json({
-                message:
-                   "genre already exists for the user" 
-            });
-        }
+                .catch(({ name, message, stack}) => { res.status(400).json({ failed: "failed to add user genre", name, message, stack })});
+        } else { res.status(400).json({ message: "genre already exists for the user" })}
     });
 });
 
@@ -52,17 +42,9 @@ router.put("/:userId/:genreId", (req, res) => {
         if (userGenre) {
             const updatedGenre = { ...userGenre, genreName: updatedGenreName }
             Genre.update(updatedGenre, userId, genreId)
-                .then(genre => {
-                    res.status(201).json({ message: "genre updated successfully", updatedGenre})
-                    })
-                .catch(({ name, message, stack }) => {
-                    res.status(400).json({
-                        error: "failed to update user genre", name, message, stack
-                    });
-                });
-            } else {
-            res.status(404).json({ message: "userGenre not found" });
-        }
+                .then(genre => res.status(201).json({ message: "genre updated successfully", updatedGenre}))
+                .catch(({ name, message, stack }) => res.status(400).json({ error: "failed to update user genre", name, message, stack}));
+        } else { res.status(404).json({ message: "userGenre not found" })}
     });
 });
 
@@ -79,14 +61,8 @@ router.delete("/:userId/:genreId", (req, res) => {
                         genreName: genre.genreName
                     });
                 })
-                .catch(({ name, message, stack }) => {
-                    res.status(400).json({
-                        error: "failed to delete user genre", name, message, stack
-                    });
-                });
-        } else {
-            res.status(404).json({ message: "genre not found" });
-        }
+                .catch(({ name, message, stack }) => { res.status(400).json({ error: "failed to delete user genre", name, message, stack })});
+        } else { res.status(404).json({ message: "genre not found" })};
     });
 });
 module.exports = router;

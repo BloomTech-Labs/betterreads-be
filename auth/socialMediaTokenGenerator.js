@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config/secrets");
 
 module.exports = function tokenGenerator(req, res) {
-  console.log("req: ", req.user);
   const user = req.user;
   const payload = {
     subject: user.id,
