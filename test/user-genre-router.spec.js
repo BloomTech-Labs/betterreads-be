@@ -5,7 +5,7 @@ let token;
 
 describe("user-genre-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async (done) => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })

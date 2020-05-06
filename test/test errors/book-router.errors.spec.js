@@ -3,7 +3,7 @@ const request = require("supertest");
 const server = require("../../api/server");
 
 describe("error testing for book-router.js", () => {
-    beforeEach((done) => {
+    beforeEach(async (done) => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
