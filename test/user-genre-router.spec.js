@@ -11,22 +11,24 @@ describe("user-genre-router.js", () => {
             .send({ "emailAddress": "test", "password": "test" })
             .end((err, response) => {
                 token = response.body.token;
-                console.log(err);
+                
                 done();
             });
     });
-    describe("POST to /api/genre/", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+describe("POST to /api/genre/", () => {
         it("returns 201 created and the created genre", async () => {
             const rand = Math.random().toFixed(3);
             return request(server)
                 .post("/api/genre")
                 .send({ "genreName": `test genre ${ rand }`, "userId": 20 })
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body.message).toBe("genre added successfully");
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -38,8 +40,7 @@ describe("user-genre-router.js", () => {
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body).not.toHaveLength(0);                      
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -47,7 +48,7 @@ describe("user-genre-router.js", () => {
         it("returns 201 created and a message", async () => {            
             return request(server)
                 .get("/api/genre/20")
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(res => {
                     const genres = res.body 
                     const last = genres[genres.length - 1];
@@ -58,10 +59,8 @@ describe("user-genre-router.js", () => {
                         .then(response => {
                             expect(response.status).toBe(201);
                             expect(response.body.message).toBe("genre updated successfully");
-                        })
-                        .catch(({ name, message, stack }) => console.log(name, message, stack));    
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                        });
+                });
         });
     });
     
@@ -69,20 +68,18 @@ describe("user-genre-router.js", () => {
         it("Returns 200 ok and a message", async () => {
             return request(server)
                 .get("/api/genre/20")
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(res => {
                     const genres = res.body 
                     const last = genres[genres.length - 1];
                     return request(server)
                         .delete(`/api/genre/20/${ last.id }`)
-                        .set({ authorization: token })
+                        .set({ authorization: `${ token }` })
                         .then(response => {
                             expect(response.status).toBe(200);
                             expect(response.body.message).toBe("genre deleted successfully");    
-                        })
-                        .catch(({ name, message, stack }) => console.log(name, message, stack));
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                        });
+                });
         });
     });
 });

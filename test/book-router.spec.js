@@ -31,10 +31,13 @@ describe("book-router.js", () => {
             .send({ "emailAddress": "test", "password": "test" })
             .end((err, response) => {
                 token = response.body.token;
-                console.log(err);
+                
                 done();
             });
     });
+    afterAll(async () => {
+        await pg.end()
+    })
 describe("GET to /api/books", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
@@ -44,7 +47,6 @@ describe("GET to /api/books", () => {
                     expect(response.body).not.toBe(undefined);
                     expect(response.status).toBe(200);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
@@ -58,7 +60,6 @@ describe("GET to /api/books", () => {
                     expect(response.body.id).not.toBe(undefined);
                     expect(response.body.id).toBe(1);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
@@ -93,7 +94,6 @@ describe("GET to /api/books", () => {
                     expect(response.body.message).toBe("Added book to our api");
                     expect(response.status).toBe(201);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 });

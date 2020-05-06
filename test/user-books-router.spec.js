@@ -15,11 +15,14 @@ describe("user-books-router.js", () => {
             .send({ "emailAddress": "test", "password": "test" })
             .end((err, response) => {
                 token = response.body.token;
-                console.log(err);
+                
                 done();
             });
     });
-    describe("GET to /api/:userId/library", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+describe("GET to /api/:userId/library", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
                 .get("/api/2/library")
@@ -27,21 +30,19 @@ describe("user-books-router.js", () => {
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body.length).not.toBe(undefined);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
     describe("GET to /api/:userId/library/favorites", () => {
         it("returns 200 ok and an array of books with the favorite: true key/pair", async () => {
             return request(server)
-                .get("/api/1/library/favorites")
-                .set({ authorization: token })
+                .get("/api/20/library/favorites")
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect( response.body.map(book => book["favorite"])).not.toContain(false);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
             });
     });
     
@@ -49,12 +50,11 @@ describe("user-books-router.js", () => {
         it("returns 200 ok and a book", async () => {
             return request(server)
                 .get("/api/2/library/1")
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body["bookId"]).toBe(1);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -89,12 +89,11 @@ describe("user-books-router.js", () => {
                     "favorite": true,
                     "userRating": "3.50" 
                 })
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body["added"]["title"]).toBe("test");
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -103,12 +102,11 @@ describe("user-books-router.js", () => {
             return request(server)
                 .put("/api/20/library")
                 .send({ "bookId": 2, "dateEnded": "04/26/2020" })
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body.message).toBe("user book updated successfully");            
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -126,10 +124,8 @@ describe("user-books-router.js", () => {
                         .then(response => {
                             expect(response.status).toBe(200);
                             expect(response.body.message).toBe("book deleted from user library");            
-                        })
-                        .catch(({ name, message, stack }) => console.log(name, message, stack))
-                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));                                            
+                        });
+                 });
         });                                
     });
 });

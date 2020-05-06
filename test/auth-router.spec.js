@@ -1,26 +1,26 @@
 const request = require("supertest");
 
 const server = require("../api/server");
-const getRandom = (max) => {
-    Math.floor( Math.random() * Math.floor(max));
-}
+const getRandom = () =>  Math.random() * 100000;
+const random = getRandom()
 describe("auth-router.js", () => {
-    
+    afterAll(async () => {
+        await pg.end()
+    })
     describe("POST /signup", () => {
         it("returns status 201, a token and a body with type json", async () => {
             return request(server)
                 .post("/api/auth/signup")
                 .send({ 
                     "fullName": "testing with supertest", 
-                    "emailAddress": `testingemail${ getRandom(999999) }@email.com`, 
+                    "emailAddress": `${ random }`, 
                     "password": "testing with supertest" 
                 })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body.token).not.toBe(undefined);
                     expect(response.type).toMatch(/json/i);
-                })
-                .catch(({ name, message, stack }) => console.log({error: "error during testing post to /signup", name, message, stack})); 
+                });
         });
     });
 
@@ -37,7 +37,6 @@ describe("auth-router.js", () => {
                     expect(response.body.token).not.toBe(undefined);
                     expect(response.type).toMatch(/json/i);
                 })
-                .catch(({ name, message, stack }) => console.log({error: "error during testing post to /signin", name, message, stack}));
         });
     });
 
@@ -46,7 +45,6 @@ describe("auth-router.js", () => {
             return request(server)
                 .get("/api/auth/google")
                 .then(response => expect(response.status).toBe(302))
-                .catch(({ name, message, stack }) => console.log(name, message, stack));   
         });
     });
 
@@ -55,7 +53,6 @@ describe("auth-router.js", () => {
             return request(server)
                 .get("/api/auth/google/redirect")
                 .then(response => expect(response.status).toBe(302))
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
@@ -64,7 +61,6 @@ describe("auth-router.js", () => {
             return request(server)
                 .get("/api/auth/facebook")
                 .then(response => expect(response.status).toBe(302))
-                .catch(({ name, message, stack }) => console.log(name, message, stack));       
         });
     });
 
@@ -73,7 +69,6 @@ describe("auth-router.js", () => {
             return request(server)
                 .get("/api/auth/facebook/redirect")
                 .then(response => expect(response.status).toBe(302))
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 });

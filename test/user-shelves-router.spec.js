@@ -11,11 +11,14 @@ describe("user-shelves-router.js", () => {
             .send({ "emailAddress": "test", "password": "test" })
             .end((err, response) => {
                 token = response.body.token;
-                console.log(err);
+                
                 done();
             });
     });
-    describe("POST /api/shelves/user/:userId", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+describe("POST /api/shelves/user/:userId", () => {
         it("returns 201 created and the created shelf", async () => {
             return request(server)
                 .post("/api/shelves/user/1")
@@ -25,8 +28,7 @@ describe("user-shelves-router.js", () => {
                     expect(response.status).toBe(201);
                     expect(response.body).not.toBe(undefined);
                     expect(response.body["shelfName"]).toBe("test shelf 2");
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack)) 
+                });
         });        
     });
     
@@ -41,8 +43,7 @@ describe("user-shelves-router.js", () => {
                     expect(response.status).toBe(200);
                     expect(response.body).not.toBe(0); 
                     expect(array.map(shelf => shelf["shelfName"])).toContain("test shelf 2");          
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -54,8 +55,7 @@ describe("user-shelves-router.js", () => {
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body.length).not.toBe(undefined);            
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -71,10 +71,8 @@ describe("user-shelves-router.js", () => {
                         .then(response => {
                             expect(response.status).toBe(200);
                             expect(response.body.message).toBe("shelf deleted successfully");
-                        })
-                        .catch(({ name, message, stack }) => console.log(name, message, stack));
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                        });
+                });
        }, 10000); 
     });
     
@@ -87,8 +85,7 @@ describe("user-shelves-router.js", () => {
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body.message).toBe("updated successfully");            
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
 });

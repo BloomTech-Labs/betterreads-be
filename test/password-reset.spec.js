@@ -2,8 +2,11 @@ const request = require("supertest");
 
 const server = require("../api/server");
 let token;
-describe("password-reset.js", () => {
-    
+    describe("password-reset.js", () => {
+        afterAll(async () => {
+            await pg.end()
+        })
+
     describe("POST to /api/auth/reset/requestreset", () => {
         it("returns 200 ok and a token", async () => {
             return request(server)
@@ -12,9 +15,7 @@ describe("password-reset.js", () => {
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body.message).toBe("Request received, a link has been sent to the requested email.")
-                    expect(response.body.token).not.toBe(undefined);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
