@@ -5,8 +5,9 @@ const getRandom = () =>  Math.random() * 100000;
 const random = getRandom()
 describe("auth-router.js", () => {
     afterAll(async () => {
-        await pg.end()
-    })
+        await pg.end();
+    });
+    
     describe("POST /signup", () => {
         it("returns status 201, a token and a body with type json", async () => {
             return request(server)

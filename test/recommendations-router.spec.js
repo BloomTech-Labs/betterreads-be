@@ -5,14 +5,12 @@ let token;
 
 describe("recommendations-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                
-                done();
             });
     });
     afterAll(async () => {
@@ -21,7 +19,7 @@ describe("recommendations-router.js", () => {
  describe("GET to /api/:userId/recommendations", () => {
         it("returns 200 ok, a message and an array of google IDs", async () => {
             return request(server)
-                .get("/api/2/recommendations")
+                .get("/api/1/recommendations")
                 .set({ authorization: token })
                 .then(response => {
                     expect(response.status).toBe(200);

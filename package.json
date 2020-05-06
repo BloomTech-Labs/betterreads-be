@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"coverage": "cross-env NODE_ENV=staging jest --coverage --watchAll=false --detectOpenHandles --forceExit || true",
-		"test": "cross-env NODE_ENV=development jest --watch --runInBand --detectOpenHandles",
+		"test": "cross-env NODE_ENV=staging jest --watch --runInBand --detectOpenHandles",
 		"server": "nodemon index.js",
 		"start": "node index.js"
 	},

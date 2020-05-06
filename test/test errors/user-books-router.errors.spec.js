@@ -4,13 +4,12 @@ const server = require("../../api/server");
 
 
 describe("errors for user-book-router.js", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                done();
             });
     });
     afterAll(async () => {

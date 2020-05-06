@@ -9,14 +9,12 @@ const getRandom = (max) => {
 
 describe("user-books-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                
-                done();
             });
     });
     afterAll(async () => {
@@ -25,7 +23,7 @@ describe("user-books-router.js", () => {
 describe("GET to /api/:userId/library", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
-                .get("/api/2/library")
+                .get("/api/1/library")
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
@@ -37,7 +35,7 @@ describe("GET to /api/:userId/library", () => {
     describe("GET to /api/:userId/library/favorites", () => {
         it("returns 200 ok and an array of books with the favorite: true key/pair", async () => {
             return request(server)
-                .get("/api/20/library/favorites")
+                .get("/api/1/library/favorites")
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
@@ -49,7 +47,7 @@ describe("GET to /api/:userId/library", () => {
     describe("GET to /:userId/library/:bookId", () => {
         it("returns 200 ok and a book", async () => {
             return request(server)
-                .get("/api/2/library/1")
+                .get("/api/1/library/1")
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
@@ -62,7 +60,7 @@ describe("GET to /api/:userId/library", () => {
         
         it("returns 201 created and book", async () => {
             return request(server)
-                .post("/api/20/library")
+                .post("/api/1/library")
                 .send({ 
                     "book": 
                         {
@@ -100,7 +98,7 @@ describe("GET to /api/:userId/library", () => {
     describe("PUT to /api/:userId/library", () => {
         it("returns 201 created and a message", async () => {
             return request(server)
-                .put("/api/20/library")
+                .put("/api/1/library")
                 .send({ "bookId": 2, "dateEnded": "04/26/2020" })
                 .set({ authorization: `${ token }` })
                 .then(response => {
@@ -113,12 +111,12 @@ describe("GET to /api/:userId/library", () => {
     describe(" DELETE to /api/:userId/library", () => {
         it("returns 200 ok and a message", async () => {
             return request(server)
-                .get("/api/20/library")
+                .get("/api/1/library")
                 .set({ authorization: token })
                 .then(res => {
                     const last = res.body[0]["bookId"]
                     return request(server)
-                        .delete("/api/20/library")
+                        .delete("/api/1/library")
                         .send({ "bookId": last })
                         .set({ authorization: token })
                         .then(response => {

@@ -25,20 +25,19 @@ const randomPageNum =  () => {
 let token;
 
 describe("book-router.js", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                
-                done();
             });
     });
     afterAll(async () => {
-        await pg.end()
-    })
-describe("GET to /api/books", () => {
+        await pg.end();
+    });
+    
+    describe("GET to /api/books", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
                 .get("/api/books")

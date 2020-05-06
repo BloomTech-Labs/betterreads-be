@@ -3,19 +3,18 @@ const request = require("supertest");
 const server = require("../../api/server");
 
 describe("error testing for password-reset.js", () => {
-    afterAll(async () => {
-        await pg.end();
-    });
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                done();
             });
     });
-    
+    afterAll(async () => {
+        await pg.end();
+    });
+
     describe("error testing for POST to /api/auth/requestreset", () => {
         it("returns 404 is the requested user does not exist", async () => {
             return request(server)

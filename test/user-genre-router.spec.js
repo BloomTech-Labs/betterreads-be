@@ -5,14 +5,12 @@ let token;
 
 describe("user-genre-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                
-                done();
             });
     });
     afterAll(async () => {
@@ -23,7 +21,7 @@ describe("POST to /api/genre/", () => {
             const rand = Math.random().toFixed(3);
             return request(server)
                 .post("/api/genre")
-                .send({ "genreName": `test genre ${ rand }`, "userId": 20 })
+                .send({ "genreName": `test genre ${ rand }`, "userId": 1 })
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
@@ -47,13 +45,13 @@ describe("POST to /api/genre/", () => {
     describe("PUT to /api/genre/:userId/:genreId/", () => {
         it("returns 201 created and a message", async () => {            
             return request(server)
-                .get("/api/genre/20")
+                .get("/api/genre/1")
                 .set({ authorization: `${ token }` })
                 .then(res => {
                     const genres = res.body 
                     const last = genres[genres.length - 1];
                     return request(server)
-                        .put(`/api/genre/20/${ last.id }`)
+                        .put(`/api/genre/1/${ last.id }`)
                         .send({ "genreName": "test of put" })
                         .set({ authorization: `${ token }` })
                         .then(response => {
@@ -67,13 +65,13 @@ describe("POST to /api/genre/", () => {
     describe("DELETE to /api/genre/:userId/:genreId", () => {
         it("Returns 200 ok and a message", async () => {
             return request(server)
-                .get("/api/genre/20")
+                .get("/api/genre/1")
                 .set({ authorization: `${ token }` })
                 .then(res => {
                     const genres = res.body 
                     const last = genres[genres.length - 1];
                     return request(server)
-                        .delete(`/api/genre/20/${ last.id }`)
+                        .delete(`/api/genre/1/${ last.id }`)
                         .set({ authorization: `${ token }` })
                         .then(response => {
                             expect(response.status).toBe(200);
