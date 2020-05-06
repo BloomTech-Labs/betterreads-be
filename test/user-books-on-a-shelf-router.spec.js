@@ -5,7 +5,7 @@ let token;
 
 describe("user-books-on-a-shelf-router.js", () => {
     
-    beforeEach(async (done) => {
+    beforeEach((done) => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })

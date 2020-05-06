@@ -9,7 +9,7 @@ const getRandom = (max) => {
 
 describe("user-books-router.js", () => {
     
-    beforeEach(async (done) => {
+    beforeEach((done) => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
