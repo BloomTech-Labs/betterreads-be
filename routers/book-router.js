@@ -41,17 +41,14 @@ router.post("/", (req, res) => {
                             res.status(500).json({ message: "Book not added", name, message, stack });
                         }
                     });
-                    } else {
-			        	res.status(400).json({ error: "Book already exists" });
-            }})
+                    } else { res.status(400).json({ error: "Book already exists" })}
+		})
 		.catch(({ name, message, stack }) => {
             if (message.includes("Undefined binding(s) detected")) {
                 res.status(400).json({ error: "missing a necessary field", name, message, stack })    
             } else { res.status(500).json({ error: "Error, something went wrong", name, message, stack }) };
         });            
-    } else {
-		res.status(400).json({ message: "Please provide a book" });
-	}
+    } else { res.status(400).json({ message: "Please provide a book" })}
 });
 
 module.exports = router;
