@@ -1,16 +1,26 @@
 const request = require("supertest");
 
 const server = require("../api/server");
-const getToken = require("./getToken");
+let token;
 
 describe("user-books-on-a-shelf-router.js", () => {
     
+    beforeEach((done) => {
+        return request(server)
+            .post("/api/auth/signin")
+            .send({ "emailAddress": "test", "password": "test" })
+            .end((err, response) => {
+                token = response.body.token;
+                console.log(err);
+                done();
+            });
+    });
     describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         it("returns 201 created and the added book", async () => {
-            const response = await request(server).post("/api/booksonshelf/shelves/20")
-                .set({ authorization: await getToken() })
+            return request(server).post("/api/booksonshelf/shelves/20")
+                .set({ authorization: token })
                 .send({ "book":  
-                {
+                    {
                     "id": 2,
                     "googleId": "-12.4797",
                     "title": "Computer",
@@ -29,62 +39,79 @@ describe("user-books-on-a-shelf-router.js", () => {
                     "textSnippet": "Corrupti qui magnam culpa.\nMinima beatae alias ipsam consequatur quaerat magni officiis ea ut.\nTempora quo est ratione fuga voluptas officiis numquam.\nMollitia id est reiciendis similique molestiae.\nNon quibusdam esse voluptas consequatur et nesciunt.",
                     "isEbook": false,
                     "averageRating": "3.00"
-                  },
+                    },
                     "readingStatus": 0,
                     "favorite": false,
                     "userRating": "3.50"
-                });
-            
-            expect(response.status).toBe(201);
-            expect(response.body["book"]["bookId"]).toBe(2);
+                })
+                .then(response => {
+                    expect(response.status).toBe(201);
+                    expect(response.body["book"]["bookId"]).toBe(2);
+                })
+                .catch(({ name, message, stack }) => console.log({error: "error during testing post to /shelves/:shelfId", name, message, stack}));
         });
         
         describe("PUT to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and an updated shelf ID", async () => {
-                const response = await request(server).put("/api/booksonshelf/shelves/20")
-                .set({ authorization: await getToken() })
-                .send({ "bookId": 3, "newShelfId": 1 })
-                
-                expect(response.status).toBe(200);
-                expect(response.body["message"]).toBe("book moved to new shelf");
-                expect(response.body["newShelfId"]).toBe(1) 
-                const res = await request(server).put("/api/booksonshelf/shelves/1")
-                    .set({ authorization: await getToken() })
-                    .send({ "bookId": 3, "newShelfId": 20 })
-                expect(res.status).toBe(200);
-                expect(res.body["message"]).toBe("book moved to new shelf");
-                expect(res.body["newShelfId"]).toBe(20)   
+                return request(server)
+                    .put("/api/booksonshelf/shelves/20")
+                    .set({ authorization: token })
+                    .send({ "bookId": 3, "newShelfId": 1 })
+                    .then(response => {
+                        expect(response.body["newShelfId"]).toBe(1) 
+                        return request(server)
+                            .put("/api/booksonshelf/shelves/1")
+                            .set({ authorization: token })
+                            .send({ "bookId": 3, "newShelfId": 20 })
+                            .then(res => {
+                                expect(res.status).toBe(200);
+                                expect(res.body["message"]).toBe("book moved to new shelf");
+                                expect(res.body["newShelfId"]).toBe(20)   
+                            })
+                            .catch(({ name, message, stack }) => console.log({error: "error during testing put to shelves/1", name, message, stack}))
+                    })
+                    .catch(({ name, message, stack }) => console.log({error: "error testing put to shelves/20", name, message, stack}));    
+                                    
             });
         });
         
         describe("GET to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and a shelf and all books on it", async () => {
-                const response = await request(server).get("/api/booksonshelf/shelves/20/")
-                    .set({ authorization: await getToken() });
-                    
-                expect(response.status).toBe(200);
-                expect(response.body).not.toBe(undefined);
-                expect(response.body).not.toHaveLength(0);
+                return request(server)
+                    .get("/api/booksonshelf/shelves/20/")
+                    .set({ authorization: token })
+                    .then(response => {
+                        expect(response.status).toBe(200);
+                        expect(response.body).not.toBe(undefined);
+                        expect(response.body).not.toHaveLength(0);
+                    })
+                    .catch(({ name, message, stack }) => console.log({error: "error testing get to shelves/20", name, message, stack}));
             });
         });
         
         describe("GET to /api/booksonshelf/user/:userId/shelves/allbooks", () => {
             it("returns 200 ok and a list of shelves with books on them", async () => {
-                const response = await request(server).get("/api/booksonshelf/user/20/shelves/allbooks")
-                    .set({ authorization: await getToken() });
-                    
-                expect(response.status).toBe(200);
-                expect(response.body).not.toBe(undefined);
+                return request(server)
+                    .get("/api/booksonshelf/user/20/shelves/allbooks")
+                    .set({ authorization: token })
+                    .then(response => {
+                        expect(response.status).toBe(200);
+                        expect(response.body).not.toBe(undefined);
+                    })
+                    .catch(({ name, message, stack }) => console.log(name, message, stack));
             });
         });
         
         describe("DELETE to /api/booksonshelf/shelves/:shelfId/:bookId", () => {
             it("returns 200 ok and a message", async () => {
-                const response = await request(server).delete("/api/booksonshelf/shelves/20/2")
-                    .set({ authorization: await getToken() })
-                    
-                expect(response.status).toBe(200);
-                expect(response.body["message"]).toBe("book removed from shelf")  
+                return request(server)
+                    .delete("/api/booksonshelf/shelves/20/2")
+                    .set({ authorization: token })
+                    .then(response => {
+                        expect(response.status).toBe(200);
+                        expect(response.body["message"]).toBe("book removed from shelf")  
+                    })
+                    .catch(({ name, message, stack }) => console.log(name, message, stack));
             });
         });
     });

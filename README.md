@@ -430,11 +430,11 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ---
 
-```
+```json
 {
-  id: UUID
-  emailAddress: STRING
-  password: STRING
+  "id": "INTEGER",
+  "emailAddress": "STRING",
+  "password": "STRING"
 }
 ```
 
@@ -442,10 +442,10 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ---
 
-```
+```json
 {
-  id: UUID
-  genre: STRING
+  "id": "INTEGER",
+  "genre": "STRING"
 }
 ```
 
@@ -453,11 +453,11 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ---
 
-```
+```json
 {
-  id: UUID
-  genreName: STRING
-  userId: UUID foreign key in USER table
+  "id": "UUID",
+  "genreName": "STRING",
+  "userId": "INTEGER foreign key in USER table"
 }
 ```
 
@@ -465,26 +465,26 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ---
 
-```
+```json
 {
-  id: UUID
-  googleId: STRING
-  title: STRING
-  authors: STRING
-  publisher: STRING
-  publishDate: STRING
-  description: STRING
-  isbn10: STRING
-  isbn13: STRING
-  pageCount: INTEGER
-  categories: STRING
-  Thumbnail: STRING
-  smallThumbnail: STRING
-  language: STRING
-  webRenderLink: STRING
-  textSnipped: STRING
-  isEbook: BOOLEAN
-  averageRating: DECIMAL
+  "id": "INTEGER",
+  "googleId": "STRING",
+  "title": "STRING",
+  "authors": "STRING",
+  "publisher": "STRING",
+  "publishDate": "STRING",
+  "description": "STRING",
+  "isbn10": "STRING",
+  "isbn13": "STRING",
+  "pageCount": "INTEGER",
+  "categories": "STRING",
+  "thumbnail": "STRING",
+  "smallThumbnail": "STRING",
+  "language": "STRING",
+  "webRenderLink": "STRING",
+  "textSnippet": "STRING",
+  "isEbook": "BOOLEAN",
+  "averageRating": "DECIMAL"
 }
 ```
 
@@ -492,37 +492,37 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ---
 
-```
+```json
 {
-  id: UUID
-  bookId: UUID foreign key in GOOGLEBOOKS table
-  userId: UUID foreign key in USERS table
-  readingStatus: INTEGER (NULLABLE)
-  dateStarted: DATETIME (NULLABLE)
-  dateEnded: DATETIME (NULLABLE)
-  dateAdded: DATETIME (AUTOMATICALLY GENERATED)
-  favorite: BOOLEAN (NULLABLE)
+  "id": "INTEGER",
+  "bookId": "INTEGER foreign key in GOOGLEBOOKS table",
+  "userId": "INTEGER foreign key in USERS table",
+  "readingStatus": "INTEGER (NULLABLE)",
+  "dateStarted": "DATETIME (NULLABLE)"
+  "dateEnded": "DATETIME (NULLABLE)",
+  "dateAdded": "DATETIME (AUTOMATICALLY GENERATED)",
+  "favorite": "BOOLEAN (NULLABLE)"
 }
 ```
 
 #### 2️⃣ USERSHELVES
 
-```
+```json
 {
-  id: UUID
-  userId: UUID foreign key in USERS table
-  shelfName: STRING
-  isPrivate: BOOLEAN (NULLABLE)
+  id"": "INTEGER",
+  "userId": "INTEGER foreign key in USERS table",
+  "shelfName": "STRING",
+  "isPrivate": "BOOLEAN (NULLABLE)"
 }
 ```
 
 #### 2️⃣ USERBOOKSONASHELF
 
-```
+```json
 {
-  id: UUID
-  bookId: UUID foreign key in BOOKS table
-  shelfId: UUID foreign key in USERSHELVES table
+  "id": "INTEGER",
+  "bookId": "INTEGER foreign key in BOOKS table",
+  "shelfId": "INTEGER foreign key in USERSHELVES table"
 }
 ```
 

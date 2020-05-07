@@ -4,7 +4,7 @@
 	"description": "🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.",
 	"main": "index.js",
 	"scripts": {
-		"coverage": "cross-env NODE_ENV=staging jest --coverage --watchAll=false --detectOpenHandles --forceExit || true",
+		"coverage": "cross-env NODE_ENV=development jest --coverage --watchAll=false --detectOpenHandles --forceExit || true",
 		"test": "cross-env NODE_ENV=development jest --watch --runInBand --detectOpenHandles",
 		"server": "nodemon index.js",
 		"start": "node index.js"

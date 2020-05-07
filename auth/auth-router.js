@@ -37,6 +37,8 @@ router.post("/signup", (request, response) => {
     .catch(({ name, message, stack }) => {
     if(message.includes("duplicate key")){
         response.status(400).json({ error: "User already exists", name, message, stack })
+    } else if (message.includes("violates not-null")) {
+        response.status(400).json({ error: "missing a necessary field", name, message, stack })
     } else {
         response.status(500).json({ error: "error registering user", name, message, stack })
     };
@@ -55,12 +57,12 @@ router.post("/signin", (request, response) => {
           token,
           user: userObject(res),
         });
-      } else {
+        } else {
         response.status(400).json({ message: "invalid credentials" });
       };
     })
     .catch(({ name, message, stack }) => {
-      response.status(500).json({ error: "error logging in user", name, message, stack })
+        response.status(500).json({ error: "error logging in user", name, message, stack })
     });
 });
 
