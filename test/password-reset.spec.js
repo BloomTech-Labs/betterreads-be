@@ -1,23 +1,18 @@
 const request = require("supertest");
 
 const server = require("../api/server");
-let token;
-    describe("password-reset.js", () => {
-        afterAll(async () => {
-            await pg.end()
-        })
 
+describe("password-reset.js", () => {
+    
     describe("POST to /api/auth/reset/requestreset", () => {
         it("returns 200 ok and a token", async () => {
-            return request(server)
-                .post("/api/auth/reset/requestreset")
-                .send({ "email": `${ process.env.TEST_EMAIL }` })
-                .then(response => {
-                    expect(response.status).toBe(200);
-                    expect(response.body.message).toBe("Request received, a link has been sent to the requested email.")
-                })
+            const response = await request(server).post("/api/auth/reset/requestreset")
+                .send({ "email": `${ process.env.TEST_EMAIL }` });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Request recieved, a link has been sent to the requested email.")
         });
     });
 
-//cannot test /reset endpoint, as /requestreset endpoint does not return a token (that wouldn't be secure).
- });
+// Cannot test /reset endpoint anymore as /requestreset does not return a token
+});
