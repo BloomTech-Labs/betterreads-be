@@ -4,8 +4,7 @@ const Books = require("../models/books.js");
 router.get("/", (req, res) => {
 	Books.getAll()
 		.then(book =>
-			book == undefined ? res.status(404).json({ message: "No books here" })
-							  : res.status(200).json(book)
+			book == undefined ? res.status(404).json({ message: "No books here" }) : res.status(200).json(book)
 		)
 		.catch(({ name, message, stack }) => res.status(500).json({ error: "Book not found", name, message, stack }));
 });
@@ -14,8 +13,7 @@ router.get("/:bookId", (req, res) => {
 	const bookId = req.params.bookId;
 	Books.findById(bookId)
 		.then(book =>
-			book == undefined ? res.status(404).json({ message: "No books here" })
-							  : res.status(200).json(book)
+			book == undefined ? res.status(404).json({ message: "No books here" }) : res.status(200).json(book)
 		)
 		.catch(({ name, message, stack }) => res.status(500).json({ error: "Book not found", name, message, stack }));
 });
