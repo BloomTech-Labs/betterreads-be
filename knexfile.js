@@ -28,7 +28,7 @@ module.exports = {
 
 	staging: {
 		client: "pg",
-        	connection: connect(process.env.DB),
+        	connection: process.env.RDS_HOSTNAME,
 		pool: {
 			min: 2,
 			max: 100
