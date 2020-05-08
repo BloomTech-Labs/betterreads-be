@@ -5,113 +5,105 @@ let token;
 
 describe("user-books-on-a-shelf-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                console.log(err);
-                done();
             });
     });
-    describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         it("returns 201 created and the added book", async () => {
-            return request(server).post("/api/booksonshelf/shelves/20")
-                .set({ authorization: token })
-                .send({ "book":  
+            return request(server).post("/api/booksonshelf/shelves/98")
+                .set({ authorization: `${ token }` })
+                .send({
+                    "book": 
                     {
-                    "id": 2,
-                    "googleId": "-12.4797",
-                    "title": "Computer",
-                    "authors": "Gabrielle",
-                    "publisher": "Auer, Spinka and Hammes",
-                    "publishedDate": "1919",
-                    "description": "Non minima iste tempora fugiat impedit minus. Unde recusandae ut natus aliquam ab laboriosam vel.",
-                    "isbn10": "21.167.47.167",
-                    "isbn13": "17.82.125.227",
-                    "pageCount": 25415,
-                    "categories": "Developer",
-                    "thumbnail": "http://lorempixel.com/640/480",
-                    "smallThumbnail": "http://lorempixel.com/640/480",
-                    "language": "english",
-                    "webReaderLink": "https://raquel.info",
-                    "textSnippet": "Corrupti qui magnam culpa.\nMinima beatae alias ipsam consequatur quaerat magni officiis ea ut.\nTempora quo est ratione fuga voluptas officiis numquam.\nMollitia id est reiciendis similique molestiae.\nNon quibusdam esse voluptas consequatur et nesciunt.",
-                    "isEbook": false,
-                    "averageRating": "3.00"
-                    },
-                    "readingStatus": 0,
-                    "favorite": false,
-                    "userRating": "3.50"
+                        "id": 1,
+                        "googleId": "kGW8cops3GcC",
+                        "title": "Why Civil Resistance Works",
+                        "authors": "Erica Chenoweth,Maria J. Stephan,Maria J.. Stephan",
+                        "publisher": "Columbia University Press",
+                        "publishedDate": "2011",
+                        "description": "For more than a century, from 1900 to 2006, campaigns of nonviolent resistance were more than twice as effective as their violent counterparts in achieving their stated goals. By attracting impressive support from citizens, whose activism takes the form of protests, boycotts, civil disobedience, and other forms of nonviolent noncooperation, these efforts help separate regimes from their main sources of power and produce remarkable results, even in Iran, Burma, the Philippines, and the Palestinian Territories. Combining statistical analysis with case studies of specific countries and territories, Erica Chenoweth and Maria J. Stephan detail the factors enabling such campaigns to succeed and, sometimes, causing them to fail. They find that nonviolent resistance presents fewer obstacles to moral and physical involvement and commitment, and that higher levels of participation contribute to enhanced resilience, greater opportunities for tactical innovation and civic disruption (and therefore less incentive for a regime to maintain its status quo), and shifts in loyalty among opponents' erstwhile supporters, including members of the military establishment. Chenoweth and Stephan conclude that successful nonviolent resistance ushers in more durable and internally peaceful democracies, which are less likely to regress into civil war. Presenting a rich, evidentiary argument, they originally and systematically compare violent and nonviolent outcomes in different historical periods and geographical contexts, debunking the myth that violence occurs because of structural and environmental factors and that it is necessary to achieve certain political goals. Instead, the authors discover, violent insurgency is rarely justifiable on strategic grounds.",
+                        "isbn10": "0231156820",
+                        "isbn13": "9780231156820",
+                        "pageCount": 296,
+                        "categories": "{\"Political Science\"}",
+                        "thumbnail": "https://books.google.com/books/content?id=kGW8cops3GcC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+                        "smallThumbnail": "https://books.google.com/books/content?id=kGW8cops3GcC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                        "language": "en",
+                        "webReaderLink": "http://play.google.com/books/reader?id=kGW8cops3GcC&hl=&printsec=frontcover&source=gbs_api",
+                        "textSnippet": "Combining statistical analysis with case studies of specific countries and territories, Erica Chenoweth and Maria J. Stephan detail the factors enabling such campaigns to succeed and, sometimes, causing them to fail.",
+                        "isEbook": null,
+                        "averageRating": "5.00"
+                    }
                 })
                 .then(response => {
                     expect(response.status).toBe(201);
-                    expect(response.body["book"]["bookId"]).toBe(2);
+                    expect(response.body["book"]["bookId"]).toBe(1);
                 })
-                .catch(({ name, message, stack }) => console.log({error: "error during testing post to /shelves/:shelfId", name, message, stack}));
         });
         
         describe("PUT to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and an updated shelf ID", async () => {
                 return request(server)
-                    .put("/api/booksonshelf/shelves/20")
-                    .set({ authorization: token })
-                    .send({ "bookId": 3, "newShelfId": 1 })
+                    .put("/api/booksonshelf/shelves/98")
+                    .set({ authorization: `${ token }` })
+                    .send({ "bookId": 3, "newShelfId": 97 })
                     .then(response => {
-                        expect(response.body["newShelfId"]).toBe(1) 
+                        expect(response.body["newShelfId"]).toBe(97) 
                         return request(server)
-                            .put("/api/booksonshelf/shelves/1")
-                            .set({ authorization: token })
-                            .send({ "bookId": 3, "newShelfId": 20 })
+                            .put("/api/booksonshelf/shelves/97")
+                            .set({ authorization: `${ token }` })
+                            .send({ "bookId": 3, "newShelfId": 98 })
                             .then(res => {
                                 expect(res.status).toBe(200);
                                 expect(res.body["message"]).toBe("book moved to new shelf");
-                                expect(res.body["newShelfId"]).toBe(20)   
-                            })
-                            .catch(({ name, message, stack }) => console.log({error: "error during testing put to shelves/1", name, message, stack}))
-                    })
-                    .catch(({ name, message, stack }) => console.log({error: "error testing put to shelves/20", name, message, stack}));    
-                                    
+                                expect(res.body["newShelfId"]).toBe(98)   
+                            });
+                    });                   
             });
         });
         
         describe("GET to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and a shelf and all books on it", async () => {
                 return request(server)
-                    .get("/api/booksonshelf/shelves/20/")
-                    .set({ authorization: token })
+                    .get("/api/booksonshelf/shelves/98")
+                    .set({ authorization: `${ token }` })
                     .then(response => {
                         expect(response.status).toBe(200);
                         expect(response.body).not.toBe(undefined);
                         expect(response.body).not.toHaveLength(0);
-                    })
-                    .catch(({ name, message, stack }) => console.log({error: "error testing get to shelves/20", name, message, stack}));
+                    });
             });
         });
         
         describe("GET to /api/booksonshelf/user/:userId/shelves/allbooks", () => {
             it("returns 200 ok and a list of shelves with books on them", async () => {
                 return request(server)
-                    .get("/api/booksonshelf/user/20/shelves/allbooks")
-                    .set({ authorization: token })
+                    .get("/api/booksonshelf/user/1/shelves/allbooks")
+                    .set({ authorization: `${ token }` })
                     .then(response => {
                         expect(response.status).toBe(200);
                         expect(response.body).not.toBe(undefined);
-                    })
-                    .catch(({ name, message, stack }) => console.log(name, message, stack));
+                    });
             });
         });
         
         describe("DELETE to /api/booksonshelf/shelves/:shelfId/:bookId", () => {
             it("returns 200 ok and a message", async () => {
                 return request(server)
-                    .delete("/api/booksonshelf/shelves/20/2")
-                    .set({ authorization: token })
+                    .delete("/api/booksonshelf/shelves/98/1")
+                    .set({ authorization: `${ token }` })
                     .then(response => {
                         expect(response.status).toBe(200);
                         expect(response.body["message"]).toBe("book removed from shelf")  
-                    })
-                    .catch(({ name, message, stack }) => console.log(name, message, stack));
+                    });
             });
         });
     });

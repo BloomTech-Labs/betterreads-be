@@ -16,10 +16,10 @@ module.exports = {
             .then((variable) => {
                 if (variable == undefined) {
                     res.status(400).json({ message: `${where}: does not exist` });
-                } else {
-                    res.status(200).json(variable);
-                };
-                })
+                } else if (Array.isArray(variable) && variable.length < 1){
+                    res.status(404).json({ message: "user library is empty or does not exist" });
+                } else { res.status(200).json(variable) };
+            })
             .catch(({ name, message, stack }) =>
                 res.status(500).json({ error: "error in returning data", name, message, stack })
     )},

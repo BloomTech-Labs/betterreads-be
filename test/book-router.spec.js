@@ -25,17 +25,19 @@ const randomPageNum =  () => {
 let token;
 
 describe("book-router.js", () => {
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                console.log(err);
-                done();
             });
     });
-describe("GET to /api/books", () => {
+    afterAll(async () => {
+        await pg.end();
+    });
+    
+    describe("GET to /api/books", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
                 .get("/api/books")
@@ -44,7 +46,6 @@ describe("GET to /api/books", () => {
                     expect(response.body).not.toBe(undefined);
                     expect(response.status).toBe(200);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
@@ -58,7 +59,6 @@ describe("GET to /api/books", () => {
                     expect(response.body.id).not.toBe(undefined);
                     expect(response.body.id).toBe(1);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 
@@ -93,7 +93,6 @@ describe("GET to /api/books", () => {
                     expect(response.body.message).toBe("Added book to our api");
                     expect(response.status).toBe(201);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
         });
     });
 });

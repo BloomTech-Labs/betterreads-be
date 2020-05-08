@@ -2,12 +2,6 @@ const request = require("supertest");
 
 const server = require("../api/server");
 
-const token = async () => {
-    const response = await request(server).post("/api/auth/reset/requestreset")
-        .send({ "email": `${ process.env.TEST_EMAIL }` });
-    return(response.body.token);    
-}
-
 describe("password-reset.js", () => {
     
     describe("POST to /api/auth/reset/requestreset", () => {

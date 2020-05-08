@@ -9,26 +9,26 @@ const getRandom = (max) => {
 
 describe("user-books-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                console.log(err);
-                done();
             });
     });
-    describe("GET to /api/:userId/library", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+describe("GET to /api/:userId/library", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
-                .get("/api/2/library")
+                .get("/api/1/library")
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body.length).not.toBe(undefined);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -36,25 +36,23 @@ describe("user-books-router.js", () => {
         it("returns 200 ok and an array of books with the favorite: true key/pair", async () => {
             return request(server)
                 .get("/api/1/library/favorites")
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect( response.body.map(book => book["favorite"])).not.toContain(false);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
             });
     });
     
     describe("GET to /:userId/library/:bookId", () => {
         it("returns 200 ok and a book", async () => {
             return request(server)
-                .get("/api/2/library/1")
-                .set({ authorization: token })
+                .get("/api/1/library/1")
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body["bookId"]).toBe(1);
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
@@ -62,7 +60,7 @@ describe("user-books-router.js", () => {
         
         it("returns 201 created and book", async () => {
             return request(server)
-                .post("/api/20/library")
+                .post("/api/1/library")
                 .send({ 
                     "book": 
                         {
@@ -89,47 +87,43 @@ describe("user-books-router.js", () => {
                     "favorite": true,
                     "userRating": "3.50" 
                 })
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body["added"]["title"]).toBe("test");
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
     describe("PUT to /api/:userId/library", () => {
         it("returns 201 created and a message", async () => {
             return request(server)
-                .put("/api/20/library")
+                .put("/api/1/library")
                 .send({ "bookId": 2, "dateEnded": "04/26/2020" })
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);
                     expect(response.body.message).toBe("user book updated successfully");            
-                })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
+                });
         });
     });
     
     describe(" DELETE to /api/:userId/library", () => {
         it("returns 200 ok and a message", async () => {
             return request(server)
-                .get("/api/20/library")
+                .get("/api/1/library")
                 .set({ authorization: token })
                 .then(res => {
                     const last = res.body[0]["bookId"]
                     return request(server)
-                        .delete("/api/20/library")
+                        .delete("/api/1/library")
                         .send({ "bookId": last })
                         .set({ authorization: token })
                         .then(response => {
                             expect(response.status).toBe(200);
                             expect(response.body.message).toBe("book deleted from user library");            
-                        })
-                        .catch(({ name, message, stack }) => console.log(name, message, stack))
-                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));                                            
+                        });
+                 });
         });                                
     });
 });

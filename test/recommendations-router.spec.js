@@ -5,21 +5,22 @@ let token;
 
 describe("recommendations-router.js", () => {
     
-    beforeEach((done) => {
+    beforeEach(async () => {
         return request(server)
             .post("/api/auth/signin")
             .send({ "emailAddress": "test", "password": "test" })
-            .end((err, response) => {
+            .then(response => {
                 token = response.body.token;
-                console.log(err);
-                done();
             });
     });
-    describe("GET to /api/:userId/recommendations", () => {
+    afterAll(async () => {
+        await pg.end()
+    })
+ describe("GET to /api/:userId/recommendations", () => {
         it("returns 200 ok, a message and an array of google IDs", async () => {
             return request(server)
-                .get("/api/2/recommendations")
-                .set({ authorization: `${ token }` })
+                .get("/api/1/recommendations")
+                .set({ authorization: token })
                 .then(response => {
                     expect(response.status).toBe(200);
                     expect(response.body.message).toBe("recommendations retrieved successfully");
@@ -28,7 +29,6 @@ describe("recommendations-router.js", () => {
                     expect(key[4]).toContain("googleId");
                     expect(response.body["recommendations"]["recommendations"]).toHaveLength(5);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
             }, 60000);
     });
     
@@ -36,7 +36,7 @@ describe("recommendations-router.js", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
                 .post("/api/20/recommendations")
-                .set({ authorization: token })
+                .set({ authorization: `${ token }` })
                 .send({
                     "books":
                     [
@@ -63,7 +63,6 @@ describe("recommendations-router.js", () => {
                     expect(response.body["message"]).toBe("recommendations retrieved successfully");
                     expect(response.body["recommendations"]["recommendations"]).not.toHaveLength(0);
                 })
-                .catch(({ name, message, stack }) => console.log(name, message, stack));
-        });
+        }, 60000);
     });
 });
