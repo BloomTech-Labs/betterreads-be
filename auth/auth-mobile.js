@@ -2,7 +2,6 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
 const { mobileTokenGenerator } = require("./mobileTokenGenerator");
-// const decode = require("./mobileTokenGenerator");
 
 const userObject = (user) => ({
   id: user.id,

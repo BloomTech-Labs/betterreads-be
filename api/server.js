@@ -21,7 +21,7 @@ const userBooksRouter = require("../routers/user-books-router.js");
 const userShelvesRouter = require("../routers/user-shelves-router.js");
 const userBooksOnShelfRouter = require("../routers/user-books-on-a-shelf-router.js");
 const userGenre = require("../routers/user-genre-router.js");
-const recommendations = require("../routers/recommendations-router");
+const { router } = require("../routers/recommendations-router");
 const passwordReset = require("../routers/password-reset");
 
 // MARK: -- for data science
@@ -69,7 +69,7 @@ server.use("/api/auth", authRouter);
 server.use("/api/auth/mobile", mobileAuthRouter);
 server.use("/api/books", restricted, booksRouter);
 server.use("/api", restricted, userBooksRouter);
-server.use("/api", restricted, recommendations);
+server.use("/api", restricted, router);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre);

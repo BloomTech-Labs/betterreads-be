@@ -11,10 +11,10 @@ const fetchData = (userID) => {
   return new Promise((resolve, reject) => {
     const result = [];
 
-    UserShelves.findByUser(6)
+    UserShelves.findByUser(userID)
       .then((res) => {
         res.forEach((shelf) => {
-          UserBooksOnShelf.findAllBooks(shelf.shelfId, 6)
+          UserBooksOnShelf.findAllBooks(shelf.shelfId, userID)
             .then((res) => {
               if (res.books.length > 0) {
                 axios
@@ -101,4 +101,4 @@ router.post("/:userId/recommendations", (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = { router, fetchData };
