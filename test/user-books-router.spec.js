@@ -99,7 +99,7 @@ describe("GET to /api/:userId/library", () => {
         it("returns 201 created and a message", async () => {
             return request(server)
                 .put("/api/1/library")
-                .send({ "bookId": 2, "dateEnded": "04/26/2020" })
+                .send({ "bookId": 1, "dateEnded": "04/26/2020" })
                 .set({ authorization: `${ token }` })
                 .then(response => {
                     expect(response.status).toBe(201);

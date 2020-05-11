@@ -13,8 +13,8 @@ router.get("/stats", async (req, res) => {
     const readingStatus3 = await userBooks.userWideStats({ readingStatus: 3 });
     
     res.status(200).json({ 
-        message: "userwide stats retrieved", 
-        toBeread: Number(readingStatus1[0].count), 
+        message: "user-wide stats retrieved", 
+        toBeRead: Number(readingStatus1[0].count), 
         inProgress: Number(readingStatus2[0].count), 
         completed: Number(readingStatus3[0].count) 
     });
