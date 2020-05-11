@@ -152,8 +152,19 @@ function userWideStats(readingStatus) {
             .where(readingStatus);        
 };
 
-function userStats(userId, readingStatus) {
-    return db("userBooks")
-    .count("id")
-    .where(userId, readingStatus)
-}
+async function userStats(userId, readingStatus) {
+    let exists
+    const check = async () => {
+        await db("users")
+            .where({ id: userId })
+            .returning("*")
+            .then(res => exists = res)
+    }
+    await check()
+    if (exists.length > 0) {
+        return db("userBooks")
+            .count("id")
+            .where({ userId, readingStatus })
+            .returning("count")
+    } else { return { message: "cannot find user" } }
+};

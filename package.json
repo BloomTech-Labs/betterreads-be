@@ -47,7 +47,7 @@
 		"pg": "^7.18.1"
 	},
 	"jest": {
-        "testEnvironment": "node",
+		"testEnvironment": "node",
 		"collectCoverageFrom": [
 			"**/*.{js,jsx}",
 			"!**node_modules/**",
