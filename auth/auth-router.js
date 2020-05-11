@@ -3,8 +3,6 @@ const router = require("express").Router();
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../models/users.js");
-const jwt = require("jsonwebtoken");
-const restricted = require("./restricted-middleware");
 const tokenGenerator = require("./tokenGenerator");
 const socialMediaTokenGenerator = require("./socialMediaTokenGenerator");
 
