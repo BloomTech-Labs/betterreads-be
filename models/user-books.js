@@ -10,23 +10,25 @@ module.exports = {
   findDetailByUserId,
   update,
   remove,
+  userWideStats,
+  userStats
 };
 
 function findBy(filter) {
   return db("userBooks").where(filter);
-}
+};
 
 async function add(userbook) {
   const [id] = await db("userBooks").insert(userbook).returning("id");
   return findById(id).first();
-}
+};
 
 function findById(id) {
   return db("userBooks")
     .where("userBooks.id", id)
     .join("books as b", "b.id", "userBooks.bookId")
     .returning("*");
-}
+};
 
 function findFavorites(userId) {
   return db("userBooks")
@@ -40,7 +42,7 @@ function findFavorites(userId) {
       }
       return favorites;
     });
-}
+};
 
 function isBookInUserBooks(userId, googleId) {
   return db("userBooks as ub")
@@ -55,7 +57,7 @@ function isBookInUserBooks(userId, googleId) {
       "ub.favorite",
       "b.id as bookId"
     );
-}
+};
 
 function findByUserId(userId) {
   return db("userBooks as ub")
@@ -78,7 +80,7 @@ function findByUserId(userId) {
       "ub.userRating"
     )
     .orderBy("ub.dateAdded", "desc");
-}
+};
 
 function findDetailByUserId(userId, bookId) {
   return db("userBooks as ub")
@@ -114,7 +116,7 @@ function findDetailByUserId(userId, bookId) {
       "b.isEbook",
       "b.averageRating"
     );
-}
+};
 
 function find(userId, bookId) {
   return db("userBooks")
@@ -123,7 +125,7 @@ function find(userId, bookId) {
       bookId: bookId,
     })
     .first();
-}
+};
 
 async function update(userId, bookId, update) {
   await db("userBooks")
@@ -133,7 +135,7 @@ async function update(userId, bookId, update) {
     })
     .update(update);
   return find(userId, bookId);
-}
+};
 
 function remove(userId, bookId) {
   return db("userBooks")
@@ -142,4 +144,16 @@ function remove(userId, bookId) {
       bookId: bookId,
     })
     .del();
+};
+
+function userWideStats(readingStatus) {
+        return db("userBooks")
+            .count("id")
+            .where(readingStatus);        
+};
+
+function userStats(userId, readingStatus) {
+    return db("userBooks")
+    .count("id")
+    .where(userId, readingStatus)
 }
