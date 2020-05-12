@@ -29,7 +29,6 @@ router.get("/stats/:userId", async (req, res) => {
         .then( res => readingStatus2 = res)
     await userBooks.userStats(userId, 3)
         .then( res => readingStatus3 = res)
-        console.log(readingStatus1, readingStatus2, readingStatus3)
     if (readingStatus1.message === "cannot find user" || 
         readingStatus2.message === "cannot find user" || 
         readingStatus3.message === "cannot find user") {
