@@ -424,6 +424,35 @@ Returns the body of the request with a the primary key (integer) for the book in
     }
 ```
 
+## Reading Statistics
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| GET | ``/api/stats`` | All  Users, no token required | Returns reading statistics for all users |
+
+# Returns
+```json
+    {
+        "message": "user-wide stats retrieved",
+        "toBeRead": "INTEGER number of books on all users' to be read shelves",
+        "inProgress": "INTEGER number of books on all users' in progress shelves",
+        "completed": "INTEGER number of books on all users' completed shelves"    
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| GET | ``api/stats/:userId`` | All Users, no token required | Returns reading statistics of requested user |
+
+# Returns
+```json
+    {
+        "message": "stats for the rquested user retrieved",
+        "toBeRead": "INTEGER number of books on a user's to be read shelf",
+        "inProgress": "INTEGER number of books on a user's in progress shelf",
+        "completed": "INTEGER number of books on a user's completed shelf"
+    }
+```
 # Data Model
 
 #### 2️⃣ USERS
