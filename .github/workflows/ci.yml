@@ -70,6 +70,7 @@ jobs:
           PASSWORD_RESET_LINK: ${{ secrets.PASSWORD_RESET_LINK }}
           SM_REDIRECT: ${{ secrets.SM_REDIRECT }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          JWT_SECRET_2: ${{ secrets.JWT_SECRET_2 }} 
         with:
           # Run our `coverage` command from our `package.json`
           coverageCommand: npm run coverage
