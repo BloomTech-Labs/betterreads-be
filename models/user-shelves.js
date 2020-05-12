@@ -7,7 +7,8 @@ module.exports = {
   add,
   update,
   remove,
-  // findShelfWBooks
+  findShelfWBooks,
+  findBooksOnShelf,
 };
 
 function findBy(id) {
@@ -16,11 +17,19 @@ function findBy(id) {
     .select("id as shelfId", "userId", "shelfName", "isPrivate");
 }
 
-// function findShelfWBooks(shelfId){
-//     return db.from("userShelves")
-//         .innerJoin("userBooks", "userShelves.userId", "userBooks.userId")
-//         .where("userShelves.id", shelfId)
-// }
+function findShelfWBooks(shelfId) {
+  return db
+    .from("userShelves")
+    .innerJoin("userBooks", "userShelves.userId", "userBooks.userId")
+    .where("userShelves.id", shelfId);
+}
+
+function findBooksOnShelf(userId) {
+  return db
+    .from("userShelves")
+    .innerJoin("userBooks", "userShelves.userId", "userBooks.userId")
+    .where("userShelves.userId", userId);
+}
 
 function findByUser(id) {
   return db("userShelves")
