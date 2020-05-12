@@ -105,23 +105,20 @@ const asyncForEach = async (info, callback) => {
 const iterate = async (info) => {
     const temp = [];
     await asyncForEach(info, async (test) => {
-    await wait(10);
-    BooksOnShelf.findAllBooks(test.id, info.user).then((books) => temp.push(books));
-    await wait(10);
+    await BooksOnShelf.findAllBooks(test.id, info.user)
+        .then((books) => temp.push(books))
     });
-        return temp;
+    return temp;
 };
 
 router.get("/user/:userId/shelves/allbooks", async (request, response) => {
     const userId = request.params.userId;
 
     BooksOnShelf.returnEveryShelfFrom(userId)
-        .then((shelves) => {
-            iterate({ array: shelves, user: userId }).then((res) => {
-            response.status(200).json(res);
-            });
-        })
-        .catch(({ name, message, stack }) => { res.status(400).json({ name, message, stack })});
+        .then(async (shelves) => {
+            iterate({ array: shelves, user: userId })
+                .then(res => response.status(200).json(res))
+        });
 });
 
 module.exports = router;
