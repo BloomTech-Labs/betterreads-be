@@ -56,7 +56,7 @@ jobs:
           SUCCESS_URL: ${{ secrets.SUCCESS_URL }}
           GOOGLE_CALLBACK: ${{ secrets.GOOGLE_CALLBACK }}
           FACEBOOK_CALLBACK: ${{ secrets.FACEBOOK_CALLBACK }}
-          RDS_HOSTNAME: ${{ secrets.HOST }}
+          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
           DATA_SCIENCE: ${{ secrets.DATA_SCIENCE }}
           DATE_SCIENCE_TOTAL: ${{ secrets.DATE_SCIENCE_TOTAL }}
           HOST_URL: ${{ secrets.HOST_URL }}
@@ -69,6 +69,9 @@ jobs:
           MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
           PASSWORD_RESET_LINK: ${{ secrets.PASSWORD_RESET_LINK }}
           SM_REDIRECT: ${{ secrets.SM_REDIRECT }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
         with:
           # Run our `coverage` command from our `package.json`
           coverageCommand: npm run coverage
+# Test commit
+# Additional test commit
