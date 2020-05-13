@@ -1,5 +1,4 @@
 const request = require("supertest");
-const { fetchData } = require("../routers/recommendations-router");
 const server = require("../api/server");
 let token;
 
@@ -18,21 +17,6 @@ describe("recommendations-router.js", () => {
   afterAll(async () => {
     await pg.end();
   });
-
-  //   describe("fetchData Fetches Shelves and Recommendations", () => {
-  //     it("Returns recommendations && shelf for valid user", () => {
-  //       fetchData(6).then((res) => {
-  //         expect(res.status.toBe(200));
-  //         expect(res.body.recommendations).not.toBe(undefined);
-  //       });
-  //     });
-  //     it("Returns empty recommendations && shelf for invalid user", () => {
-  //       fetchData(999).then((res) => {
-  //         expect(res.status.toBe(200));
-  //         expect(res.body.recommendations).toHaveLength(0);
-  //       });
-  //     });
-  //   });
 
   describe("/recommendations Fetches Shelves and Recommendations", () => {
     it("Returns recommendations && shelf for valid user", () => {

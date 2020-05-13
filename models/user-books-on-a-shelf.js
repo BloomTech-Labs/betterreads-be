@@ -29,12 +29,14 @@ function findAllBooks(shelfId, userId) {
     .join("userShelves as s", "s.id", "bs.shelfId")
     .where({ shelfId })
     .distinct(
-      "bs.bookId",
-      "b.googleId",
-      "b.title",
-      "b.authors",
-      "b.thumbnail",
-      "b.smallThumbnail",
+      "b.*",
+      // "bs.bookId",
+      // "b.googleId",
+      // "b.title",
+      // "b.authors",
+      // "b.publisher",
+      // "b.thumbnail",
+      // "b.smallThumbnail",
       "bs.shelfId",
       "s.userId",
       "s.shelfName",
