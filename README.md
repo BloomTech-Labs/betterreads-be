@@ -453,8 +453,90 @@ Returns the body of the request with a the primary key (integer) for the book in
         "completed": "INTEGER number of books on a user's completed shelf"
     }
 ```
-# Data Model
 
+## Book Tagging
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| POST | ``api/tags/userBooksId`` | All Users | Adds a tag(s) to the requested user book |
+
+# Body Required
+```json
+    {
+        "tags": "STRING comma seperated tags here, comma seperated tags here"
+    }
+```
+# Returns
+```json
+    {
+        "message": "tag(s) successfully added"
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| GET | ``api/stats/:userBooksId`` | All Users | Returns an array of all tags for the requested user book |
+
+# Returns
+```json
+    {
+        "tags": [
+            {
+                "tagId": "tagId",
+                "bookTagName": "name of tag for specific user book",
+                "userBooksId": "id of the user book that the tag corresponds to"
+            }, ...
+        ]
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| GET | ``api/tags/user/:userId`` | All Users | Returns an array of all books with tags requested user |
+
+# Returns
+```json
+    {
+        "tags": [
+            {
+                "userBooksId": "id of the user book that the tag corresponds to",
+                "bookTagName": "name of tag for specific user book",
+                "userId": "user id that the book and tag correspond to",
+                "tagId": "tagId",
+            }, ...
+        ]
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| PUT | ``api/tags/:tagId`` | All Users | Updates a requested tagname |
+
+# Body Required
+```json
+    {
+        "newTag": "STRING new tag name"
+    }
+```
+# Returns 
+```json
+    {
+        "message": "tag updated successfully"
+    }
+```
+
+| Method | Endpoint           | Access Control | Description                      |
+| ------ | ------------------ | -------------- | -------------------------------- |
+| DELETE | ``api/tags/:tagId`` | All Users | Deletes the requested tag |
+
+# Body Returned
+```json
+    {
+        "message": "tag deleted"
+    }
+```
+
+
+# Data Model
 #### 2️⃣ USERS
 
 ---
@@ -484,7 +566,7 @@ Returns the body of the request with a the primary key (integer) for the book in
 
 ```json
 {
-  "id": "UUID",
+  "id": "INTEGER",
   "genreName": "STRING",
   "userId": "INTEGER foreign key in USER table"
 }

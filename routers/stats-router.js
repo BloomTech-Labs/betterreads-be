@@ -7,7 +7,7 @@ const router = require("express").Router();
 
 const userBooks = require("../models/user-books");
 
-router.get("/stats", async (req, res) => {
+router.get("/", async (req, res) => {
     const readingStatus1 = await userBooks.userWideStats({ readingStatus: 1 });
     const readingStatus2 = await userBooks.userWideStats({ readingStatus: 2 });
     const readingStatus3 = await userBooks.userWideStats({ readingStatus: 3 });
@@ -20,7 +20,7 @@ router.get("/stats", async (req, res) => {
     });
 });
 
-router.get("/stats/:userId", async (req, res) => {
+router.get("/:userId", async (req, res) => {
     const userId = Number(req.params.userId);
     let readingStatus1, readingStatus2, readingStatus3
     await userBooks.userStats(userId, 1)

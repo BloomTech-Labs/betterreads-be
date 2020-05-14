@@ -24,6 +24,8 @@ const userGenre = require("../routers/user-genre-router.js");
 const recRouter = require("../routers/recommendations-router");
 const passwordReset = require("../routers/password-reset");
 const statsRouter = require("../routers/stats-router");
+const bookTagRouter = require("../routers/book-tagging-router");
+
 // MARK: -- for data science
 const UserBooks = require("../models/user-books.js");
 const Users = require("../models/users.js");
@@ -68,12 +70,13 @@ server.use("/api/auth/reset", passwordReset);
 server.use("/api/auth", authRouter);
 server.use("/api/auth/mobile", mobileAuthRouter);
 server.use("/api/books", restricted, booksRouter);
-server.use("/api", statsRouter);
+server.use("/api/stats", statsRouter);
 server.use("/api", restricted, userBooksRouter);
 server.use("/api", restricted, recRouter);
 server.use("/api/shelves", restricted, userShelvesRouter);
 server.use("/api/booksonshelf", restricted, userBooksOnShelfRouter);
 server.use("/api/genre", restricted, userGenre);
+server.use("/api/tags", restricted, bookTagRouter);
 
 server.get("/", (request, response) =>
   response.status(200).json({ message: "server is working" })
