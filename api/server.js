@@ -70,7 +70,7 @@ server.use("/api/auth/reset", passwordReset);
 server.use("/api/auth", authRouter);
 server.use("/api/auth/mobile", mobileAuthRouter);
 server.use("/api/books", restricted, booksRouter);
-server.use("/api", statsRouter);
+server.use("/api/stats", statsRouter);
 server.use("/api", restricted, userBooksRouter);
 server.use("/api", restricted, router);
 server.use("/api/shelves", restricted, userShelvesRouter);

@@ -4,27 +4,36 @@ const bookTagging = require("../models/book-tagging");
 
 router.post("/:userBooksId", async (req, res) => {
     const userBooksId = req.params.userBooksId;
-    const tags = req.body.tags.split(",");
-    
-    await tags.map(tag => {
-        bookTagging.getAllTagsForBook(userBooksId)
-            .then(presentTags => {
-                console.log(presentTags.map(presentTag => presentTag.bookTagName == tag).includes(true))
-                if (presentTags.map(presentTag => presentTag.bookTagName == tag).includes(true)) {
-                    res.status(400).json({ message: "a requested tag already exists for the requested book" })
-                } else {
-                    bookTagging.addTag(userBooksId, tag)
-                    .then(() => res.status(201).json({ message: "tag(s) successfully added" }))
-                    .catch(({ name, message, stack }) => res.status(400).json({ error: "error adding tags", name, message, stack }))
-                };
-            });
-    });
+    if (req.body["tags"]) {
+        const preSplitTags = req.body["tags"];
+        if (preSplitTags) {
+            const tags = preSplitTags.split(",");
+            await tags.map(tag => {
+                bookTagging.getAllTagsForBook(userBooksId)
+                    .then(presentTags => {
+                        if (presentTags.map(presentTag => presentTag.bookTagName == tag).includes(true)) {
+                            res.status(400).json({ message: "a requested tag already exists for the requested book"     })
+                        } else {
+                            bookTagging.addTag(userBooksId, tag)
+                            .then(() => res.status(201).json({ message: "tag(s) successfully added" }))
+                            .catch(({ name, message, stack }) => res.status(400).json({ error: "error adding tags",     name, message, stack }))
+                        };
+                    });
+            });   
+        };
+    } else { res.status(400).json({ "message": "no tags sent"}) }
 });
 
 router.get("/:userBooksId", (req, res) => {
     const userBooksId = req.params.userBooksId;
     return bookTagging.getAllTagsForBook(userBooksId)
-        .then(tags => res.status(200).json({ tags }))
+        .then(tags => {
+            if (tags.length > 0) {
+                res.status(200).json({ tags })
+            } else { 
+                res.status(404).json({ message: "requested user book does not exist or no tags for book" })
+            };
+        })
         .catch(({ name, message, stack }) => res.status(400).json({ error: "error retrieving tags", nmae, message, stack }));
 });
 
@@ -32,7 +41,11 @@ router.get("/user/:userId", (req, res) => {
     const userId = req.params.userId;
     
     return bookTagging.getAllTagsForUser(userId)
-        .then(tags => res.status(200).json({ tags }))
+        .then(tags => {
+            if (tags.length > 0) {
+                res.status(200).json({ tags });
+            } else { res.status(404).json({ message: "user not found or tags do not exist for user" }) }
+        })
         .catch(({ name, message, stack }) => res.status(400).json({ error: "error retrieving tags for the requested user", name, message, stack }));
 });
 
@@ -49,8 +62,8 @@ router.put("/:tagId", (req, res) => {
             }
             
             bookTagging.editTag(tagId, newTag)
-                .then(() => res.status(200).json({ message: "tag updated successfully" }))
-                .catch(({ name, message, stack }) => res.status(400).json({ error: "be sure to send an existing userBooksId and a newTag that doesn't already exist on the requested book", name, message, stack }));
+                .then(() => res.status(201).json({ message: "tag updated successfully" }))
+                .catch(({ name, message, stack }) => res.status(400).json({ error: "be sure to send an existing tagId and a newTag that doesn't already exist", name, message, stack }));
         })
         .catch(({ name, message, stack }) => res.status(404).json({ error: "cannot find requested tag", name, message, stack }));
 });
