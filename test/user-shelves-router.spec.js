@@ -48,7 +48,7 @@ describe("POST /api/shelves/user/:userId", () => {
     describe("GET to /api/shelves/:shelfId", () => {
         it("returns 200 ok and an array of books", async () => {
             return request(server)
-                .get("/api/shelves/240")
+                .get("/api/shelves/398")
                 .set({ authorization: token })
                 .then(response => {
                     expect(response.status).toBe(200);
@@ -77,7 +77,7 @@ describe("POST /api/shelves/user/:userId", () => {
     describe("PUT to /api/shelves/:sheldId", () => {
         it("returns 201 created and a message", async () => {
             return request(server)
-                .put("/api/shelves/241")
+                .put("/api/shelves/398")
                 .send({ "shelfName": "test of put", "isPrivate": false })
                 .set({ authorization: token })
                 .then(response => {

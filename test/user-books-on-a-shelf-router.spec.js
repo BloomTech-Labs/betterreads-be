@@ -18,7 +18,7 @@ describe("user-books-on-a-shelf-router.js", () => {
     })
 describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         it("returns 201 created and the added book", async () => {
-            return request(server).post("/api/booksonshelf/shelves/240")
+            return request(server).post("/api/booksonshelf/shelves/398")
                 .set({ authorization: `${ token }` })
                 .send({
                     "book": 
@@ -52,19 +52,19 @@ describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         describe("PUT to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and an updated shelf ID", async () => {
                 return request(server)
-                    .put("/api/booksonshelf/shelves/240")
+                    .put("/api/booksonshelf/shelves/398")
                     .set({ authorization: `${ token }` })
-                    .send({ "bookId": 3, "newShelfId": 241 })
+                    .send({ "bookId": 3, "newShelfId": 402 })
                     .then(response => {
-                        expect(response.body["newShelfId"]).toBe(241) 
+                        expect(response.body["newShelfId"]).toBe(402) 
                         return request(server)
-                            .put("/api/booksonshelf/shelves/241")
+                            .put("/api/booksonshelf/shelves/402")
                             .set({ authorization: `${ token }` })
-                            .send({ "bookId": 3, "newShelfId": 240 })
+                            .send({ "bookId": 3, "newShelfId": 398 })
                             .then(res => {
                                 expect(res.status).toBe(200);
                                 expect(res.body["message"]).toBe("book moved to new shelf");
-                                expect(res.body["newShelfId"]).toBe(240)   
+                                expect(res.body["newShelfId"]).toBe(398)   
                             });
                     });                   
             });
@@ -73,7 +73,7 @@ describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         describe("GET to /api/booksonshelf/shelves/:shelfId", () => {
             it("returns 200 ok and a shelf and all books on it", async () => {
                 return request(server)
-                    .get("/api/booksonshelf/shelves/240")
+                    .get("/api/booksonshelf/shelves/398")
                     .set({ authorization: `${ token }` })
                     .then(response => {
                         expect(response.status).toBe(200);
@@ -98,7 +98,7 @@ describe("POST to /api/booksonshelf/shelves/:shelfId", () => {
         describe("DELETE to /api/booksonshelf/shelves/:shelfId/:bookId", () => {
             it("returns 200 ok and a message", async () => {
                 return request(server)
-                    .delete("/api/booksonshelf/shelves/240/1")
+                    .delete("/api/booksonshelf/shelves/398/1")
                     .set({ authorization: `${ token }` })
                     .then(response => {
                         expect(response.status).toBe(200);

@@ -33,7 +33,7 @@ describe("recommendations-router.js", () => {
   //       });
   //     });
   //   });
-
+  
   describe("/recommendations Fetches Shelves and Recommendations", () => {
     it("Returns recommendations && shelf for valid user", () => {
       return request(server)
@@ -79,7 +79,7 @@ describe("recommendations-router.js", () => {
     it("returns 200 ok and an array of books", async () => {
       return request(server)
         .post("/api/20/recommendations")
-        .set({ authorization: `${token}` })
+        .set({ authorization: token })
         .send({
           books: [
             {
