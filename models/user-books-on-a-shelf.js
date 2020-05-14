@@ -22,41 +22,42 @@ function findBook(shelfId, bookId) {
 }
 
 function findAllBooks(shelfId, userId) {
-  return db("userBooksOnAShelf as bs")
-    .join("books as b", "bs.bookId", "b.id")
-    .join("userBooks as ub", "ub.bookId", "bs.bookId")
-    .where("ub.userId", userId)
-    .join("userShelves as s", "s.id", "bs.shelfId")
-    .where({ shelfId })
-    .distinct(
-      "bs.bookId",
-      "b.googleId",
-      "b.title",
-      "b.authors",
-      "b.thumbnail",
-      "b.smallThumbnail",
-      "bs.shelfId",
-      "s.userId",
-      "s.shelfName",
-      "ub.userRating",
-      "ub.readingStatus",
-      "ub.favorite"
-    )
-    .then((books) => {
-      return db("userShelves as s")
-        .where({ id: shelfId })
-        .select("s.shelfName")
-        .first()
-        .then((name) => {
-          const shelfName = name.shelfName;
-          return {
-            shelfId,
-            shelfName,
-            books,
-          };
-        });
-    });
-}
+    return db("userBooksOnAShelf as bs")
+      .join("books as b", "bs.bookId", "b.id")
+      .join("userBooks as ub", "ub.bookId", "bs.bookId")
+      .where("ub.userId", userId)
+      .join("userShelves as s", "s.id", "bs.shelfId")
+      .where({ shelfId })
+      .distinct(
+        "bs.bookId",
+        "b.googleId",
+        "b.title",
+        "b.authors",
+        "b.thumbnail",
+        "b.smallThumbnail",
+        "bs.shelfId",
+        "s.userId",
+        "s.shelfName",
+        "ub.userRating",
+        "ub.readingStatus",
+        "ub.favorite",
+        "ub.id as userBooksId"
+      )
+      .then((books) => {
+        return db("userShelves as s")
+          .where({ id: shelfId })
+          .select("s.shelfName")
+          .first()
+          .then((name) => {
+            const shelfName = name.shelfName;
+            return {
+              shelfId,
+              shelfName,
+              books,
+            };
+          });
+      });
+  }
 
 function returnEveryShelfFrom(userId) {
   return new Promise((resolve) => {
