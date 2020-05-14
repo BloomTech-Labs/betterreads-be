@@ -7,45 +7,66 @@ const UserBooksOnShelf = require("../models/user-books-on-a-shelf");
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const fetchData = (userID) => {
-  return new Promise((resolve, reject) => {
-    const result = [];
-
-    UserShelves.findByUser(userID)
-      .then((res) => {
-        res.forEach((shelf) => {
-          UserBooksOnShelf.findAllBooks(shelf.shelfId, userID)
-            .then((res) => {
-              if (res.books.length > 0) {
-                axios
-                  .post("https://dsapi.readrr.app/recommendations", res.books)
-                  .then((recs) => {
-                    const resObject = {
-                      basedOn: `Based on ${shelf.shelfName}`,
-                      recommendations: recs.data.recommendations,
-                    };
-                    result.push(resObject);
-                  })
-                  .catch((err) => reject(err));
-              } else {
-                console.log("No Books in shelf");
-              }
-            })
-            .catch((err) => reject(err));
-        });
-        wait(3000).then(() => resolve(result));
-      })
-      .catch((err) => reject(err));
-  });
+const fetchShelves = async (userID) => {
+  try {
+    return await UserShelves.findByUser(userID);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
-router.get("/recommendations", (request, response) => {
+const fetchBooksOnShelf = async (shelfID, userID) => {
+  try {
+    return await UserBooksOnShelf.findAllBooks(shelfID, userID);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+const fetchRecs = async (shelves, id) => {
+  const result = [];
+  asyncForEach(shelves, async (shelf) => {
+    const shelfInfo = await fetchBooksOnShelf(shelf.shelfId, id);
+    if (shelfInfo.books.length > 0) {
+      axios
+        .post("https://dsapi.readrr.app/recommendations", shelfInfo.books)
+        .then((recs) => {
+          const resObject = {
+            basedOn: `Based on ${shelfInfo.shelfName}`,
+            shelf: shelfInfo,
+            recommendations: recs.data.recommendations,
+          };
+          result.push(resObject);
+        })
+        .catch((err) => {
+          response.status(500).json({ error: err });
+        });
+    } else {
+      const resObject = {
+        shelf: shelfInfo,
+      };
+      result.push(resObject);
+    }
+  });
+  await wait(3500);
+  return result;
+};
+
+router.get("/recommendations", async (request, response) => {
   const token = decode(request.headers.authorization);
   if (token.subject) {
     const id = token.subject;
-    fetchData(id)
-      .then((res) => response.status(200).send(res))
-      .catch((err) => response.status(500).send(err));
+    const shelves = await fetchShelves(id);
+    const result = await fetchRecs(shelves, id);
+    response.send(result);
   } else {
     response.status(401).json({ error: "Token is not valid" });
   }
@@ -101,4 +122,4 @@ router.post("/:userId/recommendations", (req, res) => {
   }
 });
 
-module.exports = { router, fetchData };
+module.exports = router;
