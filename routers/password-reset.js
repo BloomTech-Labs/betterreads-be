@@ -17,7 +17,7 @@ router.post("/requestreset", (req, res) => {
 		from: "betterreadslabs21@gmail.com",
 		to: `${ user.email }`,
 		subject: "Your Password Reset Link for BetterReads",
-		text: `Here is your link to reset your BetterReads password: ${ passwordResetLink }${ token }`
+		text: `Here is your link to reset your BetterReads password: ${ passwordResetLink }?token=${ token }`
 	};
 	Users.findBy({ emailAddress: `${ user.email }` })
 		.then(user => {
