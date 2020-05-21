@@ -56,7 +56,7 @@ const fetchRecs = async (shelves, id) => {
       result.push(resObject);
     }
   });
-  await wait(3500);
+  await wait(5000);
   return result;
 };
 
